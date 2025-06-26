@@ -4,7 +4,7 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 	mut nodes := []&Node[T]{}
 	mut edges := []&Edge[T]{}
 
-	mut index := map[T]int
+	mut index := map[T]int{}
 	for i, x in adj.keys() {
 		nodes << &Node[T]{x}
 		index[x] = i
@@ -25,6 +25,80 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 	return Graph[T]{nodes, edges}
 }
 
+pub fn Graph.from_adjacency_matrix(adj [][]bool) Graph[int] {
+	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
+	mut edges := []&Edge[int]{}
 
-// pub fn Graph.from_adjacency_matrix[T](adj [][]bool) Graph[int]
-// pub fn Graph.from_graph6(s string) Graph[int]
+	for i, row in adj {
+		for j, col in row {
+			if i <= j { // Only check upper triangle of adjacency matrix
+				continue
+			} else if col {
+				edges << &Edge[int]{nodes[i], nodes[j]}
+			}
+		}
+	}
+
+	return Graph[int]{nodes, edges}
+}
+
+pub fn Graph.from_graph6(g6 string) Graph[int] {
+	runes := g6.runes()
+	// use unsigned ints to perform bit shifting
+	ascii := []u32{len: runes.len, init: runes[index]}
+	if ascii.len == 0 {
+		panic('Empty string not allowed')
+	} else if ascii.len == 1 {
+		assert ascii[0] < 126
+	} else {
+		assert ascii[0] <= 126
+		assert ascii[1] <= 126
+	}
+
+	for a in ascii[2..] {
+		if a > 126 {
+			panic('Ascii chars should have int value lower or equal to 126')
+		}
+	}
+
+	mut start := 1
+	n := match true {
+		ascii[0] == 126 && ascii[1] == 126 {
+			start = 8
+
+			((ascii[2] - 63) << 30) + ((ascii[3] - 63) << 24) + ((ascii[4] - 63) << 18) +
+				((ascii[5] - 63) << 12) + ((ascii[6] - 63) << 6) + ascii[7] - 63
+		}
+		ascii[0] == 126 {
+			start = 4
+			((ascii[1] - 63) << 12) + ((ascii[2] - 63) << 6) + (ascii[3] - 63)
+		}
+		else {
+			ascii[0] - 63
+		}
+	}
+
+	mut adj_matrix := [][]bool{len: int(n), init: []bool{len: int(n)}}
+
+	mut flat_bits := []bool{}
+	for i in 0 .. runes.len - start {
+		bits := to_bit_vector(u64(ascii[start + i] - 63), 6)
+		for b in bits {
+			flat_bits << b
+		}
+	}
+
+	mut bit_index := 0
+	for i := 1; i < n; i++ {
+		for j := 0; j < i; j++ {
+			if bit_index >= flat_bits.len {
+				break
+			}
+			bit := flat_bits[bit_index]
+			adj_matrix[i][j] = bit // only fill upper triangle
+			bit_index++
+		}
+	}
+
+	return Graph.from_adjacency_matrix(adj_matrix)
+}
