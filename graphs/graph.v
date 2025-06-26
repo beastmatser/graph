@@ -1,5 +1,6 @@
 module graphs
 
+@[heap]
 pub struct Node[T] {
 pub mut:
 	x T
