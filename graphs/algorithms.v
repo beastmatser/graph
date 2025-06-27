@@ -3,34 +3,29 @@ module graphs
 import datatypes { Queue }
 
 pub fn (graph Graph[T]) bfs[T]() Graph[T] {
-	mut labels := map[voidptr]int{}
+	mut visited := map[voidptr]bool{}
 	for node in graph.nodes {
-		labels[node] = 0
+		visited[node] = false
 	}
 
 	adj := graph.to_adjacency()
 	mut edges := []&Edge[T]{cap: graph.nodes.len - 1}
 	mut queue := Queue[voidptr]{}
-	mut i := 0
 	for node in graph.nodes {
-		if labels[node] != 0 {
+		if visited[node] {
 			continue
 		}
-		i += 1
-		labels[node] = i
+		visited[node] = true
 		queue.push(node)
 		for !queue.is_empty() {
-			w := queue.pop() or { 0 }
-			if w == 0 {
-				continue
-			}
+			w := queue.pop() or { continue }
 
 			for x in adj[w] or { [] } {
-				if labels[x] != 0 {
+				if visited[x] {
 					continue
 				}
-				i += 1
-				labels[x] = i
+
+				visited[x] = true
 				edges << &Edge[T]{w, x}
 				queue.push(x)
 			}

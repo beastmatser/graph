@@ -1,6 +1,7 @@
 module graphs
 
 import arrays
+import datatypes { Queue }
 
 pub fn (graph Graph[T]) num_nodes[T]() int {
 	return graph.nodes.len
@@ -78,4 +79,179 @@ pub fn (graph Graph[T]) is_tree[T]() bool {
 pub fn (graph Graph[T]) is_connected[T]() bool {
 	span_tree := graph.dfs()
 	return span_tree.edges.len == span_tree.nodes.len
+}
+
+pub fn (graph Graph[T]) is_bipartite[T]() bool {
+	mut colours := map[voidptr][2]bool{} // 2 bits per node, 1 for if node is coloured and 1 for the colour itself
+	for node in graph.nodes {
+		colours[node] = [false, false]!
+	}
+
+	adj := graph.to_adjacency()
+	mut queue := Queue[voidptr]{}
+	for node in graph.nodes {
+		if colours[node][0] {
+			continue
+		}
+		colours[node][0] = true
+		queue.push(node)
+		for !queue.is_empty() {
+			w := queue.pop() or { continue }
+
+			for x in adj[w] or { [] } {
+				if colours[x][0] {
+					if colours[x][1] == colours[w][1] {
+						return false
+					}
+					continue
+				}
+
+				colours[x][0] = true
+				colours[x][1] = !colours[w][1]
+				queue.push(x)
+			}
+		}
+	}
+
+	return true
+}
+
+pub fn (graph Graph[T]) is_acyclic[T]() bool {
+	mut visited := map[voidptr]bool{}
+	mut parents := map[voidptr]&Node[T]{}
+	for node in graph.nodes {
+		visited[node] = false
+	}
+
+	adj := graph.to_adjacency()
+	mut queue := Queue[voidptr]{}
+	for node in graph.nodes {
+		if visited[node] {
+			continue
+		}
+		visited[node] = true
+		queue.push(node)
+		for !queue.is_empty() {
+			w := queue.pop() or { continue }
+
+			for x in adj[w] or { [] } {
+				if visited[x] {
+					if parents[w] or { continue } != x {
+						return false
+					}
+					continue
+				}
+
+				visited[x] = true
+				parents[x] = w
+				queue.push(x)
+			}
+		}
+	}
+
+	return true
+}
+
+fn (graph Graph[T]) eccentricity_helper[T](node &Node[T], adj map[voidptr][]&Node[T]) int {
+	mut max_dist := 0
+
+	mut dist := map[voidptr]int{}
+	mut visited := map[voidptr]bool{}
+	mut queue := Queue[voidptr]{}
+	visited[node] = true
+	dist[node] = 0
+	queue.push(node)
+
+	for !queue.is_empty() {
+		w := queue.pop() or { continue }
+		for x in adj[w] or { [] } {
+			if visited[x] {
+				continue
+			}
+			visited[x] = true
+			dist[x] = dist[w] + 1
+			max_dist = if max_dist > dist[x] { max_dist } else { dist[x] }
+			queue.push(x)
+		}
+	}
+
+	return max_dist
+}
+
+pub fn (graph Graph[T]) eccentricity[T](node &Node[T]) int {
+	return graph.eccentricity_helper(node, graph.to_adjacency())
+}
+
+// Only for connected graphs
+pub fn (graph Graph[T]) diameter[T]() int {
+	mut max_dist := 0
+	adj := graph.to_adjacency()
+
+	for node in graph.nodes {
+		dist := graph.eccentricity_helper(node, adj)
+		if dist > max_dist {
+			max_dist = dist
+		}
+	}
+
+	return max_dist
+}
+
+// Only for connected graphs
+pub fn (graph Graph[T]) radius[T]() int {
+	adj := graph.to_adjacency()
+	if graph.nodes.len == 0 {
+		return 0
+	}
+	mut min_dist := graph.eccentricity_helper(graph.nodes[0], adj)
+
+	for node in graph.nodes[1..] {
+		dist := graph.eccentricity_helper(node, adj)
+		if dist < min_dist {
+			min_dist = dist
+		}
+	}
+
+	return min_dist
+}
+
+pub fn (graph Graph[T]) girth[T]() int {
+	adj := graph.to_adjacency()
+	mut min_cycle := -1
+
+	for node in graph.nodes {
+		mut dist := map[voidptr]int{}
+		mut parent := map[voidptr]&Node[T]{}
+		mut visited := map[voidptr]bool{}
+		mut queue := Queue[voidptr]{}
+
+		dist[node] = 0
+		visited[node] = true
+		queue.push(node)
+
+		for !queue.is_empty() {
+			w := queue.pop() or { continue }
+
+			for x in adj[w] or { [] } {
+				if w in parent && unsafe { x == parent[w] } {
+					continue
+				} else if !visited[x] {
+					visited[x] = true
+					dist[x] = dist[w] + 1
+					parent[x] = w
+					queue.push(x)
+					continue
+				}
+				// Found a cycle
+				cycle_len := dist[x] + dist[w] + 1
+				if min_cycle == -1 {
+					min_cycle = cycle_len
+				} else if cycle_len < min_cycle {
+					min_cycle = cycle_len
+				}
+			}
+		}
+	}
+
+	return min_cycle
 }
