@@ -1,16 +1,22 @@
 module graphs
 
-pub fn (graph Graph[T]) to_adjacency[T]() map[voidptr][]&Node[T] {
-	mut adj := map[voidptr][]&Node[T]{}
+pub fn (graph Graph[T]) to_adjacency[T]() map[int][]int {
+	mut adj := map[int][]int{}
+
+	mut node_to_int := map[voidptr]int
+	for i, node in graph.nodes {
+		node_to_int[node] = i
+		adj[i] = []
+	}
 
 	for edge in graph.edges {
-		mut list1 := adj[edge.node1] or { []&Node[T]{} }
-		list1 << edge.node2
-		adj[edge.node1] = list1
+		mut list1 := adj[node_to_int[edge.node1]] or { []int{} }
+		list1 << node_to_int[edge.node2]
+		adj[node_to_int[edge.node1]] = list1
 
-		mut list2 := adj[edge.node2] or { []&Node[T]{} }
-		list2 << edge.node1
-		adj[edge.node2] = list2
+		mut list2 := adj[node_to_int[edge.node2]] or { []int{} }
+		list2 << node_to_int[edge.node1]
+		adj[node_to_int[edge.node2]] = list2
 	}
 
 	return adj

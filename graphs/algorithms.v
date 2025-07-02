@@ -3,20 +3,21 @@ module graphs
 import datatypes { Queue }
 
 pub fn (graph Graph[T]) bfs[T]() Graph[T] {
-	mut visited := map[voidptr]bool{}
-	for node in graph.nodes {
-		visited[node] = false
+	mut visited := map[int]bool{}
+	nodes := graph.nodes.clone()
+	for i, _ in nodes {
+		visited[i] = false
 	}
 
 	adj := graph.to_adjacency()
 	mut edges := []&Edge[T]{cap: graph.nodes.len - 1}
-	mut queue := Queue[voidptr]{}
-	for node in graph.nodes {
-		if visited[node] {
+	mut queue := Queue[int]{}
+	for i in 0 .. nodes.len {
+		if visited[i] {
 			continue
 		}
-		visited[node] = true
-		queue.push(node)
+		visited[i] = true
+		queue.push(i)
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
@@ -26,42 +27,42 @@ pub fn (graph Graph[T]) bfs[T]() Graph[T] {
 				}
 
 				visited[x] = true
-				edges << &Edge[T]{w, x}
+				edges << &Edge[T]{nodes[w], nodes[x]}
 				queue.push(x)
 			}
 		}
 	}
 
-	return Graph[T]{graph.nodes, edges}
+	return Graph[T]{nodes, edges}
 }
 
-fn rec_dfs[T](i int, adj map[voidptr][]&Node[T], mut labels map[voidptr]int, v &Node[T], mut edges []&Edge[T]) int {
+fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes []&Node[T], mut edges []&Edge[T]) int {
 	mut j := i + 1
-	labels[v] = j
-	for w in adj[v] or { [] } {
+	labels[i] = j
+	for k, w in adj[i] or { [] } {
 		if labels[w] == 0 {
-			edges << &Edge[T]{v, w}
-			j = rec_dfs[T](j, adj, mut labels, w, mut edges)
+			edges << &Edge[T]{nodes[node], nodes[w]}
+			j = rec_dfs[T](j, adj, mut labels, k, nodes, mut edges)
 		}
 	}
 	return j
 }
 
 pub fn (graph Graph[T]) dfs[T]() Graph[T] {
-	mut labels := map[voidptr]int{}
-	for node in graph.nodes {
-		labels[node] = 0
+	mut labels := map[int]int{}
+	nodes := graph.nodes.clone()
+	for i, _ in graph.nodes {
+		labels[i] = 0
 	}
 
 	mut edges := []&Edge[T]{}
 	adj := graph.to_adjacency()
 	mut i := 0
-	for node in graph.nodes {
-		if labels[node] == 0 {
-			rec_dfs[T](i, adj, mut labels, node, mut edges)
+	for k in 0 .. nodes.len {
+		if labels[i] == 0 {
+			rec_dfs[T](i, adj, mut labels, k, nodes, mut edges)
 		}
 	}
 
-	return Graph[T]{graph.nodes, edges}
+	return Graph[T]{nodes, edges}
 }
-
