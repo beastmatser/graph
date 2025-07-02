@@ -12,15 +12,17 @@ pub fn (graph Graph[T]) num_edges[T]() int {
 	return graph.edges.len
 }
 
-pub fn (graph Graph[T]) degree_map[T]() map[voidptr]int {
-	mut degrees := map[voidptr]int{}
-	for node in graph.nodes {
-		degrees[node] = 0
+pub fn (graph Graph[T]) degree_map[T]() map[int]int {
+	mut degrees := map[int]int{}
+	mut node_to_int := map[voidptr]int{}
+	for i, node in graph.nodes {
+		node_to_int[node] = i
+		degrees[i] = 0
 	}
 
 	for edge in graph.edges {
-		degrees[edge.node1] += 1
-		degrees[edge.node2] += 1
+		degrees[node_to_int[edge.node1]] += 1
+		degrees[node_to_int[edge.node2]] += 1
 	}
 
 	return degrees
@@ -293,4 +295,69 @@ pub fn (graph Graph[T]) num_triangles[T]() int {
 		sum += int(row[i])
 	}
 	return sum / 6
+}
+
+pub fn (graph Graph[T]) degeneracy() int {
+	n := graph.nodes.len
+	mut visited := map[int]bool{}
+	adj := graph.to_adjacency()
+	mut degree := map[int]int{}
+	mut max_deg := 0
+
+	for i in 0 .. n {
+		degree[i] = adj[i].len
+		visited[i] = false
+	}
+
+	mut bucket := map[int][]int{}
+	for v, deg in degree {
+		if deg !in bucket {
+			bucket[deg] = []
+		}
+		bucket[deg] << v
+	}
+
+	mut remaining := n
+
+	for remaining > 0 {
+		// Find the smallest non-empty bucket
+		mut found := false
+		mut current_deg := 0
+		for current_deg <= n {
+			if current_deg in bucket && bucket[current_deg].len > 0 {
+				found = true
+				break
+			}
+			current_deg++
+		}
+		if !found {
+			break // no vertices left to process
+		}
+
+		v := bucket[current_deg].pop()
+		if visited[v] {
+			continue
+		}
+		visited[v] = true
+		remaining--
+		if current_deg > max_deg {
+			max_deg = current_deg
+		}
+
+		for u in adj[v] {
+			if !visited[u] {
+				old_deg := degree[u]
+				degree[u]--
+				// Remove u from old bucket
+				bucket[old_deg] = bucket[old_deg].filter(it != u)
+				// Add to new bucket
+				if degree[u] !in bucket {
+					bucket[degree[u]] = []
+				}
+				bucket[degree[u]] << u
+			}
+		}
+	}
+
+	return max_deg
 }
