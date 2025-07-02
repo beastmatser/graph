@@ -21,16 +21,16 @@ jobs:
       - name: Install V (Linux/macOS)
         if: runner.os != 'Windows'
         run: |
-          git clone https://github.com/vlang/v.git
-          cd v && make && sudo ./v symlink
+          git clone https://github.com/vlang/v.git /tmp/vlang
+          cd /tmp/vlang && make && sudo ./v symlink
 
       - name: Install V (Windows)
         if: runner.os == 'Windows'
         run: |
-          git clone https://github.com/vlang/v.git
-          cd v
+          git clone https://github.com/vlang/v.git $env:TEMP\vlang
+          cd $env:TEMP\vlang
           .\make.bat
-          echo "C:\v" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "$env:TEMP\vlang" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Run tests
+      - name: Run your project tests
         run: v -enable-globals test .
