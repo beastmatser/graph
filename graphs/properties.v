@@ -2,6 +2,7 @@ module graphs
 
 import arrays
 import datatypes { Queue }
+import math
 
 pub fn (graph Graph[T]) num_nodes[T]() int {
 	return graph.nodes.len
@@ -258,4 +259,38 @@ pub fn (graph Graph[T]) girth[T]() int {
 	}
 
 	return min_cycle
+}
+
+pub fn (graph Graph[T]) num_spanning_trees[T]() f64 {
+	mut laplacian := [][]f64{len: graph.nodes.len, init: []f64{len: graph.nodes.len}}
+
+	mut ptr_to_index := map[voidptr]int{}
+	for i, node in graph.nodes {
+		ptr_to_index[node] = i
+	}
+
+	for edge in graph.edges {
+		i := ptr_to_index[edge.node1]
+		j := ptr_to_index[edge.node2]
+		laplacian[i][i] += 1
+		laplacian[j][j] += 1
+		laplacian[i][j] = -1
+		laplacian[j][i] = -1
+	}
+
+	// remove last column
+	for mut row in laplacian[1..] {
+		row.pop()
+	}
+
+	return math.round(det(laplacian[1..]) or { -1 })
+}
+
+pub fn (graph Graph[T]) num_triangles[T]() int {
+	m := graph.to_adjacency_matrix()
+	mut sum := 0
+	for i, row in matmul(m, matmul(m, m) or { [] }) or { [] } {
+		sum += int(row[i])
+	}
+	return sum / 6
 }
