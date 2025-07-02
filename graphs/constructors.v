@@ -55,9 +55,11 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 		assert ascii[1] <= 126
 	}
 
-	for a in ascii[2..] {
-		if a > 126 {
-			panic('Ascii chars should have int value lower or equal to 126')
+	if ascii.len > 2 {
+		for a in ascii[2..] {
+			if a > 126 {
+				panic('Ascii chars should have int value lower or equal to 126')
+			}
 		}
 	}
 
@@ -65,7 +67,6 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 	n := match true {
 		ascii[0] == 126 && ascii[1] == 126 {
 			start = 8
-
 			((ascii[2] - 63) << 30) + ((ascii[3] - 63) << 24) + ((ascii[4] - 63) << 18) +
 				((ascii[5] - 63) << 12) + ((ascii[6] - 63) << 6) + ascii[7] - 63
 		}
