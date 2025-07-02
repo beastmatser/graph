@@ -22,8 +22,8 @@ pub fn (graph Graph[T]) to_adjacency[T]() map[int][]int {
 	return adj
 }
 
-pub fn (graph Graph[T]) to_adjacency_matrix[T]() [][]bool {
-	mut matrix := [][]bool{len: graph.nodes.len, init: []bool{len: graph.nodes.len}}
+pub fn (graph Graph[T]) to_adjacency_matrix[T]() [][]int {
+	mut matrix := [][]int{len: graph.nodes.len, init: []int{len: graph.nodes.len}}
 
 	mut ptr_to_index := map[voidptr]int{}
 	for i, node in graph.nodes {
@@ -33,8 +33,8 @@ pub fn (graph Graph[T]) to_adjacency_matrix[T]() [][]bool {
 	for edge in graph.edges {
 		i := ptr_to_index[edge.node1]
 		j := ptr_to_index[edge.node2]
-		matrix[i][j] = true
-		matrix[j][i] = true
+		matrix[i][j] = 1
+		matrix[j][i] = 1
 	}
 
 	return matrix
@@ -45,7 +45,7 @@ pub fn (graph Graph[T]) to_graph6[T]() string {
 	mut x := []bool{cap: graph.nodes.len * (graph.nodes.len - 1) / 2}
 	for j in 1 .. matrix.len {
 		for i in 0 .. j {
-			x << matrix[i][j]
+			x << matrix[i][j] != 0
 		}
 	}
 	return to_string(int_repr(graph.nodes.len)) + to_string(bit_vector_repr(x))
