@@ -285,7 +285,7 @@ pub fn (graph Graph[T]) num_spanning_trees[T]() f64 {
 		row.pop()
 	}
 
-	return math.round(det(laplacian[1..]) or { -1 })
+	return math.abs(math.round(det(laplacian[1..]) or { 0 }))
 }
 
 pub fn (graph Graph[T]) num_triangles[T]() int {
