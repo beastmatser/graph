@@ -1,4 +1,4 @@
-module graphs
+module undirected
 
 // Formats a graph into an adjacency mapping of the graph.
 // The keys represent the index of the node in the list of nodes of the graph.

@@ -1,9 +1,7 @@
-module tests
+module undirected
 
 import rand
 import strings
-
-import graphs { Graph }
 
 pub fn random_graph6(n i64, edge_prob f64) string {
 	mut out := strings.new_builder(1024)

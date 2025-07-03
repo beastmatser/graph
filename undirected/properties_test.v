@@ -1,7 +1,6 @@
-module tests
+module undirected
 
 import math
-import graphs { Graph, cycle_graph, complete_graph, path_graph }
 
 __global (
 	cycle4 = cycle_graph(4)

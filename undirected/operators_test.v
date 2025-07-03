@@ -1,7 +1,4 @@
-module tests
-
-import graphs { Graph, Node, cycle_graph, complete_graph, path_graph }
-
+module undirected
 
 // Check complement involution and structure
 fn test_complement() {

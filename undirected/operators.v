@@ -1,4 +1,4 @@
-module graphs
+module undirected
 
 // Gives the complement of a graph.
 // The list of (references to) nodes is copied,

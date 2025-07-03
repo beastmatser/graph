@@ -1,8 +1,10 @@
-module graphs
+module undirected
 
 import arrays
 import datatypes { Queue }
 import math
+
+import util
 
 // Returns the number of nodes of a graph, also accessible through `graph.nodes.len`.
 pub fn (graph Graph[T]) num_nodes[T]() int {
@@ -308,14 +310,14 @@ pub fn (graph Graph[T]) num_spanning_trees[T]() f64 {
 		row.pop()
 	}
 
-	return math.abs(math.round(det(laplacian[1..]) or { 0 }))
+	return math.abs(math.round(util.det(laplacian[1..]) or { 0 }))
 }
 
 // Returns the number of triangles of the graph.
 pub fn (graph Graph[T]) num_triangles[T]() int {
 	m := graph.to_adjacency_matrix()
 	mut sum := 0
-	for i, row in matmul(m, matmul(m, m) or { [] }) or { [] } {
+	for i, row in util.matmul(m, util.matmul(m, m) or { [] }) or { [] } {
 		sum += int(row[i])
 	}
 	return sum / 6
