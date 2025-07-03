@@ -4,12 +4,12 @@ import arrays
 import datatypes { Queue }
 import math
 
-// Returns the number of nodes of a graph, also accesible through `graph.nodes.len`.
+// Returns the number of nodes of a graph, also accessible through `graph.nodes.len`.
 pub fn (graph Graph[T]) num_nodes[T]() int {
 	return graph.nodes.len
 }
 
-// Returns the number of edges of a graph, also accesible through `graph.edges.len`.
+// Returns the number of edges of a graph, also accessible through `graph.edges.len`.
 pub fn (graph Graph[T]) num_edges[T]() int {
 	return graph.edges.len
 }

@@ -1,7 +1,7 @@
 module graphs
 
 // A node that contains a value of type `T` in the mutable field `x`.
-// Nodes are stored on the heap to ensure stable references to it.
+// Nodes are stored on the heap to ensure stable references to them.
 @[heap]
 pub struct Node[T] {
 pub mut:
