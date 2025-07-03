@@ -16,9 +16,10 @@ jobs:
 
     - name: Install V
       run: |
-        mkdir tmp
         git clone https://github.com/vlang/v /tmp/v
-        /tmp/v/v -version
+        cd /tmp/v
+        make
+        ./v -version
 
     - name: Generate markdown
       run: |
