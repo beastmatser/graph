@@ -25,7 +25,8 @@ jobs:
       run: |
         rm -rf docs
         mkdir -p docs
-        /tmp/v/v doc -f html -o ./docs/index.html ./graphs
+        /tmp/v/v doc -f html -o ./docs/ ./graphs
+        mv docs/graphs.html docs/index.html
 
     - name: Add .nojekyll and optional config
       run: |
