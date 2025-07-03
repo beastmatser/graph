@@ -90,7 +90,7 @@ pub fn (graph Graph[T]) num_connected_components[T]() int {
 
 pub fn (graph Graph[T]) is_bipartite[T]() bool {
 	mut colours := map[int][2]bool{} // 2 bits per node, 1 for if node is coloured and 1 for the colour itself
-	for i, _ in graph.nodes {
+	for i in 0 .. graph.nodes.len {
 		colours[i] = [false, false]!
 	}
 
@@ -126,7 +126,7 @@ pub fn (graph Graph[T]) is_bipartite[T]() bool {
 pub fn (graph Graph[T]) is_acyclic[T]() bool {
 	mut visited := map[int]bool{}
 	mut parents := map[int]int{}
-	for i, _ in graph.nodes {
+	for i in 0 .. graph.nodes.len {
 		visited[i] = false
 	}
 

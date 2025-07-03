@@ -25,7 +25,7 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 	return Graph[T]{nodes, edges}
 }
 
-pub fn Graph.from_adjacency_matrix(adj [][]bool) Graph[int] {
+pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
 	mut edges := []&Edge[int]{}
 
@@ -33,7 +33,7 @@ pub fn Graph.from_adjacency_matrix(adj [][]bool) Graph[int] {
 		for j, col in row {
 			if i <= j { // Only check upper triangle of adjacency matrix
 				continue
-			} else if col {
+			} else if col != 0 {
 				edges << &Edge[int]{nodes[i], nodes[j]}
 			}
 		}
@@ -67,6 +67,7 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 	n := match true {
 		ascii[0] == 126 && ascii[1] == 126 {
 			start = 8
+
 			((ascii[2] - 63) << 30) + ((ascii[3] - 63) << 24) + ((ascii[4] - 63) << 18) +
 				((ascii[5] - 63) << 12) + ((ascii[6] - 63) << 6) + ascii[7] - 63
 		}
@@ -79,7 +80,7 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 		}
 	}
 
-	mut adj_matrix := [][]bool{len: int(n), init: []bool{len: int(n)}}
+	mut adj_matrix := [][]int{len: int(n), init: []int{len: int(n)}}
 
 	mut flat_bits := []bool{}
 	for i in 0 .. runes.len - start - 1 {
@@ -96,7 +97,7 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 				break
 			}
 			bit := flat_bits[bit_index]
-			adj_matrix[i][j] = bit // only fill upper triangle
+			adj_matrix[i][j] = if bit { 1 } else { 0 } // only fill upper triangle
 			bit_index++
 		}
 	}

@@ -13,10 +13,15 @@ fn to_bit_vector(n u64, width int) []bool {
 
 fn int_repr(n int) []int {
 	return match true {
-		n <= 62 { [n + 63] }
-		63 <= n && n <= 258047 { arrays.append([126], bit_vector_repr(to_bit_vector(u64(n),
-				18))) }
-		else { arrays.append([126, 126], bit_vector_repr(to_bit_vector(u64(n), 36))) }
+		n <= 62 {
+			[n + 63]
+		}
+		63 <= n && n <= 258047 {
+			arrays.append([126], bit_vector_repr(to_bit_vector(u64(n), 18)))
+		}
+		else {
+			arrays.append([126, 126], bit_vector_repr(to_bit_vector(u64(n), 36)))
+		}
 	}
 }
 

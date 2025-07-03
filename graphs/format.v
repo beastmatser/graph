@@ -3,7 +3,7 @@ module graphs
 pub fn (graph Graph[T]) to_adjacency[T]() map[int][]int {
 	mut adj := map[int][]int{}
 
-	mut node_to_int := map[voidptr]int
+	mut node_to_int := map[voidptr]int{}
 	for i, node in graph.nodes {
 		node_to_int[node] = i
 		adj[i] = []

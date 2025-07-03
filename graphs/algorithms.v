@@ -5,12 +5,12 @@ import datatypes { Queue }
 pub fn (graph Graph[T]) bfs[T]() Graph[T] {
 	mut visited := map[int]bool{}
 	nodes := graph.nodes.clone()
-	for i, _ in nodes {
+	for i in 0 .. nodes.len {
 		visited[i] = false
 	}
 
 	adj := graph.to_adjacency()
-	mut edges := []&Edge[T]{cap: graph.nodes.len - 1}
+	mut edges := []&Edge[T]{cap: nodes.len - 1}
 	mut queue := Queue[int]{}
 	for i in 0 .. nodes.len {
 		if visited[i] {
@@ -51,7 +51,7 @@ fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes 
 pub fn (graph Graph[T]) dfs[T]() Graph[T] {
 	mut labels := map[int]int{}
 	nodes := graph.nodes.clone()
-	for i, _ in graph.nodes {
+	for i in 0 .. graph.nodes.len {
 		labels[i] = 0
 	}
 
