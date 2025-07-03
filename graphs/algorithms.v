@@ -2,6 +2,8 @@ module graphs
 
 import datatypes { Queue }
 
+// Runs a breadth-first search (bfs) on the first node in nodes list of the Graph object.
+// It returns a spanning forrest of the graph.
 pub fn (graph Graph[T]) bfs[T]() Graph[T] {
 	mut visited := map[int]bool{}
 	nodes := graph.nodes.clone()
@@ -48,6 +50,8 @@ fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes 
 	return j
 }
 
+// Runs a depth-first search (dfs) on the first node in nodes list of the Graph object.
+// It returns a spanning forrest of the graph.
 pub fn (graph Graph[T]) dfs[T]() Graph[T] {
 	mut labels := map[int]int{}
 	nodes := graph.nodes.clone()

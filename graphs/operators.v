@@ -1,5 +1,9 @@
 module graphs
 
+// Gives the complement of a graph.
+// The list of (references to) nodes is copied,
+// so that a change in the original graph not appears in the complement.
+// This has the drawback that the complement of the complement not thr original graph is.
 pub fn (graph Graph[T]) complement[T]() Graph[T] {
 	adj := graph.to_adjacency()
 	nodes := graph.nodes.clone()
@@ -16,6 +20,9 @@ pub fn (graph Graph[T]) complement[T]() Graph[T] {
 	return Graph[T]{nodes, edges}
 }
 
+// Gives the line graph of a graph.
+// The list of (references to) nodes is copied,
+// so that a change in the original graph not appears in the line graph.
 pub fn (graph Graph[T]) line_graph[T]() Graph[int] {
 	nodes := []&Node[int]{len: graph.edges.len, init: &Node[int]{index}}
 	mut edges := []&Edge[int]{}
