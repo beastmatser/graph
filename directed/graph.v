@@ -3,6 +3,7 @@ module directed
 import common { Edge, Node }
 
 // A directed graph is a list of references to nodes and a list of references to (directed) edges made up of these nodes.
+@[noinit]
 pub struct DirectedGraph[T] {
 	common.Graph[T]
 }

@@ -3,7 +3,6 @@ module undirected
 import common { Node, Edge }
 
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
-@[noinit]
 pub struct UndirectedGraph[T] {
 	common.Graph[T]
 	adjacency map[int]map[int]int
