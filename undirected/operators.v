@@ -1,12 +1,14 @@
 module undirected
 
+import common { Node, Edge }
+
 // Gives the complement of a graph.
 // The list of (references to) nodes is copied,
 // so that a change in the original graph not appears in the complement.
 // This has the drawback that the complement of the complement not thr original graph is.
-pub fn (graph Graph[T]) complement[T]() Graph[T] {
+pub fn (graph UndirectedGraph[T]) complement[T]() UndirectedGraph[T] {
 	adj := graph.to_adjacency()
-	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].x}}
+	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
 	mut edges := []&Edge[T]{}
 
 	for node1, neighbours in adj {
@@ -17,13 +19,13 @@ pub fn (graph Graph[T]) complement[T]() Graph[T] {
 		}
 	}
 
-	return Graph[T]{nodes, edges}
+	return UndirectedGraph.create[T](nodes, edges)
 }
 
 // Gives the line graph of a graph.
 // The values of the nodes are the weights of the edges in the original graph.
 // So, for a simple graph all nodes will contain the value one.
-pub fn (graph Graph[T]) line_graph[T]() Graph[int] {
+pub fn (graph UndirectedGraph[T]) line_graph[T]() UndirectedGraph[int] {
 	nodes := []&Node[int]{len: graph.edges.len, init: &Node[int]{graph.edges[index].weight}}
 	mut edges := []&Edge[int]{}
 
@@ -36,5 +38,5 @@ pub fn (graph Graph[T]) line_graph[T]() Graph[int] {
 		}
 	}
 
-	return Graph[int]{nodes, edges}
+	return UndirectedGraph.create[int](nodes, edges)
 }

@@ -2,9 +2,11 @@ module undirected
 
 import datatypes { Queue }
 
+import common { Node, Edge }
+
 // Runs a breadth-first search (bfs) on the first node in nodes list of the graph.
 // It returns a spanning forrest of the graph.
-pub fn (graph Graph[T]) bfs[T]() Graph[T] {
+pub fn (graph UndirectedGraph[T]) bfs[T]() UndirectedGraph[T] {
 	mut visited := map[int]bool{}
 	nodes := graph.nodes.clone()
 	for i in 0 .. nodes.len {
@@ -35,7 +37,7 @@ pub fn (graph Graph[T]) bfs[T]() Graph[T] {
 		}
 	}
 
-	return Graph[T]{nodes, edges}
+	return UndirectedGraph.create[T](nodes, edges)
 }
 
 fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes []&Node[T], mut edges []&Edge[T]) int {
@@ -52,7 +54,7 @@ fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes 
 
 // Runs a depth-first search (dfs) on the first node in nodes list of the graph.
 // It returns a spanning forrest of the graph.
-pub fn (graph Graph[T]) dfs[T]() Graph[T] {
+pub fn (graph UndirectedGraph[T]) dfs[T]() UndirectedGraph[T] {
 	mut labels := map[int]int{}
 	nodes := graph.nodes.clone()
 	for i in 0 .. graph.nodes.len {
@@ -68,5 +70,5 @@ pub fn (graph Graph[T]) dfs[T]() Graph[T] {
 		}
 	}
 
-	return Graph[T]{nodes, edges}
+	return UndirectedGraph.create[T](nodes, edges)
 }

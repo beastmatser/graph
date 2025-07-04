@@ -1,5 +1,7 @@
 module undirected
 
+import common { Node, Edge }
+
 // Generates a graph from a mapping with the following signature: `map[T][]T`,
 // with `T` any type.
 // The keys of the map become the nodes of the graph.
@@ -9,7 +11,7 @@ module undirected
 // For example, the map `{0: [], 1: [0]}` will result in a graph with two nodes but no edges.
 // This is because any node that was already seen in the key values will be skipped if they appear
 // in the list of neighbours of another node, in an effort to avoid adding duplicate edges.
-pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
+pub fn UndirectedGraph.from_adjacency[T](adj map[T][]T) UndirectedGraph[T] {
 	mut nodes := []&Node[T]{}
 	mut edges := []&Edge[T]{}
 
@@ -31,14 +33,14 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 		}
 	}
 
-	return Graph[T]{nodes, edges}
+	return UndirectedGraph.create[T](nodes, edges)
 }
 
 // Generate a graph from an integer matrix, returns a graph with integer values for the nodes.
 // Note that only the upper triangle is checked, since any adjacency matrix of an
 // undirected graph should be symmetric. So, it is not required to fill in the whole matrix,
 // only the upper triangle is needed to create the graph.
-pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
+pub fn UndirectedGraph.from_adjacency_matrix(adj [][]int) UndirectedGraph[int] {
 	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
 	mut edges := []&Edge[int]{}
 
@@ -52,12 +54,12 @@ pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 		}
 	}
 
-	return Graph[int]{nodes, edges}
+	return UndirectedGraph.create[int](nodes, edges)
 }
 
 // Generates a graph from a graph6 string, any invalid string will panic.
 // For more info visit: https://users.cecs.anu.edu.au/~bdm/data/formats.html.
-pub fn Graph.from_graph6(g6 string) Graph[int] {
+pub fn UndirectedGraph.from_graph6(g6 string) UndirectedGraph[int] {
 	runes := g6.runes()
 	// use unsigned ints to perform bit shifting
 	ascii := []u32{len: runes.len, init: runes[index]}
@@ -117,5 +119,5 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 		}
 	}
 
-	return Graph.from_adjacency_matrix(adj_matrix)
+	return UndirectedGraph.from_adjacency_matrix(adj_matrix)
 }

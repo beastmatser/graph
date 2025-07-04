@@ -7,7 +7,7 @@ module undirected
 // and there exists an edge between these two nodes.
 // Then the resulting map will look like this: `{0: [1], 1: [0]}`,
 // so here zero and one correspond to the nodes `&Node{'a'}` and `&Node{'b'}` respectively.
-pub fn (graph Graph[T]) to_adjacency[T]() map[int][]int {
+pub fn (graph UndirectedGraph[T]) to_adjacency[T]() map[int][]int {
 	mut adj := map[int][]int{}
 
 	mut node_to_int := map[voidptr]int{}
@@ -31,12 +31,12 @@ pub fn (graph Graph[T]) to_adjacency[T]() map[int][]int {
 
 // Formats a graph into an adjacency mapping with weights of the graph.
 // The keys represent the index of the node in the list of nodes of the graph.
-// A value corresponding to a key is a list of maps with keys the indices of the neighbours .
+// A value corresponding to a key is a list of maps with keys the indices of the neighbours.
 // For example, if the nodes are given by `[&Node{'a'}, &Node{'b'}]`
 // and there exists an edge with weight 3 between these two nodes.
 // Then the resulting map will look like this: `{0: {1: 3}, 1: {3: 1}}`,
 // so here zero and one correspond to the nodes `&Node{'a'}` and `&Node{'b'}` respectively.
-pub fn (graph Graph[T]) to_adjacency_weights[T]() map[int]map[int]int {
+pub fn (graph UndirectedGraph[T]) to_adjacency_weights[T]() map[int]map[int]int {
 	mut adj := map[int]map[int]int{}
 
 	mut node_to_int := map[voidptr]int{}
@@ -55,7 +55,7 @@ pub fn (graph Graph[T]) to_adjacency_weights[T]() map[int]map[int]int {
 
 // Gives the (symmetric) adjacency matrix of the graph.
 // The order of the rows and columns is exactly the same as the order of the nodes list in the graph object.
-pub fn (graph Graph[T]) to_adjacency_matrix[T]() [][]int {
+pub fn (graph UndirectedGraph[T]) to_adjacency_matrix[T]() [][]int {
 	mut matrix := [][]int{len: graph.nodes.len, init: []int{len: graph.nodes.len}}
 
 	mut ptr_to_index := map[voidptr]int{}
@@ -74,7 +74,7 @@ pub fn (graph Graph[T]) to_adjacency_matrix[T]() [][]int {
 }
 
 // Returns the graph6 format of the given graph.
-pub fn (graph Graph[T]) to_graph6[T]() string {
+pub fn (graph UndirectedGraph[T]) to_graph6[T]() string {
 	matrix := graph.to_adjacency_matrix()
 	mut x := []bool{cap: graph.nodes.len * (graph.nodes.len - 1) / 2}
 	for j in 1 .. matrix.len {
