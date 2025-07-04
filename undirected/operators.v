@@ -6,7 +6,7 @@ module undirected
 // This has the drawback that the complement of the complement not thr original graph is.
 pub fn (graph Graph[T]) complement[T]() Graph[T] {
 	adj := graph.to_adjacency()
-	nodes := graph.nodes.clone()
+	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].x}}
 	mut edges := []&Edge[T]{}
 
 	for node1, neighbours in adj {

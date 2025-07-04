@@ -15,7 +15,7 @@ fn test_complement() {
 
 	complement_empty := empty.complement()
 	assert complement_empty.edges.len == (4 * (4 - 1)) / 2
-	assert complement_empty.nodes == empty.nodes
+	assert complement_empty.nodes.len == empty.nodes.len
 	assert complement_empty.complement().edges.len == 0
 }
 
