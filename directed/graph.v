@@ -8,6 +8,8 @@ pub struct DirectedGraph[T] {
 	common.Graph[T]
 }
 
+// Factory function to create an DirectedGraph from a list of nodes
+// and a list of directed edges containing these nodes.
 pub fn DirectedGraph.create[T](nodes []&Node[T], edges []&Edge[T]) DirectedGraph[T] {
 	return DirectedGraph[T]{common.Graph[T]{nodes, edges}}
 }

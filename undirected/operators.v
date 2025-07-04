@@ -3,22 +3,21 @@ module undirected
 import common { Node, Edge }
 
 // Gives the complement of a graph.
-// The list of (references to) nodes is copied,
-// so that a change in the original graph not appears in the complement.
-// This has the drawback that the complement of the complement not thr original graph is.
+// The list of (references to) nodes is reused,
+// so that a change in the original graph also appears in the complement.
+// This implies that the complement of the complement the original graph is.
 pub fn (graph UndirectedGraph[T]) complement[T]() UndirectedGraph[T] {
-	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
 	mut edges := []&Edge[T]{}
 
 	for node1 in 0 .. graph.nodes.len {
 		for node2 in 0..graph.nodes.len {
 			if node1 < node2 && node2 !in graph.adjacency[node1] {
-				edges << &Edge[T]{node1: nodes[node1], node2: nodes[node2]}
+				edges << &Edge[T]{node1: graph.nodes[node1], node2: graph.nodes[node2]}
 			}
 		}
 	}
 
-	return UndirectedGraph.create[T](nodes, edges)
+	return UndirectedGraph.create[T](graph.nodes, edges)
 }
 
 // Gives the line graph of a graph.
