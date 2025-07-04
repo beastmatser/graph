@@ -34,7 +34,7 @@ pub fn (graph Graph[T]) to_adjacency[T]() map[int][]int {
 // A value corresponding to a key is a list of maps with keys the indices of the neighbours .
 // For example, if the nodes are given by `[&Node{'a'}, &Node{'b'}]`
 // and there exists an edge with weight 3 between these two nodes.
-// Then the resulting map will look like this: `{0: [1], 1: [0]}`,
+// Then the resulting map will look like this: `{0: {1: 3}, 1: {3: 1}}`,
 // so here zero and one correspond to the nodes `&Node{'a'}` and `&Node{'b'}` respectively.
 pub fn (graph Graph[T]) to_adjacency_weights[T]() map[int]map[int]int {
 	mut adj := map[int]map[int]int{}
