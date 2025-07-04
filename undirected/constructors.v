@@ -27,7 +27,7 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 				continue
 			}
 
-			edges << &Edge[T]{nodes[index[x]], nodes[index[y]]}
+			edges << &Edge[T]{node1: nodes[index[x]], node2: nodes[index[y]]}
 		}
 	}
 
@@ -47,7 +47,7 @@ pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 			if i <= j { // Only check upper triangle of adjacency matrix
 				continue
 			} else if col != 0 {
-				edges << &Edge[int]{nodes[i], nodes[j]}
+				edges << &Edge[int]{node1: nodes[i], node2: nodes[j], weight: col}
 			}
 		}
 	}

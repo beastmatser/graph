@@ -181,7 +181,7 @@ pub fn (graph Graph[T]) is_acyclic[T]() bool {
 	return true
 }
 
-fn (graph Graph[T]) eccentricity_helper[T](node int, adj map[int][]int) int {
+fn (graph Graph[T]) eccentricity_helper[T](node int, adj_weights map[int]map[int]int) int {
 	mut max_dist := 0
 
 	mut dist := map[int]int{}
@@ -193,12 +193,12 @@ fn (graph Graph[T]) eccentricity_helper[T](node int, adj map[int][]int) int {
 
 	for !queue.is_empty() {
 		w := queue.pop() or { continue }
-		for x in adj[w] or { [] } {
+		for x, weight in adj_weights[w] {
 			if visited[x] {
 				continue
 			}
 			visited[x] = true
-			dist[x] = dist[w] + 1
+			dist[x] = dist[w] + weight
 			max_dist = if max_dist > dist[x] { max_dist } else { dist[x] }
 			queue.push(x)
 		}
@@ -209,13 +209,13 @@ fn (graph Graph[T]) eccentricity_helper[T](node int, adj map[int][]int) int {
 
 // Returns the eccentricity of a given node.
 pub fn (graph Graph[T]) eccentricity[T](node &Node[T]) int {
-	return graph.eccentricity_helper(graph.nodes.index(node), graph.to_adjacency())
+	return graph.eccentricity_helper(graph.nodes.index(node), graph.to_adjacency_weights())
 }
 
 // Returns the diameter of the graph, this implementation only works for connected graphs.
 pub fn (graph Graph[T]) diameter[T]() int {
 	mut max_dist := 0
-	adj := graph.to_adjacency()
+	adj := graph.to_adjacency_weights()
 
 	for i in 0 .. graph.nodes.len {
 		dist := graph.eccentricity_helper(i, adj)
@@ -229,7 +229,7 @@ pub fn (graph Graph[T]) diameter[T]() int {
 
 // Returns the radius of the graph, this implementation only works for connected graphs.
 pub fn (graph Graph[T]) radius[T]() int {
-	adj := graph.to_adjacency()
+	adj := graph.to_adjacency_weights()
 	if graph.nodes.len == 0 {
 		return 0
 	}

@@ -29,7 +29,7 @@ pub fn (graph Graph[T]) bfs[T]() Graph[T] {
 				}
 
 				visited[x] = true
-				edges << &Edge[T]{nodes[w], nodes[x]}
+				edges << &Edge[T]{node1: nodes[w], node2: nodes[x]}
 				queue.push(x)
 			}
 		}
@@ -43,7 +43,7 @@ fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes 
 	labels[i] = j
 	for k, w in adj[i] or { [] } {
 		if labels[w] == 0 {
-			edges << &Edge[T]{nodes[node], nodes[w]}
+			edges << &Edge[T]{node1: nodes[node], node2: nodes[w]}
 			j = rec_dfs[T](j, adj, mut labels, k, nodes, mut edges)
 		}
 	}
