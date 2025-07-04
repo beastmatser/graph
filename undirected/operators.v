@@ -1,6 +1,6 @@
 module undirected
 
-import common { Node, Edge }
+import common { Edge, Node }
 
 // Gives the complement of a graph.
 // The list of (references to) nodes is reused,
@@ -10,9 +10,12 @@ pub fn (graph UndirectedGraph[T]) complement[T]() UndirectedGraph[T] {
 	mut edges := []&Edge[T]{}
 
 	for node1 in 0 .. graph.nodes.len {
-		for node2 in 0..graph.nodes.len {
+		for node2 in 0 .. graph.nodes.len {
 			if node1 < node2 && node2 !in graph.adjacency[node1] {
-				edges << &Edge[T]{node1: graph.nodes[node1], node2: graph.nodes[node2]}
+				edges << &Edge[T]{
+					node1: graph.nodes[node1]
+					node2: graph.nodes[node2]
+				}
 			}
 		}
 	}
@@ -31,7 +34,10 @@ pub fn (graph UndirectedGraph[T]) line_graph[T]() UndirectedGraph[int] {
 		for j, edge2 in graph.edges[i + 1..] {
 			if edge1.node1 == edge2.node1 || edge1.node1 == edge2.node2
 				|| edge1.node2 == edge2.node1 || edge1.node2 == edge2.node2 {
-				edges << &Edge[int]{node1: nodes[i], node2: nodes[j + i + 1]}
+				edges << &Edge[int]{
+					node1: nodes[i]
+					node2: nodes[j + i + 1]
+				}
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 module undirected
 
-import common { Node, Edge }
+import common { Edge, Node }
 
 // Generates a cycle graph on n nodes.
 // The graph's nodes are integer values from 0 to n-1.
@@ -9,9 +9,15 @@ pub fn cycle_graph(n int) UndirectedGraph[int] {
 	mut edges := []&Edge[int]{cap: n}
 
 	for i in 0 .. n - 1 {
-		edges << &Edge[int]{node1: nodes[i], node2: nodes[i + 1]}
+		edges << &Edge[int]{
+			node1: nodes[i]
+			node2: nodes[i + 1]
+		}
 	}
-	edges << &Edge[int]{node1: nodes[n - 1], node2: nodes[0]}
+	edges << &Edge[int]{
+		node1: nodes[n - 1]
+		node2: nodes[0]
+	}
 
 	return UndirectedGraph.create[int](nodes, edges)
 }
@@ -23,7 +29,10 @@ pub fn path_graph(n int) UndirectedGraph[int] {
 	mut edges := []&Edge[int]{cap: n - 1}
 
 	for i in 0 .. n - 1 {
-		edges << &Edge[int]{node1: nodes[i], node2: nodes[i + 1]}
+		edges << &Edge[int]{
+			node1: nodes[i]
+			node2: nodes[i + 1]
+		}
 	}
 
 	return UndirectedGraph.create[int](nodes, edges)
@@ -38,7 +47,10 @@ pub fn complete_graph(n int) UndirectedGraph[int] {
 	for i in 0 .. n {
 		for j in 0 .. n {
 			if i < j {
-				edges << &Edge[int]{node1: nodes[i], node2: nodes[j]}
+				edges << &Edge[int]{
+					node1: nodes[i]
+					node2: nodes[j]
+				}
 			}
 		}
 	}
@@ -55,7 +67,10 @@ pub fn complete_bipartite_graph(n int, m int) UndirectedGraph[int] {
 
 	for i in 0 .. n {
 		for j in n .. n + m {
-			edges << &Edge[int]{node1: nodes[i], node2: nodes[j]}
+			edges << &Edge[int]{
+				node1: nodes[i]
+				node2: nodes[j]
+			}
 		}
 	}
 
@@ -77,11 +92,23 @@ pub fn wheel_graph(n int) UndirectedGraph[int] {
 	mut edges := []&Edge[int]{cap: 2 * n - 2}
 
 	for i in 1 .. n - 1 {
-		edges << &Edge[int]{node1: nodes[i], node2: nodes[i + 1]}
-		edges << &Edge[int]{node1: nodes[0], node2: nodes[i]}
+		edges << &Edge[int]{
+			node1: nodes[i]
+			node2: nodes[i + 1]
+		}
+		edges << &Edge[int]{
+			node1: nodes[0]
+			node2: nodes[i]
+		}
 	}
-	edges << &Edge[int]{node1: nodes[n - 1], node2: nodes[1]}
-	edges << &Edge[int]{node1: nodes[0], node2: nodes[n - 1]}
+	edges << &Edge[int]{
+		node1: nodes[n - 1]
+		node2: nodes[1]
+	}
+	edges << &Edge[int]{
+		node1: nodes[0]
+		node2: nodes[n - 1]
+	}
 
 	return UndirectedGraph.create[int](nodes, edges)
 }

@@ -1,12 +1,15 @@
 module undirected
 
-import common { Node, Edge }
+import common { Edge, Node }
 
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
+// In addition it holds an adjacency mapping, the keys are the nodes.
+// The values are maps where its keys are nodes adjacent to the original node with value
+// the weight of the edge between these adjacent nodes.
 pub struct UndirectedGraph[T] {
 	common.Graph[T]
 	adjacency map[int]map[int]int
-	degrees map[int]int
+	degrees   map[int]int
 }
 
 // Factory function to create an UndirectedGraph from a list of nodes

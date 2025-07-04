@@ -1,8 +1,7 @@
 module undirected
 
 import datatypes { Queue }
-
-import common { Node, Edge }
+import common { Edge, Node }
 
 // Runs a breadth-first search (bfs) on the first node in nodes list of the graph.
 // It returns a spanning forrest of the graph.
@@ -30,7 +29,10 @@ pub fn (graph UndirectedGraph[T]) bfs[T]() UndirectedGraph[T] {
 				}
 
 				visited[x] = true
-				edges << &Edge[T]{node1: nodes[w], node2: nodes[x]}
+				edges << &Edge[T]{
+					node1: nodes[w]
+					node2: nodes[x]
+				}
 				queue.push(x)
 			}
 		}
@@ -44,7 +46,10 @@ fn rec_dfs[T](i int, adj map[int]map[int]int, mut labels map[int]int, node int, 
 	labels[i] = j
 	for k, w in adj[i].keys() {
 		if labels[w] == 0 {
-			edges << &Edge[T]{node1: nodes[node], node2: nodes[w]}
+			edges << &Edge[T]{
+				node1: nodes[node]
+				node2: nodes[w]
+			}
 			j = rec_dfs[T](j, adj, mut labels, k, nodes, mut edges)
 		}
 	}

@@ -4,8 +4,7 @@ import arrays
 import datatypes { Queue }
 import math
 import util
-
-import common { Node, Edge }
+import common { Node }
 
 // Returns a list of the degrees of the graph, not necessarily ordered.
 pub fn (graph UndirectedGraph[T]) degree_list[T]() []int {

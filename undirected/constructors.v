@@ -1,6 +1,6 @@
 module undirected
 
-import common { Node, Edge }
+import common { Edge, Node }
 
 // Generates a graph from a mapping with the following signature: `map[T][]T`,
 // with `T` any type.
@@ -29,7 +29,10 @@ pub fn UndirectedGraph.from_adjacency[T](adj map[T][]T) UndirectedGraph[T] {
 				continue
 			}
 
-			edges << &Edge[T]{node1: nodes[index[x]], node2: nodes[index[y]]}
+			edges << &Edge[T]{
+				node1: nodes[index[x]]
+				node2: nodes[index[y]]
+			}
 		}
 	}
 
@@ -49,7 +52,11 @@ pub fn UndirectedGraph.from_adjacency_matrix(adj [][]int) UndirectedGraph[int] {
 			if i <= j { // Only check upper triangle of adjacency matrix
 				continue
 			} else if col != 0 {
-				edges << &Edge[int]{node1: nodes[i], node2: nodes[j], weight: col}
+				edges << &Edge[int]{
+					node1:  nodes[i]
+					node2:  nodes[j]
+					weight: col
+				}
 			}
 		}
 	}
