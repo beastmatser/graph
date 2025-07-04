@@ -7,28 +7,9 @@ import util
 
 import common { Node, Edge }
 
-// Returns a map of the degrees of the graph.
-// The keys are the indices of the nodes in the node list of the graph
-// and the values are the degrees of the nodes.
-pub fn (graph UndirectedGraph[T]) degree_map[T]() map[int]int {
-	mut degrees := map[int]int{}
-	mut node_to_int := map[voidptr]int{}
-	for i, node in graph.nodes {
-		node_to_int[node] = i
-		degrees[i] = 0
-	}
-
-	for edge in graph.edges {
-		degrees[node_to_int[edge.node1]] += 1
-		degrees[node_to_int[edge.node2]] += 1
-	}
-
-	return degrees
-}
-
 // Returns a list of the degrees of the graph, not necessarily ordered.
 pub fn (graph UndirectedGraph[T]) degree_list[T]() []int {
-	return graph.degree_map().values()
+	return graph.degrees.values()
 }
 
 // Returns the minimum degree of the graph.
@@ -63,7 +44,7 @@ pub fn (graph UndirectedGraph[T]) is_cycle[T]() bool {
 pub fn (graph UndirectedGraph[T]) is_complete[T]() bool {
 	degrees := graph.degree_list()
 	n := graph.nodes.len
-	return arrays.min(degrees) or { 0 } == n - 1 && arrays.max(degrees) or { 0 } == n - 1
+	return degrees.all(it == n - 1)
 }
 
 // Checks whether the graph is Eulerian.
@@ -105,7 +86,6 @@ pub fn (graph UndirectedGraph[T]) is_bipartite[T]() bool {
 		colours[i] = [false, false]!
 	}
 
-	adj := graph.to_adjacency()
 	mut queue := Queue[int]{}
 	for i in 0 .. graph.nodes.len {
 		if colours[i][0] {
@@ -116,7 +96,7 @@ pub fn (graph UndirectedGraph[T]) is_bipartite[T]() bool {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in adj[w] or { [] } {
+			for x in graph.adjacency[w].keys() {
 				if colours[x][0] {
 					if colours[x][1] == colours[w][1] {
 						return false
@@ -143,7 +123,6 @@ pub fn (graph UndirectedGraph[T]) is_acyclic[T]() bool {
 		visited[i] = false
 	}
 
-	adj := graph.to_adjacency()
 	mut queue := Queue[int]{}
 	for i in 0 .. graph.nodes.len {
 		if visited[i] {
@@ -154,7 +133,7 @@ pub fn (graph UndirectedGraph[T]) is_acyclic[T]() bool {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in adj[w] or { [] } {
+			for x in graph.adjacency[w].keys() {
 				if visited[x] {
 					if parents[w] or { continue } != x {
 						return false
@@ -172,7 +151,7 @@ pub fn (graph UndirectedGraph[T]) is_acyclic[T]() bool {
 	return true
 }
 
-fn (graph UndirectedGraph[T]) eccentricity_helper[T](node int, adj_weights map[int]map[int]int) int {
+fn (graph UndirectedGraph[T]) eccentricity_helper[T](node int) int {
 	mut max_dist := 0
 
 	mut dist := map[int]int{}
@@ -184,7 +163,7 @@ fn (graph UndirectedGraph[T]) eccentricity_helper[T](node int, adj_weights map[i
 
 	for !queue.is_empty() {
 		w := queue.pop() or { continue }
-		for x, weight in adj_weights[w] {
+		for x, weight in graph.adjacency[w] {
 			if visited[x] {
 				continue
 			}
@@ -200,16 +179,15 @@ fn (graph UndirectedGraph[T]) eccentricity_helper[T](node int, adj_weights map[i
 
 // Returns the eccentricity of a given node.
 pub fn (graph UndirectedGraph[T]) eccentricity[T](node &Node[T]) int {
-	return graph.eccentricity_helper(graph.nodes.index(node), graph.to_adjacency_weights())
+	return graph.eccentricity_helper(graph.nodes.index(node))
 }
 
 // Returns the diameter of the graph, this implementation only works for connected graphs.
 pub fn (graph UndirectedGraph[T]) diameter[T]() int {
 	mut max_dist := 0
-	adj := graph.to_adjacency_weights()
 
 	for i in 0 .. graph.nodes.len {
-		dist := graph.eccentricity_helper(i, adj)
+		dist := graph.eccentricity_helper(i)
 		if dist > max_dist {
 			max_dist = dist
 		}
@@ -220,14 +198,13 @@ pub fn (graph UndirectedGraph[T]) diameter[T]() int {
 
 // Returns the radius of the graph, this implementation only works for connected graphs.
 pub fn (graph UndirectedGraph[T]) radius[T]() int {
-	adj := graph.to_adjacency_weights()
 	if graph.nodes.len == 0 {
 		return 0
 	}
-	mut min_dist := graph.eccentricity_helper(0, adj)
+	mut min_dist := graph.eccentricity_helper(0)
 
 	for i in 0 .. graph.nodes[1..].len {
-		dist := graph.eccentricity_helper(i, adj)
+		dist := graph.eccentricity_helper(i)
 		if dist < min_dist {
 			min_dist = dist
 		}
@@ -238,7 +215,6 @@ pub fn (graph UndirectedGraph[T]) radius[T]() int {
 
 // Returns the girth of the graph.
 pub fn (graph UndirectedGraph[T]) girth[T]() int {
-	adj := graph.to_adjacency()
 	mut min_cycle := -1
 
 	for i in 0 .. graph.nodes.len {
@@ -254,7 +230,7 @@ pub fn (graph UndirectedGraph[T]) girth[T]() int {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in adj[w] or { [] } {
+			for x in graph.adjacency[w].keys() {
 				if w in parent && unsafe { x == parent[w] } {
 					continue
 				} else if !visited[x] {
@@ -319,12 +295,11 @@ pub fn (graph UndirectedGraph[T]) num_triangles[T]() int {
 pub fn (graph UndirectedGraph[T]) degeneracy() int {
 	n := graph.nodes.len
 	mut visited := map[int]bool{}
-	adj := graph.to_adjacency()
 	mut degree := map[int]int{}
 	mut max_deg := 0
 
 	for i in 0 .. n {
-		degree[i] = adj[i].len
+		degree[i] = graph.adjacency[i].len
 		visited[i] = false
 	}
 
@@ -363,7 +338,7 @@ pub fn (graph UndirectedGraph[T]) degeneracy() int {
 			max_deg = current_deg
 		}
 
-		for u in adj[v] {
+		for u in graph.adjacency[v].keys() {
 			if !visited[u] {
 				old_deg := degree[u]
 				degree[u]--

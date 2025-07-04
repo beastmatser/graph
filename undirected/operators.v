@@ -7,13 +7,12 @@ import common { Node, Edge }
 // so that a change in the original graph not appears in the complement.
 // This has the drawback that the complement of the complement not thr original graph is.
 pub fn (graph UndirectedGraph[T]) complement[T]() UndirectedGraph[T] {
-	adj := graph.to_adjacency()
 	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
 	mut edges := []&Edge[T]{}
 
-	for node1, neighbours in adj {
-		for node2, _ in adj {
-			if node1 < node2 && node2 !in neighbours {
+	for node1 in 0 .. graph.nodes.len {
+		for node2 in 0..graph.nodes.len {
+			if node1 < node2 && node2 !in graph.adjacency[node1] {
 				edges << &Edge[T]{node1: nodes[node1], node2: nodes[node2]}
 			}
 		}

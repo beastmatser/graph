@@ -13,7 +13,6 @@ pub fn (graph UndirectedGraph[T]) bfs[T]() UndirectedGraph[T] {
 		visited[i] = false
 	}
 
-	adj := graph.to_adjacency()
 	mut edges := []&Edge[T]{cap: nodes.len - 1}
 	mut queue := Queue[int]{}
 	for i in 0 .. nodes.len {
@@ -25,7 +24,7 @@ pub fn (graph UndirectedGraph[T]) bfs[T]() UndirectedGraph[T] {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in adj[w] or { [] } {
+			for x in graph.adjacency[w].keys() {
 				if visited[x] {
 					continue
 				}
@@ -40,10 +39,10 @@ pub fn (graph UndirectedGraph[T]) bfs[T]() UndirectedGraph[T] {
 	return UndirectedGraph.create[T](nodes, edges)
 }
 
-fn rec_dfs[T](i int, adj map[int][]int, mut labels map[int]int, node int, nodes []&Node[T], mut edges []&Edge[T]) int {
+fn rec_dfs[T](i int, adj map[int]map[int]int, mut labels map[int]int, node int, nodes []&Node[T], mut edges []&Edge[T]) int {
 	mut j := i + 1
 	labels[i] = j
-	for k, w in adj[i] or { [] } {
+	for k, w in adj[i].keys() {
 		if labels[w] == 0 {
 			edges << &Edge[T]{node1: nodes[node], node2: nodes[w]}
 			j = rec_dfs[T](j, adj, mut labels, k, nodes, mut edges)
@@ -62,11 +61,10 @@ pub fn (graph UndirectedGraph[T]) dfs[T]() UndirectedGraph[T] {
 	}
 
 	mut edges := []&Edge[T]{}
-	adj := graph.to_adjacency()
 	mut i := 0
 	for k in 0 .. nodes.len {
 		if labels[i] == 0 {
-			rec_dfs[T](i, adj, mut labels, k, nodes, mut edges)
+			rec_dfs[T](i, graph.adjacency, mut labels, k, nodes, mut edges)
 		}
 	}
 
