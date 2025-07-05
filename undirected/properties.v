@@ -74,7 +74,7 @@ pub fn (graph UndirectedGraph[T]) is_connected[T]() bool {
 }
 
 // Returns the number of connected components of the graph.
-pub fn (graph Graph[T]) num_connected_components[T]() int {
+pub fn (graph UndirectedGraph[T]) num_connected_components[T]() int {
 	return graph.nodes.len - graph.dfs().edges.len
 }
 
@@ -294,6 +294,7 @@ pub fn (graph UndirectedGraph[T]) num_triangles[T]() int {
 pub fn (graph UndirectedGraph[T]) degeneracy() int {
 	n := graph.nodes.len
 	mut visited := map[int]bool{}
+	// We dont use graph.degrees since we would need to copy that map anyway
 	mut degree := map[int]int{}
 	mut max_deg := 0
 

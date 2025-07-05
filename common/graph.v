@@ -23,3 +23,20 @@ pub:
 	nodes []&Node[T]
 	edges []&Edge[T]
 }
+
+// Creates a copy of the graph, changes made in a copy will not affect the original graph.
+pub fn (graph Graph[T]) copy[T]() Graph[T] {
+	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
+	mut edges := []&Edge[T]{}
+
+	mut node_to_int := map[voidptr]int{}
+	for i, node in nodes {
+		node_to_int[node] = i
+	}
+
+	for edge in graph.edges {
+		edges << &Edge[T]{nodes[node_to_int[edge.node1]], nodes[node_to_int[edge.node2]], edge.weight}
+	}
+
+	return Graph[T]{nodes, edges}
+}

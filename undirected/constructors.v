@@ -107,7 +107,7 @@ pub fn UndirectedGraph.from_graph6(g6 string) UndirectedGraph[int] {
 	mut adj_matrix := [][]int{len: int(n), init: []int{len: int(n)}}
 
 	mut flat_bits := []bool{}
-	for i in 0 .. runes.len - start - 1 {
+	for i in 0 .. runes.len - start {
 		bits := to_bit_vector(u64(ascii[start + i] - 63), 6)
 		for b in bits {
 			flat_bits << b
