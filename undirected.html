@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 c216e59</span>
+								<span>0.0.0 52ae3f2</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -167,11 +167,11 @@
 
 </section>
 
-		<section id="Graph[T].num_connected_components" class="doc-node">
-			<div class="title"><h2>fn (Graph[T]) num_connected_components <a href="#Graph[T].num_connected_components">#</a></h2></div>
+		<section id="UndirectedGraph[T].+" class="doc-node">
+			<div class="title"><h2>fn (UndirectedGraph[T]) + <a href="#UndirectedGraph[T].+">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_connected_components<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the number of connected components of the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph1 UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>graph2 UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Disjoint union of two graphs. To achieve this the graph with least amount of edges is copied to ensure there is no overlap in the nodes.</p>
 
 </section>
 
@@ -351,6 +351,14 @@
 
 </section>
 
+		<section id="UndirectedGraph[T].num_connected_components" class="doc-node">
+			<div class="title"><h2>fn (UndirectedGraph[T]) num_connected_components <a href="#UndirectedGraph[T].num_connected_components">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_connected_components<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
+<p>Returns the number of connected components of the graph.</p>
+
+</section>
+
 		<section id="UndirectedGraph[T].num_spanning_trees" class="doc-node">
 			<div class="title"><h2>fn (UndirectedGraph[T]) num_spanning_trees <a href="#UndirectedGraph[T].num_spanning_trees">#</a></h2></div>
 <pre class="signature">
@@ -399,12 +407,12 @@
 	adjacency <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">int</span>
 	degrees   <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">int</span>
 <span class="token punctuation">}</span></code></pre>
-<p>A graph is a list of references to nodes and a list of references to edges made up of these nodes.</p>
+<p>A graph is a list of references to nodes and a list of references to edges made up of these nodes. In addition it holds an adjacency mapping, the keys are the nodes. The values are maps where its keys are nodes adjacent to the original node with value the weight of the edge between these adjacent nodes.</p>
 
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 4 Jul 2025 23:07:15</div>
+						<div class="footer">Powered by vdoc. Generated on: 5 Jul 2025 18:00:04</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
 </ul>
@@ -436,11 +444,8 @@
 <li class="open"><a href="#UndirectedGraph.from_graph6">fn UndirectedGraph.from_graph6</a>        <ul>
 </ul>
 </li>
-<li class="open"><a href="#Graph[T].num_connected_components">type Graph[T]</a>        <ul>
-<li><a href="#Graph[T].num_connected_components">fn num_connected_components</a></li>
-</ul>
-</li>
-<li class="open"><a href="#UndirectedGraph[T].bfs">type UndirectedGraph[T]</a>        <ul>
+<li class="open"><a href="#UndirectedGraph[T].+">type UndirectedGraph[T]</a>        <ul>
+<li><a href="#UndirectedGraph[T].+">fn +</a></li>
 <li><a href="#UndirectedGraph[T].bfs">fn bfs</a></li>
 <li><a href="#UndirectedGraph[T].complement">fn complement</a></li>
 <li><a href="#UndirectedGraph[T].copy">fn copy</a></li>
@@ -463,6 +468,7 @@
 <li><a href="#UndirectedGraph[T].line_graph">fn line_graph</a></li>
 <li><a href="#UndirectedGraph[T].max_degree">fn max_degree</a></li>
 <li><a href="#UndirectedGraph[T].min_degree">fn min_degree</a></li>
+<li><a href="#UndirectedGraph[T].num_connected_components">fn num_connected_components</a></li>
 <li><a href="#UndirectedGraph[T].num_spanning_trees">fn num_spanning_trees</a></li>
 <li><a href="#UndirectedGraph[T].num_triangles">fn num_triangles</a></li>
 <li><a href="#UndirectedGraph[T].radius">fn radius</a></li>

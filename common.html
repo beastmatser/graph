@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 c216e59</span>
+								<span>0.0.0 52ae3f2</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -87,11 +87,11 @@
 
 </section>
 
-		<section id="Graph[T].num_nodes" class="doc-node">
-			<div class="title"><h2>fn (Graph[T]) num_nodes <a href="#Graph[T].num_nodes">#</a></h2></div>
+		<section id="Graph[T].copy" class="doc-node">
+			<div class="title"><h2>fn (Graph[T]) copy <a href="#Graph[T].copy">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_nodes<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the number of nodes of a graph, also accessible through <code>Graph.nodes.len</code>.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> copy<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Creates a copy of the graph, changes made in a copy will not affect the original graph.</p>
 
 </section>
 
@@ -100,6 +100,14 @@
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_edges<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
 <p>Returns the number of edges of a graph, also accessible through <code>Graph.edges.len</code>.</p>
+
+</section>
+
+		<section id="Graph[T].num_nodes" class="doc-node">
+			<div class="title"><h2>fn (Graph[T]) num_nodes <a href="#Graph[T].num_nodes">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_nodes<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
+<p>Returns the number of nodes of a graph, also accessible through <code>Graph.nodes.len</code>.</p>
 
 </section>
 
@@ -142,11 +150,12 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 4 Jul 2025 23:07:15</div>
+						<div class="footer">Powered by vdoc. Generated on: 5 Jul 2025 18:00:04</div>
 					</div>
-					<div class="doc-toc"><ul><li class="open"><a href="#Graph[T].num_nodes">type Graph[T]</a>        <ul>
-<li><a href="#Graph[T].num_nodes">fn num_nodes</a></li>
+					<div class="doc-toc"><ul><li class="open"><a href="#Graph[T].copy">type Graph[T]</a>        <ul>
+<li><a href="#Graph[T].copy">fn copy</a></li>
 <li><a href="#Graph[T].num_edges">fn num_edges</a></li>
+<li><a href="#Graph[T].num_nodes">fn num_nodes</a></li>
 </ul>
 </li>
 <li class="open"><a href="#Edge">struct Edge</a>        <ul>
