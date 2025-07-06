@@ -35,7 +35,7 @@ pub fn UndirectedGraph.create[T](nodes []&Node[T], edges []&Edge[T]) UndirectedG
 	return UndirectedGraph[T]{common.Graph[T]{nodes, edges}, adj, degrees}
 }
 
-// Creates a copy of the graph, changes made in a copy will not affect the original graph.
-pub fn (graph UndirectedGraph[T]) copy[T]() UndirectedGraph[T] {
-	return UndirectedGraph[T]{graph.Graph.copy(), graph.adjacency, graph.degrees}
+// Creates a clone of the graph, changes made in a clone will not affect the original graph.
+pub fn (graph UndirectedGraph[T]) clone[T]() UndirectedGraph[T] {
+	return UndirectedGraph[T]{graph.Graph.clone(), graph.adjacency, graph.degrees}
 }

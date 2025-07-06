@@ -51,7 +51,7 @@ pub fn (graph UndirectedGraph[T]) line_graph[T]() UndirectedGraph[int] {
 // Disjoint union of two graphs.
 // To achieve this the graph with least amount of edges is copied to ensure there is no overlap in the nodes.
 pub fn (graph1 UndirectedGraph[T]) + (graph2 UndirectedGraph[T]) UndirectedGraph[T] {
-	small := if graph1.edges.len > graph2.edges.len { graph2.copy() } else { graph1.copy() }
+	small := if graph1.edges.len > graph2.edges.len { graph2.clone() } else { graph1.clone() }
 	big := if graph1.edges.len > graph2.edges.len { graph1 } else { graph2 }
 
 	nodes := arrays.append(small.nodes, big.nodes)

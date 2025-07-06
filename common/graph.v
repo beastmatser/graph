@@ -24,8 +24,8 @@ pub:
 	edges []&Edge[T]
 }
 
-// Creates a copy of the graph, changes made in a copy will not affect the original graph.
-pub fn (graph Graph[T]) copy[T]() Graph[T] {
+// Creates a clone of the graph, changes made in a clone will not affect the original graph.
+pub fn (graph Graph[T]) clone[T]() Graph[T] {
 	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
 	mut edges := []&Edge[T]{}
 
