@@ -1,8 +1,5 @@
 module undirected
 
-import arrays
-import maps
-
 import common { Edge, Node }
 
 // Gives the complement of a graph.
@@ -46,25 +43,4 @@ pub fn (graph UndirectedGraph[T]) line_graph[T]() UndirectedGraph[int] {
 	}
 
 	return UndirectedGraph.create[int](nodes, edges)
-}
-
-// Disjoint union of two graphs.
-// To achieve this the graph with least amount of edges is copied to ensure there is no overlap in the nodes.
-pub fn (graph1 UndirectedGraph[T]) + (graph2 UndirectedGraph[T]) UndirectedGraph[T] {
-	small := if graph1.edges.len > graph2.edges.len { graph2.clone() } else { graph1.clone() }
-	big := if graph1.edges.len > graph2.edges.len { graph1 } else { graph2 }
-
-	nodes := arrays.append(small.nodes, big.nodes)
-	edges := arrays.append(small.edges, big.edges)
-
-	mut adj_small := map[int]map[int]int{}
-	mut degrees_small := map[int]int{}
-	for node1, neighbours in small.adjacency {
-		for node2, weight in neighbours {
-			adj_small[node1 + big.nodes.len][node2 + big.nodes.len] = weight
-			degrees_small[node1 + big.nodes.len] += 1
-		}
-	}
-
-	return UndirectedGraph[T]{common.Graph[T]{nodes, edges}, maps.merge(big.adjacency, adj_small), maps.merge(graph2.degrees, degrees_small)}
 }
