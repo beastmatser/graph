@@ -64,18 +64,30 @@ pub fn (graph UndirectedGraph[T]) is_tree[T]() bool {
 		return false
 	}
 
-	return graph.dfs().edges.len == graph.edges.len
+	if graph.nodes.len == 0 {
+		return true
+	}
+
+	return graph.dfs(graph.nodes[0]).edges.len == graph.edges.len
 }
 
 // Checks whether the graph is connected.
 pub fn (graph UndirectedGraph[T]) is_connected[T]() bool {
-	span_tree := graph.dfs()
+	if graph.nodes.len == 0 {
+		return true
+	}
+
+	span_tree := graph.dfs(graph.nodes[0])
 	return span_tree.edges.len == span_tree.nodes.len
 }
 
 // Returns the number of connected components of the graph.
 pub fn (graph UndirectedGraph[T]) num_connected_components[T]() int {
-	return graph.nodes.len - graph.dfs().edges.len
+	if graph.nodes.len == 0 {
+		return 0
+	}
+
+	return graph.nodes.len - graph.dfs(graph.nodes[0]).edges.len
 }
 
 // Checks whether the graph is bipartite.
@@ -178,7 +190,7 @@ fn (graph UndirectedGraph[T]) eccentricity_helper[T](node int) int {
 
 // Returns the eccentricity of a given node.
 pub fn (graph UndirectedGraph[T]) eccentricity[T](node &Node[T]) int {
-	return graph.eccentricity_helper(graph.nodes.index(node))
+	return graph.eccentricity_helper(graph.node_to_index[node])
 }
 
 // Returns the diameter of the graph, this implementation only works for connected graphs.
