@@ -10,9 +10,7 @@ import common { Edge, Node }
 // Lastly, a mapping from the references of nodes to its index in the nodes list.
 pub struct UndirectedGraph[T] {
 	common.Graph[T]
-	adjacency map[int]map[int]int
 	degrees   map[int]int
-	node_to_index map[voidptr]int
 }
 
 // Factory function to create an UndirectedGraph from a list of nodes
@@ -35,17 +33,10 @@ pub fn UndirectedGraph.create[T](nodes []&Node[T], edges []&Edge[T]) UndirectedG
 		degrees[node_to_index[edge.node2]] += 1
 	}
 
-	return UndirectedGraph[T]{common.Graph[T]{nodes, edges}, adj, degrees, node_to_index}
+	return UndirectedGraph[T]{common.Graph[T]{nodes, edges, adj, node_to_index}, degrees}
 }
 
 // Creates a clone of the graph, changes made in a clone will not affect the original graph.
 pub fn (graph UndirectedGraph[T]) clone[T]() UndirectedGraph[T] {
-	clone := graph.Graph.clone()
-	mut node_to_index := map[voidptr]int
-
-	for i, node in clone.nodes {
-		node_to_index[node] = i
-	}
-
-	return UndirectedGraph[T]{clone, graph.adjacency, graph.degrees, node_to_index}
+	return UndirectedGraph[T]{graph.Graph.clone(), graph.degrees}
 }
