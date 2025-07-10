@@ -1,7 +1,6 @@
-module undirected
+module common
 
 import datatypes { Queue }
-import common { Edge, Node }
 
 // Iterator runs from start to stop and then from zero to start.
 // For example: if start is 2 and stop 5, then the iterator follows the sequence: 2, 3, 4, 0, 1.
@@ -28,7 +27,7 @@ fn (mut iter ShiftedIterator) next() ?int {
 
 // Runs a breadth-first search (bfs) on the first node in nodes list of the graph.
 // It returns a spanning forrest of the graph.
-pub fn (graph UndirectedGraph[T]) bfs[T](node &Node[T]) UndirectedGraph[T] {
+pub fn (graph Graph[T]) bfs[T](node &Node[T]) Graph[T] {
 	mut visited := map[int]bool{}
 	for i in 0 .. graph.nodes.len {
 		visited[i] = false
@@ -60,10 +59,10 @@ pub fn (graph UndirectedGraph[T]) bfs[T](node &Node[T]) UndirectedGraph[T] {
 		}
 	}
 
-	return UndirectedGraph.create[T](graph.nodes, edges)
+	return Graph.create[T](graph.nodes, edges)
 }
 
-fn (graph UndirectedGraph[T]) rec_dfs[T](current_index int, node int, mut labels map[int]int, mut edges []&Edge[T]) int {
+fn (graph Graph[T]) rec_dfs[T](current_index int, node int, mut labels map[int]int, mut edges []&Edge[T]) int {
 	mut next_index := current_index + 1
 	labels[current_index] = next_index
 
@@ -81,7 +80,7 @@ fn (graph UndirectedGraph[T]) rec_dfs[T](current_index int, node int, mut labels
 
 // Runs a depth-first search (dfs) on the first node in nodes list of the graph.
 // It returns a spanning forrest of the graph.
-pub fn (graph UndirectedGraph[T]) dfs[T](node &Node[T]) UndirectedGraph[T] {
+pub fn (graph Graph[T]) dfs[T](node &Node[T]) Graph[T] {
 	mut labels := map[int]int{}
 
 	// Initialize all labels to 0 (unvisited)
@@ -99,5 +98,5 @@ pub fn (graph UndirectedGraph[T]) dfs[T](node &Node[T]) UndirectedGraph[T] {
 		}
 	}
 
-	return UndirectedGraph.create[T](graph.nodes, edges)
+	return Graph.create[T](graph.nodes, edges)
 }
