@@ -174,12 +174,12 @@ fn (graph UndirectedGraph[T]) eccentricity_helper[T](node int) int {
 
 	for !queue.is_empty() {
 		w := queue.pop() or { continue }
-		for x, weight in graph.adjacency[w] {
+		for x, edge in graph.adjacency[w] {
 			if visited[x] {
 				continue
 			}
 			visited[x] = true
-			dist[x] = dist[w] + weight
+			dist[x] = dist[w] + graph.edges[edge].weight
 			max_dist = if max_dist > dist[x] { max_dist } else { dist[x] }
 			queue.push(x)
 		}

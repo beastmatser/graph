@@ -26,9 +26,9 @@ pub fn UndirectedGraph.create[T](nodes []&Node[T], edges []&Edge[T]) UndirectedG
 		degrees[i] = 0
 	}
 
-	for edge in edges {
-		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = edge.weight
-		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = edge.weight
+	for i, edge in edges {
+		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = i
+		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = i
 		degrees[node_to_index[edge.node1]] += 1
 		degrees[node_to_index[edge.node2]] += 1
 	}

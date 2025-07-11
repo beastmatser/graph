@@ -34,9 +34,9 @@ pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
 		adj[i] = {}
 	}
 
-	for edge in edges {
-		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = edge.weight
-		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = edge.weight
+	for i, edge in edges {
+		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = i
+		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = i
 	}
 
 	return Graph[T]{nodes, edges, adj, node_to_index}
@@ -47,13 +47,18 @@ pub fn (graph Graph[T]) clone[T]() Graph[T] {
 	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
 	mut edges := []&Edge[T]{}
 
+	mut adj := map[int]map[int]int{}
 	mut node_to_index := map[voidptr]int{}
 	for i, node in nodes {
 		node_to_index[node] = i
 	}
 
-	for edge in graph.edges {
-		edges << &Edge[T]{nodes[node_to_index[edge.node1]], nodes[node_to_index[edge.node2]], edge.weight}
+	for i, edge in graph.edges {
+		new_edge := &Edge[T]{nodes[node_to_index[edge.node1]], nodes[node_to_index[edge.node2]], edge.weight}
+		edges << new_edge
+		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = i
+		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = i
+
 	}
 
 	return Graph[T]{nodes, edges, graph.adjacency, node_to_index}

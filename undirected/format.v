@@ -6,8 +6,8 @@ pub fn (graph UndirectedGraph[T]) to_adjacency_matrix[T]() [][]int {
 	mut matrix := [][]int{len: graph.nodes.len, init: []int{len: graph.nodes.len}}
 
 	for node1, neighbours in graph.adjacency {
-		for node2, weight in neighbours {
-			matrix[node1][node2] = weight
+		for node2, edge in neighbours {
+			matrix[node1][node2] = graph.edges[edge].weight
 		}
 	}
 
