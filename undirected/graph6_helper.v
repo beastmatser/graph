@@ -28,7 +28,7 @@ pub fn random_graph6(n i64, edge_prob f64) string {
 	// Generate random upper triangle bits
 	mut bits := []bool{}
 	for i in 0 .. n {
-		for j in i + 1 .. n {
+		for _ in i + 1 .. n {
 			bits << (rand.f64() < edge_prob)
 		}
 	}

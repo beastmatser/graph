@@ -6,14 +6,14 @@ import datatypes { Queue }
 // For example: if start is 2 and stop 5, then the iterator follows the sequence: 2, 3, 4, 0, 1.
 struct ShiftedIterator {
 	start int
-	stop int
+	stop  int
 mut:
-	idx int
+	idx  int
 	seen bool
 }
 
 fn (mut iter ShiftedIterator) next() ?int {
-	if (iter.start + iter.idx)  % iter.stop == iter.start {
+	if (iter.start + iter.idx) % iter.stop == iter.start {
 		if iter.seen {
 			return none
 		}
@@ -22,7 +22,7 @@ fn (mut iter ShiftedIterator) next() ?int {
 	defer {
 		iter.idx++
 	}
-	return (iter.start + iter.idx)  % iter.stop
+	return (iter.start + iter.idx) % iter.stop
 }
 
 // Runs a breadth-first search (bfs) on a given node of the graph.
@@ -37,7 +37,10 @@ pub fn (graph Graph[T]) bfs[T](node &Node[T]) Graph[T] {
 
 	mut edges := []&Edge[T]{cap: graph.nodes.len - 1}
 	mut queue := Queue[int]{}
-	for i in ShiftedIterator{start: graph.node_to_index[node], stop: graph.nodes.len} {
+	for i in ShiftedIterator{
+		start: graph.node_to_index[node]
+		stop:  graph.nodes.len
+	} {
 		if visited[i] {
 			continue
 		}
@@ -95,7 +98,10 @@ pub fn (graph Graph[T]) dfs[T](node &Node[T]) Graph[T] {
 	mut edges := []&Edge[T]{}
 	mut traversal_index := 0
 
-	for start_index in ShiftedIterator{start: graph.node_to_index[node], stop: graph.nodes.len} {
+	for start_index in ShiftedIterator{
+		start: graph.node_to_index[node]
+		stop:  graph.nodes.len
+	} {
 		if labels[start_index] == 0 {
 			traversal_index = graph.rec_dfs[T](traversal_index, start_index, mut labels, mut
 				edges)

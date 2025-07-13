@@ -9,7 +9,7 @@ import common { Edge, Node }
 // The field degrees maps the index of a node in the nodes list to the degree of that node.
 pub struct UndirectedGraph[T] {
 	common.Graph[T]
-	degrees   map[int]int
+	degrees map[int]int
 }
 
 // Factory function to create an UndirectedGraph from a list of nodes

@@ -24,9 +24,9 @@ pub mut:
 // Lastly, a mapping from the references of nodes to its index in the nodes list.
 pub struct Graph[T] {
 pub:
-	nodes []&Node[T]
-	edges []&Edge[T]
-	adjacency map[int]map[int]int
+	nodes         []&Node[T]
+	edges         []&Edge[T]
+	adjacency     map[int]map[int]int
 	node_to_index map[voidptr]int
 }
 
@@ -64,7 +64,6 @@ pub fn (graph Graph[T]) clone[T]() Graph[T] {
 		edges << new_edge
 		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = i
 		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = i
-
 	}
 
 	return Graph[T]{nodes, edges, graph.adjacency, node_to_index}

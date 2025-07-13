@@ -56,7 +56,7 @@ fn (graph UndirectedGraph[T]) is_acyclic_kruskal[T](mut components []int, k int,
 // Saves indices of edge in the edges list of the graph
 // and its weight, which is used to sort the heap.
 struct IndexWeight {
-	index int
+	index  int
 	weight int
 }
 
@@ -82,7 +82,7 @@ pub fn (graph UndirectedGraph[T]) prim[T]() UndirectedGraph[T] {
 	}
 
 	for edges.len < graph.nodes.len - 1 {
-		index_weight := minhp.pop() or { println("break") break }
+		index_weight := minhp.pop() or { break }
 		edge := graph.edges[index_weight.index]
 
 		if seen[edge.node1] && seen[edge.node2] {

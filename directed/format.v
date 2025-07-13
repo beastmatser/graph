@@ -51,6 +51,6 @@ pub fn (graph DirectedGraph[T]) to_adjacency_weights[T]() map[int]map[int]int {
 }
 
 // Creates an undirected graph from a directed graph by making all edges undirected.
-pub fn (graph DirectedGraph[T]) to_undirected[T]() undirected.UndirectedGraph[T] {
+pub fn (graph DirectedGraph[T]) to_undirected[T]() UndirectedGraph[T] {
 	return undirected.UndirectedGraph.create[T](graph.nodes, graph.edges)
 }
