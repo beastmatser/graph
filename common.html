@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 4db6408</span>
+								<span>0.0.0 f06def7</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -87,11 +87,35 @@
 
 </section>
 
+		<section id="Graph.create" class="doc-node">
+			<div class="title"><h2>fn Graph.create <a href="#Graph.create">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> Graph<span class="token punctuation">.</span>create<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">,</span> edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Creates a Graph object from a list of references to nodes and a list of references to edges.</p>
+
+</section>
+
+		<section id="Graph[T].bfs" class="doc-node">
+			<div class="title"><h2>fn (Graph[T]) bfs <a href="#Graph[T].bfs">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> bfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Runs a breadth-first search (bfs) on a given node of the graph. It returns a spanning forrest of the graph. In a directed graph at the iteration where a certain node is considered, only outgoing edges will be added to the forrest.</p>
+
+</section>
+
 		<section id="Graph[T].clone" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) clone <a href="#Graph[T].clone">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> clone<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
 <p>Creates a clone of the graph, changes made in a clone will not affect the original graph.</p>
+
+</section>
+
+		<section id="Graph[T].dfs" class="doc-node">
+			<div class="title"><h2>fn (Graph[T]) dfs <a href="#Graph[T].dfs">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> dfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Runs a depth-first search (dfs) on a given node of the graph. It returns a spanning forrest of the graph. In a directed graph only outgoing edges (from the node at a certain point in the iteration) will be added to the forrest;</p>
 
 </section>
 
@@ -111,6 +135,14 @@
 
 </section>
 
+		<section id="Graph[T].total_weight" class="doc-node">
+			<div class="title"><h2>fn (Graph[T]) total_weight <a href="#Graph[T].total_weight">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token function">total_weight</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
+<p>Returns the total weight of all edges of a graph.</p>
+
+</section>
+
 		<section id="Edge" class="doc-node">
 			<div class="title"><h2>struct Edge <a href="#Edge">#</a></h2></div>
 <pre class="signature">
@@ -121,7 +153,7 @@
 <span class="token keyword">pub</span> <span class="token keyword">mut</span><span class="token punctuation">:</span>
 	weight <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span>
 <span class="token punctuation">}</span></code></pre>
-<p>An edge contains two references to nodes of type <code>T</code>.</p>
+<p>An edge contains two references to nodes of type <code>T</code> and an integer weight.</p>
 
 </section>
 
@@ -130,10 +162,12 @@
 <pre class="signature">
 <code><span class="token keyword">struct</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
 <span class="token keyword">pub</span><span class="token punctuation">:</span>
-	nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
-	edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
+	nodes         <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
+	edges         <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
+	adjacency     <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+	node_to_index <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">voidptr</span><span class="token punctuation">]</span><span class="token builtin">int</span>
 <span class="token punctuation">}</span></code></pre>
-<p>A graph is a list of references to nodes and a list of references to edges made up of these nodes.</p>
+<p>A graph is a list of references to nodes and a list of references to edges made up of these nodes. In addition, it holds an adjacency mapping, the keys are the nodes. The values are maps where its keys are nodes adjacent to the original node with value the index of the edge between these adjacent nodes in the edges list of the graph. Lastly, a mapping from the references of nodes to its index in the nodes list.</p>
 
 </section>
 
@@ -145,17 +179,23 @@
 <span class="token keyword">pub</span> <span class="token keyword">mut</span><span class="token punctuation">:</span>
 	val <span class="token builtin">T</span>
 <span class="token punctuation">}</span></code></pre>
-<p>A node that contains a value of type <code>T</code> in the mutable field <code>val</code>. Nodes are stored on the heap to ensure stable references to them.</p>
+<p>A node that contains a value of type <code>T</code> in the mutable field<code>val</code>. Nodes are stored on the heap to ensure stable references to them.</p>
 
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 6 Jul 2025 20:15:24</div>
+						<div class="footer">Powered by vdoc. Generated on: 13 Jul 2025 16:50:15</div>
 					</div>
-					<div class="doc-toc"><ul><li class="open"><a href="#Graph[T].clone">type Graph[T]</a>        <ul>
+					<div class="doc-toc"><ul><li class="open"><a href="#Graph.create">fn Graph.create</a>        <ul>
+</ul>
+</li>
+<li class="open"><a href="#Graph[T].bfs">type Graph[T]</a>        <ul>
+<li><a href="#Graph[T].bfs">fn bfs</a></li>
 <li><a href="#Graph[T].clone">fn clone</a></li>
+<li><a href="#Graph[T].dfs">fn dfs</a></li>
 <li><a href="#Graph[T].num_edges">fn num_edges</a></li>
 <li><a href="#Graph[T].num_nodes">fn num_nodes</a></li>
+<li><a href="#Graph[T].total_weight">fn total_weight</a></li>
 </ul>
 </li>
 <li class="open"><a href="#Edge">struct Edge</a>        <ul>
