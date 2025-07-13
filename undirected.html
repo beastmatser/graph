@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 f06def7</span>
+								<span>0.0.0 feb4090</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -311,14 +311,6 @@
 
 </section>
 
-		<section id="UndirectedGraph[T].kruskal" class="doc-node">
-			<div class="title"><h2>fn (UndirectedGraph[T]) kruskal <a href="#UndirectedGraph[T].kruskal">#</a></h2></div>
-<pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> kruskal<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Finds a minimum spanning tree of a graph using Kruskal's algorithm.</p>
-
-</section>
-
 		<section id="UndirectedGraph[T].line_graph" class="doc-node">
 			<div class="title"><h2>fn (UndirectedGraph[T]) line_graph <a href="#UndirectedGraph[T].line_graph">#</a></h2></div>
 <pre class="signature">
@@ -340,6 +332,14 @@
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> min_degree<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
 <p>Returns the minimum degree of the graph.</p>
+
+</section>
+
+		<section id="UndirectedGraph[T].mst" class="doc-node">
+			<div class="title"><h2>fn (UndirectedGraph[T]) mst <a href="#UndirectedGraph[T].mst">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> mst<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>method MSTAlgorithm<span class="token punctuation">)</span> UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Finds the minimum spanning tree of a graph. The possible algorithms are listed in <code>enum MSTAlgorithm</code>.</p>
 
 </section>
 
@@ -367,14 +367,6 @@
 
 </section>
 
-		<section id="UndirectedGraph[T].prim" class="doc-node">
-			<div class="title"><h2>fn (UndirectedGraph[T]) prim <a href="#UndirectedGraph[T].prim">#</a></h2></div>
-<pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>graph UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> prim<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> UndirectedGraph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Finds a minimum spanning tree of a graph using Prim's algorithm. It is implemented using V's builtin <code>MinHeap</code>.</p>
-
-</section>
-
 		<section id="UndirectedGraph[T].radius" class="doc-node">
 			<div class="title"><h2>fn (UndirectedGraph[T]) radius <a href="#UndirectedGraph[T].radius">#</a></h2></div>
 <pre class="signature">
@@ -399,6 +391,17 @@
 
 </section>
 
+		<section id="MSTAlgorithm" class="doc-node">
+			<div class="title"><h2>enum MSTAlgorithm <a href="#MSTAlgorithm">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">enum</span> <span class="token symbol">MSTAlgorithm</span> <span class="token punctuation">{</span>
+	kruskal
+	prim
+<span class="token punctuation">}</span></code></pre>
+
+
+</section>
+
 		<section id="UndirectedGraph" class="doc-node">
 			<div class="title"><h2>struct UndirectedGraph <a href="#UndirectedGraph">#</a></h2></div>
 <pre class="signature">
@@ -411,7 +414,7 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 13 Jul 2025 16:50:15</div>
+						<div class="footer">Powered by vdoc. Generated on: 13 Jul 2025 22:18:22</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
 </ul>
@@ -464,17 +467,19 @@
 <li><a href="#UndirectedGraph[T].is_eulerian">fn is_eulerian</a></li>
 <li><a href="#UndirectedGraph[T].is_regular">fn is_regular</a></li>
 <li><a href="#UndirectedGraph[T].is_tree">fn is_tree</a></li>
-<li><a href="#UndirectedGraph[T].kruskal">fn kruskal</a></li>
 <li><a href="#UndirectedGraph[T].line_graph">fn line_graph</a></li>
 <li><a href="#UndirectedGraph[T].max_degree">fn max_degree</a></li>
 <li><a href="#UndirectedGraph[T].min_degree">fn min_degree</a></li>
+<li><a href="#UndirectedGraph[T].mst">fn mst</a></li>
 <li><a href="#UndirectedGraph[T].num_connected_components">fn num_connected_components</a></li>
 <li><a href="#UndirectedGraph[T].num_spanning_trees">fn num_spanning_trees</a></li>
 <li><a href="#UndirectedGraph[T].num_triangles">fn num_triangles</a></li>
-<li><a href="#UndirectedGraph[T].prim">fn prim</a></li>
 <li><a href="#UndirectedGraph[T].radius">fn radius</a></li>
 <li><a href="#UndirectedGraph[T].to_adjacency_matrix">fn to_adjacency_matrix</a></li>
 <li><a href="#UndirectedGraph[T].to_graph6">fn to_graph6</a></li>
+</ul>
+</li>
+<li class="open"><a href="#MSTAlgorithm">enum MSTAlgorithm</a>        <ul>
 </ul>
 </li>
 <li class="open"><a href="#UndirectedGraph">struct UndirectedGraph</a>        <ul>
