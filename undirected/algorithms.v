@@ -4,6 +4,7 @@ import datatypes { MinHeap }
 import math
 import common { Edge }
 
+// Finds a minimum spanning tree of a graph using Kruskal's algorithm.
 pub fn (graph UndirectedGraph[T]) kruskal[T]() UndirectedGraph[T] {
 	if graph.edges.len == 0 {
 		return graph
@@ -51,8 +52,9 @@ fn (graph UndirectedGraph[T]) is_acyclic_kruskal[T](mut components []int, k int,
 }
 
 // To use as elements in the heap in Prim's algorithm,
-// save indices of edge in the edges list of the graph
-// and sort the heap based on an edge's weight.
+// since &Edge[T] as an element of the heap causes trouble.
+// Saves indices of edge in the edges list of the graph
+// and its weight, which is used to sort the heap.
 struct IndexWeight {
 	index int
 	weight int
@@ -62,6 +64,8 @@ fn (i1 IndexWeight) < (i2 IndexWeight) bool {
 	return i1.weight < i2.weight
 }
 
+// Finds a minimum spanning tree of a graph using Prim's algorithm.
+// It is implemented using V's builtin `MinHeap`.
 pub fn (graph UndirectedGraph[T]) prim[T]() UndirectedGraph[T] {
 	if graph.nodes.len == 0 {
 		return graph
@@ -71,7 +75,7 @@ pub fn (graph UndirectedGraph[T]) prim[T]() UndirectedGraph[T] {
 	mut edges := []&Edge[T]{}
 	seen[graph.nodes[0]] = true
 
-	// store  index and weight from an edge
+	// store index and weight from an edge
 	mut minhp := MinHeap[IndexWeight]{}
 	for i in graph.adjacency[0].values() {
 		minhp.insert(IndexWeight{i, graph.edges[i].weight})

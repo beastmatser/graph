@@ -5,9 +5,8 @@ import common { Edge, Node }
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
 // In addition, it holds an adjacency mapping, the keys are the nodes.
 // The values are maps where its keys are nodes adjacent to the original node with value
-// the weight of the edge between these adjacent nodes.
+// the index of the edge between these adjacent nodes in the edges list of the graph.
 // The field degrees maps the index of a node in the nodes list to the degree of that node.
-// Lastly, a mapping from the references of nodes to its index in the nodes list.
 pub struct UndirectedGraph[T] {
 	common.Graph[T]
 	degrees   map[int]int

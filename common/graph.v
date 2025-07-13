@@ -1,6 +1,6 @@
 module common
 
-// A node that contains a value of type `T` in the mutable field `val`.
+// A node that contains a value of type `T` in the mutable field`val`.
 // Nodes are stored on the heap to ensure stable references to them.
 @[heap]
 pub struct Node[T] {
@@ -8,7 +8,7 @@ pub mut:
 	val T
 }
 
-// An edge contains two references to nodes of type `T`.
+// An edge contains two references to nodes of type `T` and an integer weight.
 pub struct Edge[T] {
 pub:
 	node1 &Node[T]
@@ -18,6 +18,10 @@ pub mut:
 }
 
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
+// In addition, it holds an adjacency mapping, the keys are the nodes.
+// The values are maps where its keys are nodes adjacent to the original node with value
+// the index of the edge between these adjacent nodes in the edges list of the graph.
+// Lastly, a mapping from the references of nodes to its index in the nodes list.
 pub struct Graph[T] {
 pub:
 	nodes []&Node[T]
@@ -26,6 +30,8 @@ pub:
 	node_to_index map[voidptr]int
 }
 
+// Creates a Graph object from a list of references to nodes and
+// a list of references to edges.
 pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
 	mut adj := map[int]map[int]int{}
 	mut node_to_index := map[voidptr]int{}

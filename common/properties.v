@@ -10,6 +10,7 @@ pub fn (graph Graph[T]) num_edges[T]() int {
 	return graph.edges.len
 }
 
+// Returns the total weight of all edges of a graph.
 pub fn (graph Graph[T]) total_weight() int {
 	mut total := 0
 	for edge in graph.edges {
