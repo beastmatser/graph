@@ -4,8 +4,22 @@ import datatypes { MinHeap }
 import math
 import common { Edge }
 
+pub enum MSTAlgorithm {
+	kruskal
+	prim
+}
+
+// Finds the minimum spanning tree of a graph.
+// The possible algorithms are listed in `enum MSTAlgorithm`.
+pub fn (graph UndirectedGraph[T]) mst[T](method MSTAlgorithm) UndirectedGraph[T] {
+	return match method {
+		.kruskal { graph.kruskal() }
+		.prim { graph.prim() }
+	}
+}
+
 // Finds a minimum spanning tree of a graph using Kruskal's algorithm.
-pub fn (graph UndirectedGraph[T]) kruskal[T]() UndirectedGraph[T] {
+fn (graph UndirectedGraph[T]) kruskal[T]() UndirectedGraph[T] {
 	if graph.edges.len == 0 {
 		return graph
 	}
@@ -66,7 +80,7 @@ fn (i1 IndexWeight) < (i2 IndexWeight) bool {
 
 // Finds a minimum spanning tree of a graph using Prim's algorithm.
 // It is implemented using V's builtin `MinHeap`.
-pub fn (graph UndirectedGraph[T]) prim[T]() UndirectedGraph[T] {
+fn (graph UndirectedGraph[T]) prim[T]() UndirectedGraph[T] {
 	if graph.nodes.len == 0 {
 		return graph
 	}
