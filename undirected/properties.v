@@ -78,7 +78,7 @@ pub fn (graph UndirectedGraph[T]) is_connected[T]() bool {
 	}
 
 	span_tree := graph.dfs(graph.nodes[0])
-	return span_tree.edges.len == span_tree.nodes.len
+	return span_tree.edges.len == graph.nodes.len - 1
 }
 
 // Returns the number of connected components of the graph.

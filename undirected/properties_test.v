@@ -25,6 +25,13 @@ fn test_is_acyclic() {
 	assert !complete6.is_acyclic()
 }
 
+fn test_is_connected() {
+	assert cycle4.is_connected()
+	assert path50.is_connected()
+	assert large.is_connected()
+	assert complete6.is_connected()
+}
+
 fn test_diameter() {
 	assert cycle4.diameter() == 2
 	assert path50.diameter() == 49
