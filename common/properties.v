@@ -9,3 +9,11 @@ pub fn (graph Graph[T]) num_nodes[T]() int {
 pub fn (graph Graph[T]) num_edges[T]() int {
 	return graph.edges.len
 }
+
+pub fn (graph Graph[T]) total_weight() int {
+	mut total := 0
+	for edge in graph.edges {
+		total += edge.weight
+	}
+	return total
+}
