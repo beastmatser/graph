@@ -17,6 +17,13 @@ pub mut:
 	weight int = 1
 }
 
+pub fn (graph Graph[T]) get_edge[T](node1 &Node[T], node2 &Node[T]) &Edge[T] {
+	node1_index := graph.node_to_index[node1]
+	node2_index := graph.node_to_index[node2]
+	edge_index := graph.adjacency[node1_index][node2_index]
+	return graph.edges[edge_index]
+}
+
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
 // In addition, it holds an adjacency mapping, the keys are the nodes.
 // The values are maps where its keys are nodes adjacent to the original node with value
