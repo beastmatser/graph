@@ -1,12 +1,10 @@
 module undirected
 
-import common { Edge, Node }
-
 // Gives the complement of a graph.
 // The list of (references to) nodes is reused,
 // so that a change in the original graph also appears in the complement.
 // This implies that the complement of the complement the original graph is.
-pub fn (graph UndirectedGraph[T]) complement[T]() UndirectedGraph[T] {
+pub fn (graph Graph[T]) complement[T]() Graph[T] {
 	mut edges := []&Edge[T]{}
 
 	for node1 in 0 .. graph.nodes.len {
@@ -20,13 +18,13 @@ pub fn (graph UndirectedGraph[T]) complement[T]() UndirectedGraph[T] {
 		}
 	}
 
-	return UndirectedGraph.create[T](graph.nodes, edges)
+	return Graph.create[T](graph.nodes, edges)
 }
 
 // Gives the line graph of a graph.
 // The values of the nodes are the weights of the edges in the original graph.
 // So, for a simple graph all nodes will contain the value one.
-pub fn (graph UndirectedGraph[T]) line_graph[T]() UndirectedGraph[int] {
+pub fn (graph Graph[T]) line_graph[T]() Graph[int] {
 	nodes := []&Node[int]{len: graph.edges.len, init: &Node[int]{graph.edges[index].weight}}
 	mut edges := []&Edge[int]{}
 
@@ -42,5 +40,5 @@ pub fn (graph UndirectedGraph[T]) line_graph[T]() UndirectedGraph[int] {
 		}
 	}
 
-	return UndirectedGraph.create[int](nodes, edges)
+	return Graph.create[int](nodes, edges)
 }

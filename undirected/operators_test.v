@@ -1,13 +1,11 @@
 module undirected
 
-import common { Node }
-
 // Check complement involution and structure
 fn test_complement() {
 	complete7 := complete_graph(7)
 	cycle6 := cycle_graph(6)
 	path5 := path_graph(5)
-	empty := UndirectedGraph[int]{
+	empty := Graph[int]{
 		nodes: [&Node{0}, &Node{1}, &Node{2}, &Node{3}]
 	}
 

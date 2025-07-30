@@ -1,4 +1,4 @@
-module util
+module undirected
 
 import math
 
