@@ -35,7 +35,7 @@ pub:
 	edges         []&Edge[T]
 	adjacency     map[int]map[int]int
 	node_to_index map[voidptr]int
-	degrees map[int]int
+	degrees       map[int]int
 }
 
 // Factory function to create an Graph from a list of nodes

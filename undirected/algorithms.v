@@ -56,10 +56,7 @@ pub fn (graph Graph[T]) bfs[T](node &Node[T]) Graph[T] {
 				}
 
 				visited[x] = true
-				edges << &Edge[T]{
-					node1: graph.nodes[w]
-					node2: graph.nodes[x]
-				}
+				edges << graph.get_edge(graph.nodes[w], graph.nodes[x])
 				queue.push(x)
 			}
 		}
@@ -74,10 +71,7 @@ fn (graph Graph[T]) rec_dfs[T](current_index int, node int, mut labels map[int]i
 
 	for neighbour in graph.adjacency[current_index].keys() {
 		if labels[neighbour] == 0 {
-			edges << &Edge[T]{
-				node1: graph.nodes[node]
-				node2: graph.nodes[neighbour]
-			}
+			edges << graph.get_edge(graph.nodes[node], graph.nodes[neighbour])
 			next_index = graph.rec_dfs[T](next_index, neighbour, mut labels, mut edges)
 		}
 	}
