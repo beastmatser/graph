@@ -28,8 +28,6 @@ fn (mut iter ShiftedIterator) next() ?int {
 
 // Runs a breadth-first search (bfs) on a given node of the graph.
 // It returns a spanning forrest of the graph.
-// In a directed graph at the iteration where a certain node is considered,
-// only outgoing edges will be added to the forrest.
 pub fn (graph Graph[T]) bfs[T](node &Node[T]) Graph[T] {
 	mut visited := map[int]bool{}
 	for i in 0 .. graph.nodes.len {
@@ -80,8 +78,6 @@ fn (graph Graph[T]) rec_dfs[T](current_index int, node int, mut labels map[int]i
 
 // Runs a depth-first search (dfs) on a given node of the graph.
 // It returns a spanning forrest of the graph.
-// In a directed graph only outgoing edges (from the node at a certain point in the iteration)
-// will be added to the forrest;
 pub fn (graph Graph[T]) dfs[T](node &Node[T]) Graph[T] {
 	mut labels := map[int]int{}
 

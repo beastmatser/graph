@@ -64,12 +64,12 @@ pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 
 // Generates a graph from a graph6 string, any invalid string will panic.
 // For more info visit: https://users.cecs.anu.edu.au/~bdm/data/formats.html.
-pub fn Graph.from_graph6(g6 string) Graph[int] {
+pub fn Graph.from_graph6(g6 string) !Graph[int] {
 	runes := g6.runes()
 	// use unsigned ints to perform bit shifting
 	ascii := []u32{len: runes.len, init: runes[index]}
 	if ascii.len == 0 {
-		panic('Empty string not allowed')
+		return error('Empty string not allowed')
 	} else if ascii.len == 1 {
 		assert ascii[0] < 126
 	} else {
@@ -80,7 +80,7 @@ pub fn Graph.from_graph6(g6 string) Graph[int] {
 	if ascii.len > 2 {
 		for a in ascii[2..] {
 			if a > 126 {
-				panic('Ascii chars should have int value lower or equal to 126')
+				return error('Ascii chars should have int value lower or equal to 126')
 			}
 		}
 	}
