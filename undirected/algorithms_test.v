@@ -8,4 +8,11 @@ fn test_mst() {
 		graph := Graph.from_graph6(str) or { continue }
 		assert graph.mst(.kruskal).total_weight() == graph.mst(.prim).total_weight()
 	}
+
+	mut cycle50 := cycle_graph(50)
+	for i, mut edge in cycle50.edges {
+		edge.weight = i
+	}
+	assert cycle50.mst(.kruskal).total_weight() == 48 * 49 / 2
+	assert cycle50.mst(.prim).total_weight() == 48 * 49 / 2
 }
