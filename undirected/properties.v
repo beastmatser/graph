@@ -1,7 +1,7 @@
 module undirected
 
 import arrays
-import datatypes { Queue }
+import datatypes
 import math
 
 // Returns the number of nodes of a graph, also accessible through `Graph.nodes.len`.
@@ -59,8 +59,7 @@ pub fn (graph Graph[T]) is_cycle[T]() bool {
 // Checks whether the graph is a complete graph.
 pub fn (graph Graph[T]) is_complete[T]() bool {
 	degrees := graph.degree_list()
-	n := graph.nodes.len
-	return degrees.all(it == n - 1)
+	return degrees.all(it == graph.nodes.len - 1)
 }
 
 // Checks whether the graph is Eulerian.
@@ -110,11 +109,8 @@ pub fn (graph Graph[T]) num_connected_components[T]() int {
 // Checks whether the graph is bipartite.
 pub fn (graph Graph[T]) is_bipartite[T]() bool {
 	mut colours := map[int][2]bool{} // 2 bits per node, 1 for if node is coloured and 1 for the colour itself
-	for i in 0 .. graph.nodes.len {
-		colours[i] = [false, false]!
-	}
 
-	mut queue := Queue[int]{}
+	mut queue := datatypes.Queue[int]{}
 	for i in 0 .. graph.nodes.len {
 		if colours[i][0] {
 			continue
@@ -147,11 +143,8 @@ pub fn (graph Graph[T]) is_bipartite[T]() bool {
 pub fn (graph Graph[T]) is_acyclic[T]() bool {
 	mut visited := map[int]bool{}
 	mut parents := map[int]int{}
-	for i in 0 .. graph.nodes.len {
-		visited[i] = false
-	}
 
-	mut queue := Queue[int]{}
+	mut queue := datatypes.Queue[int]{}
 	for i in 0 .. graph.nodes.len {
 		if visited[i] {
 			continue
@@ -184,7 +177,7 @@ fn (graph Graph[T]) eccentricity_helper[T](node int) int {
 
 	mut dist := map[int]int{}
 	mut visited := map[int]bool{}
-	mut queue := Queue[int]{}
+	mut queue := datatypes.Queue[int]{}
 	visited[node] = true
 	dist[node] = 0
 	queue.push(node)
@@ -249,7 +242,7 @@ pub fn (graph Graph[T]) girth[T]() int {
 		mut dist := map[int]int{}
 		mut parent := map[int]int{}
 		mut visited := map[int]bool{}
-		mut queue := Queue[int]{}
+		mut queue := datatypes.Queue[int]{}
 
 		dist[i] = 0
 		visited[i] = true
@@ -329,7 +322,6 @@ pub fn (graph Graph[T]) degeneracy() int {
 
 	for i in 0 .. n {
 		degree[i] = graph.adjacency[i].len
-		visited[i] = false
 	}
 
 	mut bucket := map[int][]int{}

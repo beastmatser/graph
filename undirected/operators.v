@@ -5,7 +5,7 @@ module undirected
 // so that a change in the original graph also appears in the complement.
 // This implies that the complement of the complement the original graph is.
 pub fn (graph Graph[T]) complement[T]() Graph[T] {
-	mut edges := []&Edge[T]{}
+	mut edges := []&Edge[T]{cap: graph.nodes.len * (graph.nodes.len - 1) / 2 - graph.edges.len}
 
 	for node1 in 0 .. graph.nodes.len {
 		for node2 in 0 .. graph.nodes.len {
@@ -26,7 +26,7 @@ pub fn (graph Graph[T]) complement[T]() Graph[T] {
 // So, for a simple graph all nodes will contain the value one.
 pub fn (graph Graph[T]) line_graph[T]() Graph[int] {
 	nodes := []&Node[int]{len: graph.edges.len, init: &Node[int]{graph.edges[index].weight}}
-	mut edges := []&Edge[int]{}
+	mut edges := []&Edge[int]{cap: graph.edges.len}
 
 	for i, edge1 in graph.edges {
 		for j, edge2 in graph.edges[i + 1..] {

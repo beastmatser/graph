@@ -10,8 +10,8 @@ module undirected
 // This is because any node that was already seen in the key values will be skipped if they appear
 // in the list of neighbours of another node, in an effort to avoid adding duplicate edges.
 pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
-	mut nodes := []&Node[T]{}
-	mut edges := []&Edge[T]{}
+	mut nodes := []&Node[T]{cap: adj.len}
+	mut edges := []&Edge[T]{cap: adj.len * (adj.len - 1) / 2}
 
 	mut index := map[T]int{}
 	for i, x in adj.keys() {
@@ -19,7 +19,7 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 		index[x] = i
 	}
 
-	mut seen := []T{}
+	mut seen := []T{cap: adj.len}
 	for x, neighbours in adj {
 		seen << x
 		for y in neighbours {
@@ -104,7 +104,7 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 
 	mut adj_matrix := [][]int{len: int(n), init: []int{len: int(n)}}
 
-	mut flat_bits := []bool{}
+	mut flat_bits := []bool{cap: adj_matrix.len * adj_matrix.len}
 	for i in 0 .. runes.len - start {
 		bits := to_bit_vector(u64(ascii[start + i] - 63), 6)
 		for b in bits {

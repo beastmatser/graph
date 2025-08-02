@@ -1,6 +1,6 @@
 module undirected
 
-import datatypes { MinHeap, Queue }
+import datatypes
 import math
 
 // Iterator runs from start to stop and then from zero to start.
@@ -35,7 +35,7 @@ pub fn (graph Graph[T]) bfs[T](node &Node[T]) Graph[T] {
 	}
 
 	mut edges := []&Edge[T]{cap: graph.nodes.len - 1}
-	mut queue := Queue[int]{}
+	mut queue := datatypes.Queue[int]{}
 	for i in ShiftedIterator{
 		start: graph.node_to_index[node]
 		stop:  graph.nodes.len
@@ -86,7 +86,7 @@ pub fn (graph Graph[T]) dfs[T](node &Node[T]) Graph[T] {
 		labels[node_index] = 0
 	}
 
-	mut edges := []&Edge[T]{}
+	mut edges := []&Edge[T]{cap: graph.nodes.len - 1}
 	mut traversal_index := 0
 
 	for start_index in ShiftedIterator{
@@ -188,7 +188,7 @@ fn (graph Graph[T]) prim[T]() Graph[T] {
 	seen[graph.nodes[0]] = true
 
 	// store index and weight from an edge
-	mut minhp := MinHeap[IndexWeight]{}
+	mut minhp := datatypes.MinHeap[IndexWeight]{}
 	for i in graph.adjacency[0].values() {
 		minhp.insert(IndexWeight{i, graph.edges[i].weight})
 	}

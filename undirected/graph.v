@@ -64,7 +64,7 @@ pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
 // Creates a clone of the graph, changes made in a clone will not affect the original graph.
 pub fn (graph Graph[T]) clone[T]() Graph[T] {
 	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
-	mut edges := []&Edge[T]{}
+	mut edges := []&Edge[T]{cap: graph.edges.len}
 
 	mut adj := map[int]map[int]int{}
 	mut node_to_index := map[voidptr]int{}
