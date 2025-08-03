@@ -1,4 +1,4 @@
-module undirected
+module graph
 
 // Generates a cycle graph on n nodes.
 // The graph's nodes are integer values from 0 to n-1.

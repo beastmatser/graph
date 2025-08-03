@@ -1,0 +1,27 @@
+module graph
+
+// Gives the (symmetric) adjacency matrix of the graph.
+// The order of the rows and columns is exactly the same as the order of the nodes list in the graph object.
+pub fn (gr Graph[T]) to_adjacency_matrix[T]() [][]int {
+	mut matrix := [][]int{len: gr.nodes.len, init: []int{len: gr.nodes.len}}
+
+	for node1, neighbours in gr.adjacency {
+		for node2, edge in neighbours {
+			matrix[node1][node2] = gr.edges[edge].weight
+		}
+	}
+
+	return matrix
+}
+
+// Returns the graph6 format of the given graph.
+pub fn (gr Graph[T]) to_graph6[T]() string {
+	matrix := gr.to_adjacency_matrix()
+	mut x := []bool{cap: gr.nodes.len * (gr.nodes.len - 1) / 2}
+	for j in 1 .. matrix.len {
+		for i in 0 .. j {
+			x << matrix[i][j] != 0
+		}
+	}
+	return to_string(int_repr(gr.nodes.len)) + to_string(bit_vector_repr(x))
+}

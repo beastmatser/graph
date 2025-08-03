@@ -1,4 +1,4 @@
-module undirected
+module graph
 
 // A node that contains a value of type `T` in the mutable field`val`.
 // Nodes are stored on the heap to ensure stable references to them.
@@ -17,11 +17,11 @@ pub mut:
 	weight int = 1
 }
 
-pub fn (graph Graph[T]) get_edge[T](node1 &Node[T], node2 &Node[T]) &Edge[T] {
-	node1_index := graph.node_to_index[node1]
-	node2_index := graph.node_to_index[node2]
-	edge_index := graph.adjacency[node1_index][node2_index]
-	return graph.edges[edge_index]
+pub fn (gr Graph[T]) get_edge[T](node1 &Node[T], node2 &Node[T]) &Edge[T] {
+	node1_index := gr.node_to_index[node1]
+	node2_index := gr.node_to_index[node2]
+	edge_index := gr.adjacency[node1_index][node2_index]
+	return gr.edges[edge_index]
 }
 
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
@@ -62,9 +62,9 @@ pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
 }
 
 // Creates a clone of the graph, changes made in a clone will not affect the original graph.
-pub fn (graph Graph[T]) clone[T]() Graph[T] {
-	nodes := []&Node[T]{len: graph.nodes.len, init: &Node[T]{graph.nodes[index].val}}
-	mut edges := []&Edge[T]{cap: graph.edges.len}
+pub fn (gr Graph[T]) clone[T]() Graph[T] {
+	nodes := []&Node[T]{len: gr.nodes.len, init: &Node[T]{gr.nodes[index].val}}
+	mut edges := []&Edge[T]{cap: gr.edges.len}
 
 	mut adj := map[int]map[int]int{}
 	mut node_to_index := map[voidptr]int{}
@@ -72,12 +72,12 @@ pub fn (graph Graph[T]) clone[T]() Graph[T] {
 		node_to_index[node] = i
 	}
 
-	for i, edge in graph.edges {
+	for i, edge in gr.edges {
 		new_edge := &Edge[T]{nodes[node_to_index[edge.node1]], nodes[node_to_index[edge.node2]], edge.weight}
 		edges << new_edge
 		adj[node_to_index[edge.node1]][node_to_index[edge.node2]] = i
 		adj[node_to_index[edge.node2]][node_to_index[edge.node1]] = i
 	}
 
-	return Graph[T]{nodes, edges, adj, node_to_index, graph.degrees}
+	return Graph[T]{nodes, edges, adj, node_to_index, gr.degrees}
 }

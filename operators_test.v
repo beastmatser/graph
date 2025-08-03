@@ -1,4 +1,4 @@
-module undirected
+module graph
 
 // Check complement involution and structure
 fn test_complement() {

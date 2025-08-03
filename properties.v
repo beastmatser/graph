@@ -1,117 +1,117 @@
-module undirected
+module graph
 
 import arrays
 import datatypes
 import math
 
 // Returns the number of nodes of a graph, also accessible through `Graph.nodes.len`.
-pub fn (graph Graph[T]) num_nodes[T]() int {
-	return graph.nodes.len
+pub fn (gr Graph[T]) num_nodes[T]() int {
+	return gr.nodes.len
 }
 
 // Returns the number of edges of a graph, also accessible through `Graph.edges.len`.
-pub fn (graph Graph[T]) num_edges[T]() int {
-	return graph.edges.len
+pub fn (gr Graph[T]) num_edges[T]() int {
+	return gr.edges.len
 }
 
 // Returns the total weight of all edges of a graph.
-pub fn (graph Graph[T]) total_weight() int {
+pub fn (gr Graph[T]) total_weight() int {
 	mut total := 0
-	for edge in graph.edges {
+	for edge in gr.edges {
 		total += edge.weight
 	}
 	return total
 }
 
 // Returns a list of the degrees of the graph, not necessarily ordered.
-pub fn (graph Graph[T]) degree_list[T]() []int {
-	return graph.degrees.values()
+pub fn (gr Graph[T]) degree_list[T]() []int {
+	return gr.degrees.values()
 }
 
 // Returns the minimum degree of the graph.
-pub fn (graph Graph[T]) min_degree[T]() int {
-	return arrays.min(graph.degree_list()) or { 0 }
+pub fn (gr Graph[T]) min_degree[T]() int {
+	return arrays.min(gr.degree_list()) or { 0 }
 }
 
 // Returns the maximum degree of the graph.
-pub fn (graph Graph[T]) max_degree[T]() int {
-	return arrays.max(graph.degree_list()) or { 0 }
+pub fn (gr Graph[T]) max_degree[T]() int {
+	return arrays.max(gr.degree_list()) or { 0 }
 }
 
 // Returns the density of the graph.
-pub fn (graph Graph[T]) density[T]() f32 {
-	n := graph.nodes.len
-	return 2 * f32(graph.edges.len) / f32(n * (n - 1))
+pub fn (gr Graph[T]) density[T]() f32 {
+	n := gr.nodes.len
+	return 2 * f32(gr.edges.len) / f32(n * (n - 1))
 }
 
 // Checks whether the graph is regular.
-pub fn (graph Graph[T]) is_regular[T]() bool {
-	degrees := graph.degree_list()
+pub fn (gr Graph[T]) is_regular[T]() bool {
+	degrees := gr.degree_list()
 	return arrays.min(degrees) or { 0 } == arrays.max(degrees) or { 0 }
 }
 
 // Checks whether the graph is a cycle.
-pub fn (graph Graph[T]) is_cycle[T]() bool {
-	degrees := graph.degree_list()
+pub fn (gr Graph[T]) is_cycle[T]() bool {
+	degrees := gr.degree_list()
 	return arrays.min(degrees) or { 0 } == 2 && arrays.max(degrees) or { 0 } == 2
 }
 
 // Checks whether the graph is a complete graph.
-pub fn (graph Graph[T]) is_complete[T]() bool {
-	degrees := graph.degree_list()
-	return degrees.all(it == graph.nodes.len - 1)
+pub fn (gr Graph[T]) is_complete[T]() bool {
+	degrees := gr.degree_list()
+	return degrees.all(it == gr.nodes.len - 1)
 }
 
 // Checks whether the graph is Eulerian.
-pub fn (graph Graph[T]) is_eulerian[T]() bool {
-	degrees := graph.degree_list()
+pub fn (gr Graph[T]) is_eulerian[T]() bool {
+	degrees := gr.degree_list()
 	return degrees.all(it % 2 == 0)
 }
 
 // Checks whether the graph contains an Eulerian path.
-pub fn (graph Graph[T]) has_eulerian_path[T]() bool {
-	degrees := graph.degree_list()
+pub fn (gr Graph[T]) has_eulerian_path[T]() bool {
+	degrees := gr.degree_list()
 	return degrees.count(it % 2 == 1) == 2
 }
 
 // Checks whether the graph is a tree.
-pub fn (graph Graph[T]) is_tree[T]() bool {
-	if graph.edges.len != graph.nodes.len - 1 {
+pub fn (gr Graph[T]) is_tree[T]() bool {
+	if gr.edges.len != gr.nodes.len - 1 {
 		return false
 	}
 
-	if graph.nodes.len == 0 {
+	if gr.nodes.len == 0 {
 		return true
 	}
 
-	return graph.dfs(graph.nodes[0]).edges.len == graph.edges.len
+	return gr.dfs(gr.nodes[0]).edges.len == gr.edges.len
 }
 
 // Checks whether the graph is connected.
-pub fn (graph Graph[T]) is_connected[T]() bool {
-	if graph.nodes.len == 0 {
+pub fn (gr Graph[T]) is_connected[T]() bool {
+	if gr.nodes.len == 0 {
 		return true
 	}
 
-	span_tree := graph.dfs(graph.nodes[0])
-	return span_tree.edges.len == graph.nodes.len - 1
+	span_tree := gr.dfs(gr.nodes[0])
+	return span_tree.edges.len == gr.nodes.len - 1
 }
 
 // Returns the number of connected components of the graph.
-pub fn (graph Graph[T]) num_connected_components[T]() int {
-	if graph.nodes.len == 0 {
+pub fn (gr Graph[T]) num_connected_components[T]() int {
+	if gr.nodes.len == 0 {
 		return 0
 	}
 
-	return graph.nodes.len - graph.dfs(graph.nodes[0]).edges.len
+	return gr.nodes.len - gr.dfs(gr.nodes[0]).edges.len
 }
 
 // Checks whether the graph is bipartite.
-pub fn (graph Graph[T]) is_bipartite[T]() bool {
+pub fn (gr Graph[T]) is_bipartite[T]() bool {
 	mut colours := map[int][2]bool{} // 2 bits per node, 1 for if node is coloured and 1 for the colour itself
 
 	mut queue := datatypes.Queue[int]{}
-	for i in 0 .. graph.nodes.len {
+	for i in 0 .. gr.nodes.len {
 		if colours[i][0] {
 			continue
 		}
@@ -120,7 +120,7 @@ pub fn (graph Graph[T]) is_bipartite[T]() bool {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in graph.adjacency[w].keys() {
+			for x in gr.adjacency[w].keys() {
 				if colours[x][0] {
 					if colours[x][1] == colours[w][1] {
 						return false
@@ -140,12 +140,12 @@ pub fn (graph Graph[T]) is_bipartite[T]() bool {
 
 // Checks whether the graph is acyclic, i.e. does not contain a cycle.
 // This differs from checking if a graph is a tree, since a graph can be a forrest.
-pub fn (graph Graph[T]) is_acyclic[T]() bool {
+pub fn (gr Graph[T]) is_acyclic[T]() bool {
 	mut visited := map[int]bool{}
 	mut parents := map[int]int{}
 
 	mut queue := datatypes.Queue[int]{}
-	for i in 0 .. graph.nodes.len {
+	for i in 0 .. gr.nodes.len {
 		if visited[i] {
 			continue
 		}
@@ -154,7 +154,7 @@ pub fn (graph Graph[T]) is_acyclic[T]() bool {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in graph.adjacency[w].keys() {
+			for x in gr.adjacency[w].keys() {
 				if visited[x] {
 					if parents[w] or { continue } != x {
 						return false
@@ -172,7 +172,7 @@ pub fn (graph Graph[T]) is_acyclic[T]() bool {
 	return true
 }
 
-fn (graph Graph[T]) eccentricity_helper[T](node int) int {
+fn (gr Graph[T]) eccentricity_helper[T](node int) int {
 	mut max_dist := 0
 
 	mut dist := map[int]int{}
@@ -184,12 +184,12 @@ fn (graph Graph[T]) eccentricity_helper[T](node int) int {
 
 	for !queue.is_empty() {
 		w := queue.pop() or { continue }
-		for x, edge in graph.adjacency[w] {
+		for x, edge in gr.adjacency[w] {
 			if visited[x] {
 				continue
 			}
 			visited[x] = true
-			dist[x] = dist[w] + graph.edges[edge].weight
+			dist[x] = dist[w] + gr.edges[edge].weight
 			max_dist = if max_dist > dist[x] { max_dist } else { dist[x] }
 			queue.push(x)
 		}
@@ -199,16 +199,16 @@ fn (graph Graph[T]) eccentricity_helper[T](node int) int {
 }
 
 // Returns the eccentricity of a given node.
-pub fn (graph Graph[T]) eccentricity[T](node &Node[T]) int {
-	return graph.eccentricity_helper(graph.node_to_index[node])
+pub fn (gr Graph[T]) eccentricity[T](node &Node[T]) int {
+	return gr.eccentricity_helper(gr.node_to_index[node])
 }
 
-// Returns the diameter of the graph, this implementation only works for connected graphs.
-pub fn (graph Graph[T]) diameter[T]() int {
+// Returns the diameter of the gr, this implementation only works for connected grs.
+pub fn (gr Graph[T]) diameter[T]() int {
 	mut max_dist := 0
 
-	for i in 0 .. graph.nodes.len {
-		dist := graph.eccentricity_helper(i)
+	for i in 0 .. gr.nodes.len {
+		dist := gr.eccentricity_helper(i)
 		if dist > max_dist {
 			max_dist = dist
 		}
@@ -217,15 +217,15 @@ pub fn (graph Graph[T]) diameter[T]() int {
 	return max_dist
 }
 
-// Returns the radius of the graph, this implementation only works for connected graphs.
-pub fn (graph Graph[T]) radius[T]() int {
-	if graph.nodes.len == 0 {
+// Returns the radius of the gr, this implementation only works for connected grs.
+pub fn (gr Graph[T]) radius[T]() int {
+	if gr.nodes.len == 0 {
 		return 0
 	}
-	mut min_dist := graph.eccentricity_helper(0)
+	mut min_dist := gr.eccentricity_helper(0)
 
-	for i in 0 .. graph.nodes[1..].len {
-		dist := graph.eccentricity_helper(i)
+	for i in 0 .. gr.nodes[1..].len {
+		dist := gr.eccentricity_helper(i)
 		if dist < min_dist {
 			min_dist = dist
 		}
@@ -234,11 +234,11 @@ pub fn (graph Graph[T]) radius[T]() int {
 	return min_dist
 }
 
-// Returns the girth of the graph.
-pub fn (graph Graph[T]) girth[T]() int {
+// Returns the girth of the gr.
+pub fn (gr Graph[T]) girth[T]() int {
 	mut min_cycle := -1
 
-	for i in 0 .. graph.nodes.len {
+	for i in 0 .. gr.nodes.len {
 		mut dist := map[int]int{}
 		mut parent := map[int]int{}
 		mut visited := map[int]bool{}
@@ -251,7 +251,7 @@ pub fn (graph Graph[T]) girth[T]() int {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in graph.adjacency[w].keys() {
+			for x in gr.adjacency[w].keys() {
 				if w in parent && unsafe { x == parent[w] } {
 					continue
 				} else if !visited[x] {
@@ -275,16 +275,16 @@ pub fn (graph Graph[T]) girth[T]() int {
 	return min_cycle
 }
 
-// Returns the number of spanning trees of the graph.
-pub fn (graph Graph[T]) num_spanning_trees[T]() f64 {
-	mut laplacian := [][]f64{len: graph.nodes.len, init: []f64{len: graph.nodes.len}}
+// Returns the number of spanning trees of the gr.
+pub fn (gr Graph[T]) num_spanning_trees[T]() f64 {
+	mut laplacian := [][]f64{len: gr.nodes.len, init: []f64{len: gr.nodes.len}}
 
 	mut ptr_to_index := map[voidptr]int{}
-	for i, node in graph.nodes {
+	for i, node in gr.nodes {
 		ptr_to_index[node] = i
 	}
 
-	for edge in graph.edges {
+	for edge in gr.edges {
 		i := ptr_to_index[edge.node1]
 		j := ptr_to_index[edge.node2]
 		laplacian[i][i] += 1
@@ -301,9 +301,9 @@ pub fn (graph Graph[T]) num_spanning_trees[T]() f64 {
 	return math.abs(math.round(det(laplacian[1..]) or { 0 }))
 }
 
-// Returns the number of triangles of the graph.
-pub fn (graph Graph[T]) num_triangles[T]() int {
-	m := graph.to_adjacency_matrix()
+// Returns the number of triangles of the gr.
+pub fn (gr Graph[T]) num_triangles[T]() int {
+	m := gr.to_adjacency_matrix()
 	mut sum := 0
 	for i, row in matmul(m, matmul(m, m) or { [] }) or { [] } {
 		sum += int(row[i])
@@ -311,17 +311,17 @@ pub fn (graph Graph[T]) num_triangles[T]() int {
 	return sum / 6
 }
 
-// Returns the degeneracy the graph.
+// Returns the degeneracy the gr.
 // It implements the algorithm described by Matula and Beck, described [here](https://doi.org/10.1145/2402.322385)
-pub fn (graph Graph[T]) degeneracy() int {
-	n := graph.nodes.len
+pub fn (gr Graph[T]) degeneracy() int {
+	n := gr.nodes.len
 	mut visited := map[int]bool{}
-	// We dont use graph.degrees since we would need to copy that map anyway
+	// We dont use gr.degrees since we would need to copy that map anyway
 	mut degree := map[int]int{}
 	mut max_deg := 0
 
 	for i in 0 .. n {
-		degree[i] = graph.adjacency[i].len
+		degree[i] = gr.adjacency[i].len
 	}
 
 	mut bucket := map[int][]int{}
@@ -359,7 +359,7 @@ pub fn (graph Graph[T]) degeneracy() int {
 			max_deg = current_deg
 		}
 
-		for u in graph.adjacency[v].keys() {
+		for u in gr.adjacency[v].keys() {
 			if !visited[u] {
 				old_deg := degree[u]
 				degree[u]--

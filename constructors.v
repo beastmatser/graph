@@ -1,4 +1,4 @@
-module undirected
+module graph
 
 // Generates a graph from a mapping with the following signature: `map[T][]T`,
 // with `T` any type.

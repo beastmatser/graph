@@ -1,4 +1,4 @@
-module undirected
+module graph
 
 import arrays
 import rand
