@@ -6,6 +6,7 @@ var searchModuleIndex = [
 var searchIndex = [
 "Graph[T]",
 "bfs",
+"cartesian_product",
 "clone",
 "complement",
 "degeneracy",
@@ -66,6 +67,7 @@ var searchModuleData = [
 var searchData = [
 ["graph","","graph.html#Graph[T]","type "],
 ["graph","Runs a breadth-first search (bfs) on a given node of the graph. It returns a spa","graph.html#Graph[T].bfs","fn (Graph[T])"],
+["graph","","graph.html#Graph[T].cartesian_product","fn (Graph[T])"],
 ["graph","Creates a clone of the graph, changes made in a clone will not affect the origin","graph.html#Graph[T].clone","fn (Graph[T])"],
 ["graph","Gives the complement of a graph. The list of (references to) nodes is reused, so","graph.html#Graph[T].complement","fn (Graph[T])"],
 ["graph","Returns the degeneracy the gr. It implements the algorithm described by Matula a","graph.html#Graph[T].degeneracy","fn (Graph[T])"],

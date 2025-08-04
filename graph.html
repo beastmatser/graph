@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 d249bfb</span>
+								<span>0.0.0 8cd7a4f</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -197,6 +197,14 @@
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> bfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
 <p>Runs a breadth-first search (bfs) on a given node of the graph. It returns a spanning forrest of the graph.</p>
+
+</section>
+
+		<section id="Graph[T].cartesian_product" class="doc-node">
+			<div class="title"><h2>fn (Graph[T]) cartesian_product <a href="#Graph[T].cartesian_product">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr1 Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> cartesian_product<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">,</span> <span class="token builtin">U</span><span class="token punctuation">,</span> <span class="token builtin">V</span><span class="token punctuation">]</span><span class="token punctuation">(</span>gr2 Graph<span class="token punctuation">[</span><span class="token builtin">U</span><span class="token punctuation">]</span><span class="token punctuation">,</span> handle <span class="token keyword">fn</span> <span class="token punctuation">(</span>x <span class="token builtin">T</span><span class="token punctuation">,</span> y <span class="token builtin">U</span><span class="token punctuation">)</span> <span class="token builtin">V</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">V</span><span class="token punctuation">]</span></code></pre>
+
 
 </section>
 
@@ -509,7 +517,7 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 3 Aug 2025 19:50:00</div>
+						<div class="footer">Powered by vdoc. Generated on: 4 Aug 2025 21:23:11</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_graph">README</a></li>
 <li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
@@ -556,6 +564,7 @@
 </li>
 <li class="open"><a href="#Graph[T].bfs">type Graph[T]</a>        <ul>
 <li><a href="#Graph[T].bfs">fn bfs</a></li>
+<li><a href="#Graph[T].cartesian_product">fn cartesian_product</a></li>
 <li><a href="#Graph[T].clone">fn clone</a></li>
 <li><a href="#Graph[T].complement">fn complement</a></li>
 <li><a href="#Graph[T].degeneracy">fn degeneracy</a></li>
