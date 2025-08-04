@@ -34,3 +34,18 @@ fn test_line_graph() {
 	assert lp.nodes.len == 3
 	assert lp.edges.len == 2
 }
+
+fn test_cartesian_product() {
+	handle := fn (x int, y int) []int {
+		return [x, y]
+	}
+
+	g1 := path_graph(2)
+	g2 := path_graph(2)
+	assert g1.cartesian_product(g2, handle).degrees == cycle_graph(4).degrees
+
+	g3 := complete_graph(5)
+	g4 := cycle_graph(3)
+	println(g3.cartesian_product(g4, handle).degrees.values())
+	assert g3.cartesian_product(g4, handle).degrees.values().all(it == 6)
+}
