@@ -43,7 +43,7 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 // only the upper triangle is needed to create the graph.
 pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
-	mut edges := []&Edge[int]{}
+	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len -  1) / 2}
 
 	for i, row in adj {
 		for j, col in row {

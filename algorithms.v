@@ -184,7 +184,7 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 	}
 
 	mut seen := map[voidptr]bool{}
-	mut edges := []&Edge[T]{}
+	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
 	seen[gr.nodes[0]] = true
 
 	// store index and weight from an edge

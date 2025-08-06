@@ -73,7 +73,7 @@ fn update[V](nodes []&Node[V], mut edges []&Edge[V], mut adjacency map[int]map[i
 
 pub fn (gr1 Graph[T]) cartesian_product[T, U, V](gr2 Graph[U], handle fn (x T, y U) V) Graph[V] {
 	mut nodes := []&Node[V]{cap: gr1.nodes.len * gr2.nodes.len}
-	mut edges := []&Edge[V]{cap: gr1.nodes.len * gr2.nodes.len * (gr1.nodes.len - 1) * (gr2.nodes.len - 1) / 4}
+	mut edges := []&Edge[V]{cap: gr1.nodes.len * gr2.nodes.len * (gr1.nodes.len * gr2.nodes.len - 1) / 2}
 
 	mut old_to_new := map[string]int{}
 	mut node_to_index := map[voidptr]int{}

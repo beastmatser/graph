@@ -275,7 +275,7 @@ pub fn (gr Graph[T]) girth[T]() int {
 	return min_cycle
 }
 
-// Returns the number of spanning trees of the gr.
+// Returns the number of spanning trees of the graph.
 pub fn (gr Graph[T]) num_spanning_trees[T]() f64 {
 	mut laplacian := [][]f64{len: gr.nodes.len, init: []f64{len: gr.nodes.len}}
 
