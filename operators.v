@@ -44,8 +44,8 @@ pub fn (gr Graph[T]) line_graph[T]() Graph[int] {
 				}
 				edges << edge
 
-				adjacency[i][j] = edge
-				adjacency[j][i] = edge
+				adjacency[edge.node1][edge.node2] = edge
+				adjacency[edge.node2][edge.node1] = edge
 			}
 		}
 	}

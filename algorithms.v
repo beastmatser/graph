@@ -14,13 +14,13 @@ pub fn (gr Graph[T]) bfs[T]() Graph[T] {
 	}
 
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
-	mut queue := datatypes.Queue[int]{}
-	for i, node in gr.nodes {
-		if visited[i] {
+	mut queue := datatypes.Queue[voidptr]{}
+	for node in gr.nodes {
+		if visited[node] {
 			continue
 		}
 		visited[node] = true
-		queue.push(i)
+		queue.push(node)
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 

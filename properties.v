@@ -305,7 +305,7 @@ pub fn (gr Graph[T]) num_spanning_trees[T]() f64 {
 pub fn (gr Graph[T]) num_triangles[T]() int {
 	m := gr.to_adjacency_matrix()
 	mut sum := 0
-	for i, row in matmul(m, matmul(m, m) or { [] }) or { [] } {
+	for i, row in matmul(m, matmul(m, m)) {
 		sum += int(row[i])
 	}
 	return sum / 6
@@ -313,23 +313,24 @@ pub fn (gr Graph[T]) num_triangles[T]() int {
 
 // Returns the degeneracy the gr.
 // It implements the algorithm described by Matula and Beck, described [here](https://doi.org/10.1145/2402.322385)
-@[unsafe]
 pub fn (gr Graph[T]) degeneracy() int {
 	n := gr.nodes.len
 	mut visited := map[voidptr]bool{}
 	mut degree := map[voidptr]int{}
 	mut max_deg := 0
 
-	for node in gr.nodes {
+	mut bucket := map[int][]voidptr{}
+	for i, node in gr.nodes {
+		// Then for every integer lower than the max degree we may use unsafe to access values of bucket
+		bucket[i] = []
 		degree[node] = unsafe { gr.adjacency[node] }.len
 	}
 
-	mut bucket := map[int][]voidptr{}
 	for v, deg in degree {
 		if deg !in bucket {
 			bucket[deg] = []
 		}
-		bucket[deg] << v
+		unsafe { bucket[deg] << v }
 	}
 
 	mut remaining := n
@@ -339,7 +340,7 @@ pub fn (gr Graph[T]) degeneracy() int {
 		mut found := false
 		mut current_deg := 0
 		for current_deg <= n {
-			if current_deg in bucket && bucket[current_deg].len > 0 {
+			if current_deg in bucket && unsafe { bucket[current_deg] }.len > 0 {
 				found = true
 				break
 			}
@@ -349,7 +350,7 @@ pub fn (gr Graph[T]) degeneracy() int {
 			break // no vertices left to process
 		}
 
-		v := bucket[current_deg].pop()
+		v := unsafe { bucket[current_deg].pop() }
 		if visited[v] {
 			continue
 		}
@@ -359,17 +360,17 @@ pub fn (gr Graph[T]) degeneracy() int {
 			max_deg = current_deg
 		}
 
-		for u in gr.adjacency[v].keys() {
+		for u in (gr.adjacency[v] or { continue }).keys() {
 			if !visited[u] {
 				old_deg := degree[u]
 				degree[u]--
 				// Remove u from old bucket
-				bucket[old_deg] = bucket[old_deg].filter(it != u)
+				bucket[old_deg] = unsafe { bucket[old_deg].filter(it != u) }
 				// Add to new bucket
 				if degree[u] !in bucket {
 					bucket[degree[u]] = []
 				}
-				bucket[degree[u]] << u
+				unsafe { bucket[degree[u]] << u }
 			}
 		}
 	}

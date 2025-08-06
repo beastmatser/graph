@@ -2,7 +2,7 @@ module graph
 
 import math
 
-pub fn lu_decomposition(a [][]f64) !([][]f64, [][]f64, []int) {
+fn lu_decomposition(a [][]f64) !([][]f64, [][]f64, []int) {
 	n := a.len
 	if a.any(it.len != n) {
 		return error('Matrix must be square')
@@ -63,7 +63,7 @@ pub fn lu_decomposition(a [][]f64) !([][]f64, [][]f64, []int) {
 	return l, u, perm
 }
 
-pub fn det(a [][]f64) !f64 {
+fn det(a [][]f64) !f64 {
 	_, u, perm := lu_decomposition(a) or { return err }
 
 	mut swaps := 0
@@ -83,20 +83,10 @@ pub fn det(a [][]f64) !f64 {
 	return d
 }
 
-pub fn matmul(a [][]int, b [][]int) ![][]int {
+fn matmul(a [][]int, b [][]int) [][]int {
 	n := a.len
-	if n == 0 || b.len == 0 {
-		return error('Input matrices must not be empty')
-	}
 	m := a[0].len
 	p := b[0].len
-
-	if a.any(it.len != m) || b.any(it.len != p) {
-		return error('All rows must have consistent lengths')
-	}
-	if m != b.len {
-		return error('Matrix dimensions incompatible: a is ${n}x${m}, b is ${b.len}x${p}')
-	}
 
 	mut result := [][]int{len: n, init: []int{len: p}}
 
