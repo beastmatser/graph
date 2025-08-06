@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 8cd7a4f</span>
+								<span>0.0.0 c3dc075</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -195,7 +195,7 @@
 		<section id="Graph[T].bfs" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) bfs <a href="#Graph[T].bfs">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> bfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> bfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
 <p>Runs a breadth-first search (bfs) on a given node of the graph. It returns a spanning forrest of the graph.</p>
 
 </section>
@@ -226,6 +226,7 @@
 
 		<section id="Graph[T].degeneracy" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) degeneracy <a href="#Graph[T].degeneracy">#</a></h2></div>
+<div class="attributes"><div class="attribute">unsafe</div></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token function">degeneracy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
 <p>Returns the degeneracy the gr. It implements the algorithm described by Matula and Beck, described <a href="https://doi.org/10.1145/2402.322385">here</a></p>
@@ -251,7 +252,7 @@
 		<section id="Graph[T].dfs" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) dfs <a href="#Graph[T].dfs">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> dfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> dfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
 <p>Runs a depth-first search (dfs) on a given node of the graph. It returns a spanning forrest of the graph.</p>
 
 </section>
@@ -260,22 +261,14 @@
 			<div class="title"><h2>fn (Graph[T]) diameter <a href="#Graph[T].diameter">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> diameter<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the diameter of the gr, this implementation only works for connected grs.</p>
-
-</section>
-
-		<section id="Graph[T].eccentricity" class="doc-node">
-			<div class="title"><h2>fn (Graph[T]) eccentricity <a href="#Graph[T].eccentricity">#</a></h2></div>
-<pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> eccentricity<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the eccentricity of a given node.</p>
+<p>Returns the diameter of the graph, this implementation only works for connected graphs.</p>
 
 </section>
 
 		<section id="Graph[T].get_edge" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) get_edge <a href="#Graph[T].get_edge">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> get_edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node1 <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">,</span> node2 <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> get_edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node1 <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">,</span> node2 <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
 
 
 </section>
@@ -284,7 +277,7 @@
 			<div class="title"><h2>fn (Graph[T]) girth <a href="#Graph[T].girth">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> girth<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the girth of the gr.</p>
+<p>Returns the girth of the graph.</p>
 
 </section>
 
@@ -420,7 +413,7 @@
 			<div class="title"><h2>fn (Graph[T]) num_spanning_trees <a href="#Graph[T].num_spanning_trees">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_spanning_trees<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">f64</span></code></pre>
-<p>Returns the number of spanning trees of the gr.</p>
+<p>Returns the number of spanning trees of the graph.</p>
 
 </section>
 
@@ -436,7 +429,7 @@
 			<div class="title"><h2>fn (Graph[T]) radius <a href="#Graph[T].radius">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> radius<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the radius of the gr, this implementation only works for connected grs.</p>
+<p>Returns the radius of the graph, this implementation only works for connected graphs.</p>
 
 </section>
 
@@ -477,6 +470,7 @@
 
 		<section id="Edge" class="doc-node">
 			<div class="title"><h2>struct Edge <a href="#Edge">#</a></h2></div>
+<div class="attributes"><div class="attribute">@[heap]</div></div>
 <pre class="signature">
 <code><span class="token keyword">struct</span> Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
 <span class="token keyword">pub</span><span class="token punctuation">:</span>
@@ -491,14 +485,13 @@
 
 		<section id="Graph" class="doc-node">
 			<div class="title"><h2>struct Graph <a href="#Graph">#</a></h2></div>
+<div class="attributes"><div class="attribute">@[noinit]</div></div>
 <pre class="signature">
 <code><span class="token keyword">struct</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+	adjacency <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">voidptr</span><span class="token punctuation">]</span><span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">voidptr</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
 <span class="token keyword">pub</span><span class="token punctuation">:</span>
-	nodes         <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
-	edges         <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
-	adjacency     <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">int</span>
-	node_to_index <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">voidptr</span><span class="token punctuation">]</span><span class="token builtin">int</span>
-	degrees       <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+	nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
+	edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
 <p>A graph is a list of references to nodes and a list of references to edges made up of these nodes. In addition, it holds an adjacency mapping, the keys are the nodes. The values are maps where its keys are nodes adjacent to the original node with value the index of the edge between these adjacent nodes in the edges list of the graph. The field degrees maps the index of a node in the nodes list to the degree of that node.</p>
 
@@ -517,7 +510,7 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 4 Aug 2025 21:23:11</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Aug 2025 19:26:20</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_graph">README</a></li>
 <li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
@@ -572,7 +565,6 @@
 <li><a href="#Graph[T].density">fn density</a></li>
 <li><a href="#Graph[T].dfs">fn dfs</a></li>
 <li><a href="#Graph[T].diameter">fn diameter</a></li>
-<li><a href="#Graph[T].eccentricity">fn eccentricity</a></li>
 <li><a href="#Graph[T].get_edge">fn get_edge</a></li>
 <li><a href="#Graph[T].girth">fn girth</a></li>
 <li><a href="#Graph[T].has_eulerian_path">fn has_eulerian_path</a></li>
