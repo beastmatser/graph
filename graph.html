@@ -103,6 +103,30 @@
 
 </section>
 
+		<section id="det" class="doc-node">
+			<div class="title"><h2>fn det <a href="#det">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token function">det</span><span class="token punctuation">(</span>a <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token builtin">f64</span></code></pre>
+
+
+</section>
+
+		<section id="lu_decomposition" class="doc-node">
+			<div class="title"><h2>fn lu_decomposition <a href="#lu_decomposition">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token function">lu_decomposition</span><span class="token punctuation">(</span>a <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span></code></pre>
+
+
+</section>
+
+		<section id="matmul" class="doc-node">
+			<div class="title"><h2>fn matmul <a href="#matmul">#</a></h2></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token function">matmul</span><span class="token punctuation">(</span>a <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span> b <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span></code></pre>
+
+
+</section>
+
 		<section id="path_graph" class="doc-node">
 			<div class="title"><h2>fn path_graph <a href="#path_graph">#</a></h2></div>
 <pre class="signature">
@@ -202,6 +226,7 @@
 
 		<section id="Graph[T].degeneracy" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) degeneracy <a href="#Graph[T].degeneracy">#</a></h2></div>
+<div class="attributes"><div class="attribute">unsafe</div></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token function">degeneracy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
 <p>Returns the degeneracy the gr. It implements the algorithm described by Matula and Beck, described <a href="https://doi.org/10.1145/2402.322385">here</a></p>
@@ -485,7 +510,7 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 6 Aug 2025 19:38:06</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Aug 2025 19:54:11</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_graph">README</a></li>
 <li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
@@ -495,6 +520,15 @@
 </ul>
 </li>
 <li class="open"><a href="#cycle_graph">fn cycle_graph</a>        <ul>
+</ul>
+</li>
+<li class="open"><a href="#det">fn det</a>        <ul>
+</ul>
+</li>
+<li class="open"><a href="#lu_decomposition">fn lu_decomposition</a>        <ul>
+</ul>
+</li>
+<li class="open"><a href="#matmul">fn matmul</a>        <ul>
 </ul>
 </li>
 <li class="open"><a href="#path_graph">fn path_graph</a>        <ul>
