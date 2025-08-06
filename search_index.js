@@ -53,9 +53,6 @@ var searchIndex = [
 "Graph",
 "Graph.create",
 "random_graph6",
-"lu_decomposition",
-"det",
-"matmul",
 ];
 
 var searchModuleData = [
@@ -113,8 +110,5 @@ var searchData = [
 ["graph","A graph is a list of references to nodes and a list of references to edges made ","graph.html#Graph","struct "],
 ["graph","Factory function to create an Graph from a list of nodes and a list of edges con","graph.html#Graph.create","fn "],
 ["graph","Returns a random graph6 string for a graph on `n` nodes, with a given edge proba","graph.html#random_graph6","fn "],
-["graph","","graph.html#lu_decomposition","fn "],
-["graph","","graph.html#det","fn "],
-["graph","","graph.html#matmul","fn "],
 ];
 
