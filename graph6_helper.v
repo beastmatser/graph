@@ -34,15 +34,17 @@ pub fn random_graph6(n i64, edge_prob f64) string {
 	}
 
 	// Encode 6 bits at a time
-	for i in 0 .. (bits.len + 5) / 6 {
+	mut i := 0
+	for i < bits.len {
 		mut b := 0
 		for j in 0 .. 6 {
-			idx := i * 6 + j
+			idx := i + j
 			if idx < bits.len && bits[idx] {
 				b |= 1 << (5 - j)
 			}
 		}
 		out.write_byte(u8(b + 63))
+		i += 6
 	}
 
 	return out.str()

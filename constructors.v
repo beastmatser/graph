@@ -43,7 +43,7 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 // only the upper triangle is needed to create the graph.
 pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
-	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len -  1) / 2}
+	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len - 1) / 2}
 
 	for i, row in adj {
 		for j, col in row {
@@ -105,8 +105,8 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 	mut adj_matrix := [][]int{len: int(n), init: []int{len: int(n)}}
 
 	mut flat_bits := []bool{cap: adj_matrix.len * adj_matrix.len}
-	for i in 0 .. runes.len - start {
-		bits := to_bit_vector(u64(ascii[start + i] - 63), 6)
+	for i in start .. runes.len {
+		bits := to_bit_vector(u64(ascii[i] - 63), 6)
 		for b in bits {
 			flat_bits << b
 		}
