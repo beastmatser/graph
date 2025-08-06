@@ -13,10 +13,10 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 	mut nodes := []&Node[T]{cap: adj.len}
 	mut edges := []&Edge[T]{cap: adj.len * (adj.len - 1) / 2}
 
-	mut index := map[T]int{}
+	mut node_to_index := map[T]int{}
 	for i, x in adj.keys() {
 		nodes << &Node[T]{x}
-		index[x] = i
+		node_to_index[x] = i
 	}
 
 	mut seen := []T{cap: adj.len}
@@ -28,8 +28,8 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 			}
 
 			edges << &Edge[T]{
-				node1: nodes[index[x]]
-				node2: nodes[index[y]]
+				node1: nodes[node_to_index[x]]
+				node2: nodes[node_to_index[y]]
 			}
 		}
 	}

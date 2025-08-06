@@ -5,9 +5,14 @@ module graph
 pub fn (gr Graph[T]) to_adjacency_matrix[T]() [][]int {
 	mut matrix := [][]int{len: gr.nodes.len, init: []int{len: gr.nodes.len}}
 
+	mut node_to_index := map[voidptr]int{}
+	for i, node in gr.nodes {
+		node_to_index[node] = i
+	}
+
 	for node1, neighbours in gr.adjacency {
 		for node2, edge in neighbours {
-			matrix[node1][node2] = gr.edges[edge].weight
+			matrix[node_to_index[node1]][node_to_index[node2]] = edge.weight
 		}
 	}
 

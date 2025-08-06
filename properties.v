@@ -25,7 +25,11 @@ pub fn (gr Graph[T]) total_weight() int {
 
 // Returns a list of the degrees of the graph, not necessarily ordered.
 pub fn (gr Graph[T]) degree_list[T]() []int {
-	return gr.degrees.values()
+	mut degrees := []int{cap: gr.nodes.len}
+	for _, neighbours in gr.adjacency {
+		degrees << neighbours.len
+	}
+	return degrees
 }
 
 // Returns the minimum degree of the graph.
@@ -84,7 +88,7 @@ pub fn (gr Graph[T]) is_tree[T]() bool {
 		return true
 	}
 
-	return gr.dfs(gr.nodes[0]).edges.len == gr.edges.len
+	return gr.dfs().edges.len == gr.edges.len
 }
 
 // Checks whether the graph is connected.
@@ -93,7 +97,7 @@ pub fn (gr Graph[T]) is_connected[T]() bool {
 		return true
 	}
 
-	span_tree := gr.dfs(gr.nodes[0])
+	span_tree := gr.dfs()
 	return span_tree.edges.len == gr.nodes.len - 1
 }
 
@@ -103,24 +107,24 @@ pub fn (gr Graph[T]) num_connected_components[T]() int {
 		return 0
 	}
 
-	return gr.nodes.len - gr.dfs(gr.nodes[0]).edges.len
+	return gr.nodes.len - gr.dfs().edges.len
 }
 
 // Checks whether the graph is bipartite.
 pub fn (gr Graph[T]) is_bipartite[T]() bool {
-	mut colours := map[int][2]bool{} // 2 bits per node, 1 for if node is coloured and 1 for the colour itself
+	mut colours := map[voidptr][2]bool{} // 2 bits per node, 1 for if node is coloured and 1 for the colour itself
 
-	mut queue := datatypes.Queue[int]{}
-	for i in 0 .. gr.nodes.len {
-		if colours[i][0] {
+	mut queue := datatypes.Queue[voidptr]{}
+	for node in gr.nodes {
+		if colours[node][0] {
 			continue
 		}
-		colours[i][0] = true
-		queue.push(i)
+		colours[node][0] = true
+		queue.push(node)
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in gr.adjacency[w].keys() {
+			for x in (gr.adjacency[w] or { continue }).keys() {
 				if colours[x][0] {
 					if colours[x][1] == colours[w][1] {
 						return false
@@ -141,20 +145,20 @@ pub fn (gr Graph[T]) is_bipartite[T]() bool {
 // Checks whether the graph is acyclic, i.e. does not contain a cycle.
 // This differs from checking if a graph is a tree, since a graph can be a forrest.
 pub fn (gr Graph[T]) is_acyclic[T]() bool {
-	mut visited := map[int]bool{}
-	mut parents := map[int]int{}
+	mut visited := map[voidptr]bool{}
+	mut parents := map[voidptr]voidptr{}
 
-	mut queue := datatypes.Queue[int]{}
-	for i in 0 .. gr.nodes.len {
-		if visited[i] {
+	mut queue := datatypes.Queue[voidptr]{}
+	for node in gr.nodes {
+		if visited[node] {
 			continue
 		}
-		visited[i] = true
-		queue.push(i)
+		visited[node] = true
+		queue.push(node)
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in gr.adjacency[w].keys() {
+			for x in (gr.adjacency[w] or { continue }).keys() {
 				if visited[x] {
 					if parents[w] or { continue } != x {
 						return false
@@ -172,24 +176,25 @@ pub fn (gr Graph[T]) is_acyclic[T]() bool {
 	return true
 }
 
-fn (gr Graph[T]) eccentricity_helper[T](node int) int {
+// Returns the eccentricity of a given node.
+fn (gr Graph[T]) eccentricity[T](node &Node[T]) int {
 	mut max_dist := 0
 
-	mut dist := map[int]int{}
-	mut visited := map[int]bool{}
-	mut queue := datatypes.Queue[int]{}
+	mut dist := map[voidptr]int{}
+	mut visited := map[voidptr]bool{}
+	mut queue := datatypes.Queue[voidptr]{}
 	visited[node] = true
 	dist[node] = 0
 	queue.push(node)
 
 	for !queue.is_empty() {
 		w := queue.pop() or { continue }
-		for x, edge in gr.adjacency[w] {
+		for x, edge in gr.adjacency[w] or { continue } {
 			if visited[x] {
 				continue
 			}
 			visited[x] = true
-			dist[x] = dist[w] + gr.edges[edge].weight
+			dist[x] = dist[w] + edge.weight
 			max_dist = if max_dist > dist[x] { max_dist } else { dist[x] }
 			queue.push(x)
 		}
@@ -198,17 +203,12 @@ fn (gr Graph[T]) eccentricity_helper[T](node int) int {
 	return max_dist
 }
 
-// Returns the eccentricity of a given node.
-pub fn (gr Graph[T]) eccentricity[T](node &Node[T]) int {
-	return gr.eccentricity_helper(gr.node_to_index[node])
-}
-
-// Returns the diameter of the gr, this implementation only works for connected grs.
+// Returns the diameter of the graph, this implementation only works for connected graphs.
 pub fn (gr Graph[T]) diameter[T]() int {
 	mut max_dist := 0
 
-	for i in 0 .. gr.nodes.len {
-		dist := gr.eccentricity_helper(i)
+	for node in gr.nodes {
+		dist := gr.eccentricity(node)
 		if dist > max_dist {
 			max_dist = dist
 		}
@@ -217,15 +217,15 @@ pub fn (gr Graph[T]) diameter[T]() int {
 	return max_dist
 }
 
-// Returns the radius of the gr, this implementation only works for connected grs.
+// Returns the radius of the graph, this implementation only works for connected graphs.
 pub fn (gr Graph[T]) radius[T]() int {
 	if gr.nodes.len == 0 {
 		return 0
 	}
-	mut min_dist := gr.eccentricity_helper(0)
+	mut min_dist := gr.eccentricity(gr.nodes[0])
 
-	for i in 0 .. gr.nodes[1..].len {
-		dist := gr.eccentricity_helper(i)
+	for node in gr.nodes[1..] {
+		dist := gr.eccentricity(node)
 		if dist < min_dist {
 			min_dist = dist
 		}
@@ -234,24 +234,24 @@ pub fn (gr Graph[T]) radius[T]() int {
 	return min_dist
 }
 
-// Returns the girth of the gr.
+// Returns the girth of the graph.
 pub fn (gr Graph[T]) girth[T]() int {
 	mut min_cycle := -1
 
-	for i in 0 .. gr.nodes.len {
-		mut dist := map[int]int{}
-		mut parent := map[int]int{}
-		mut visited := map[int]bool{}
-		mut queue := datatypes.Queue[int]{}
+	for node in gr.nodes {
+		mut dist := map[voidptr]int{}
+		mut parent := map[voidptr]voidptr{}
+		mut visited := map[voidptr]bool{}
+		mut queue := datatypes.Queue[voidptr]{}
 
-		dist[i] = 0
-		visited[i] = true
-		queue.push(i)
+		dist[node] = 0
+		visited[node] = true
+		queue.push(node)
 
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in gr.adjacency[w].keys() {
+			for x in (gr.adjacency[w] or { continue }).keys() {
 				if w in parent && unsafe { x == parent[w] } {
 					continue
 				} else if !visited[x] {
@@ -313,18 +313,18 @@ pub fn (gr Graph[T]) num_triangles[T]() int {
 
 // Returns the degeneracy the gr.
 // It implements the algorithm described by Matula and Beck, described [here](https://doi.org/10.1145/2402.322385)
+@[unsafe]
 pub fn (gr Graph[T]) degeneracy() int {
 	n := gr.nodes.len
-	mut visited := map[int]bool{}
-	// We dont use gr.degrees since we would need to copy that map anyway
-	mut degree := map[int]int{}
+	mut visited := map[voidptr]bool{}
+	mut degree := map[voidptr]int{}
 	mut max_deg := 0
 
-	for i in 0 .. n {
-		degree[i] = gr.adjacency[i].len
+	for node in gr.nodes {
+		degree[node] = unsafe { gr.adjacency[node] }.len
 	}
 
-	mut bucket := map[int][]int{}
+	mut bucket := map[int][]voidptr{}
 	for v, deg in degree {
 		if deg !in bucket {
 			bucket[deg] = []

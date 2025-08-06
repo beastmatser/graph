@@ -3,58 +3,36 @@ module graph
 import datatypes
 import math
 
-// Iterator runs from start to stop and then from zero to start.
-// For example: if start is 2 and stop 5, then the iterator follows the sequence: 2, 3, 4, 0, 1.
-struct ShiftedIterator {
-	start int
-	stop  int
-mut:
-	idx  int
-	seen bool
-}
-
-fn (mut iter ShiftedIterator) next() ?int {
-	if (iter.start + iter.idx) % iter.stop == iter.start {
-		if iter.seen {
-			return none
-		}
-		iter.seen = true
-	}
-	defer {
-		iter.idx++
-	}
-	return (iter.start + iter.idx) % iter.stop
-}
-
 // Runs a breadth-first search (bfs) on a given node of the graph.
 // It returns a spanning forrest of the graph.
-pub fn (gr Graph[T]) bfs[T](node &Node[T]) Graph[T] {
-	mut visited := map[int]bool{}
-	for i in 0 .. gr.nodes.len {
-		visited[i] = false
+pub fn (gr Graph[T]) bfs[T]() Graph[T] {
+	mut visited := map[voidptr]bool{}
+
+	mut node_to_index := map[voidptr]int{}
+	for i, node in gr.nodes {
+		node_to_index[node] = i
 	}
 
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
 	mut queue := datatypes.Queue[int]{}
-	for i in ShiftedIterator{
-		start: gr.node_to_index[node]
-		stop:  gr.nodes.len
-	} {
+	for i, node in gr.nodes {
 		if visited[i] {
 			continue
 		}
-		visited[i] = true
+		visited[node] = true
 		queue.push(i)
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in gr.adjacency[w].keys() {
+			for x in (gr.adjacency[w] or { continue }).keys() {
 				if visited[x] {
 					continue
 				}
 
 				visited[x] = true
-				edges << gr.get_edge(gr.nodes[w], gr.nodes[x])
+				edges << gr.get_edge(gr.nodes[node_to_index[w]], gr.nodes[node_to_index[x]]) or {
+					continue
+				}
 				queue.push(x)
 			}
 		}
@@ -63,13 +41,13 @@ pub fn (gr Graph[T]) bfs[T](node &Node[T]) Graph[T] {
 	return Graph.create[T](gr.nodes, edges)
 }
 
-fn (gr Graph[T]) rec_dfs[T](current_index int, node int, mut labels map[int]int, mut edges []&Edge[T]) int {
+fn (gr Graph[T]) rec_dfs[T](current_index int, node &Node[T], mut labels map[voidptr]int, mut edges []&Edge[T]) int {
 	mut next_index := current_index + 1
-	labels[current_index] = next_index
+	labels[node] = next_index
 
-	for neighbour in gr.adjacency[current_index].keys() {
+	for neighbour in unsafe { gr.adjacency[node] }.keys() {
 		if labels[neighbour] == 0 {
-			edges << gr.get_edge(gr.nodes[node], gr.nodes[neighbour])
+			edges << gr.get_edge(node, neighbour) or { continue }
 			next_index = gr.rec_dfs[T](next_index, neighbour, mut labels, mut edges)
 		}
 	}
@@ -78,23 +56,20 @@ fn (gr Graph[T]) rec_dfs[T](current_index int, node int, mut labels map[int]int,
 
 // Runs a depth-first search (dfs) on a given node of the graph.
 // It returns a spanning forrest of the graph.
-pub fn (gr Graph[T]) dfs[T](node &Node[T]) Graph[T] {
-	mut labels := map[int]int{}
+pub fn (gr Graph[T]) dfs[T]() Graph[T] {
+	mut labels := map[voidptr]int{}
 
 	// Initialize all labels to 0 (unvisited)
-	for node_index in 0 .. gr.nodes.len {
-		labels[node_index] = 0
+	for node in gr.nodes {
+		labels[node] = 0
 	}
 
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
 	mut traversal_index := 0
 
-	for start_index in ShiftedIterator{
-		start: gr.node_to_index[node]
-		stop:  gr.nodes.len
-	} {
-		if labels[start_index] == 0 {
-			traversal_index = gr.rec_dfs[T](traversal_index, start_index, mut labels, mut
+	for start_node in gr.nodes {
+		if labels[start_node] == 0 {
+			traversal_index = gr.rec_dfs[T](traversal_index, start_node, mut labels, mut
 				edges)
 		}
 	}
@@ -124,9 +99,15 @@ fn (gr Graph[T]) kruskal[T]() Graph[T] {
 	mut sorted_edges := gr.edges.clone()
 	sorted_edges.sort(a.weight < b.weight)
 
-	mut components := []int{len: gr.nodes.len, init: index}
-	index1 := components[gr.node_to_index[sorted_edges[0].node1]]
-	index2 := components[gr.node_to_index[sorted_edges[0].node2]]
+	mut node_to_index := map[voidptr]int{}
+	mut components := []int{cap: gr.nodes.len}
+	for i, node in gr.nodes {
+		node_to_index[node] = i
+		components << i
+	}
+
+	index1 := components[node_to_index[sorted_edges[0].node1]]
+	index2 := components[node_to_index[sorted_edges[0].node2]]
 	min_comp := math.min(index1, index2)
 	components[index1] = min_comp
 	components[index2] = min_comp
@@ -135,7 +116,7 @@ fn (gr Graph[T]) kruskal[T]() Graph[T] {
 	mut edges := [sorted_edges[0]]
 	for edges.len < gr.nodes.len - 1 {
 		k += 1
-		if gr.is_acyclic_kruskal[T](mut components, k, sorted_edges, sorted_edges[k]) {
+		if gr.is_acyclic_kruskal[T](node_to_index, mut components, k, sorted_edges, sorted_edges[k]) {
 			edges << sorted_edges[k]
 		}
 	}
@@ -143,9 +124,9 @@ fn (gr Graph[T]) kruskal[T]() Graph[T] {
 	return Graph.create[T](gr.nodes, edges)
 }
 
-fn (gr Graph[T]) is_acyclic_kruskal[T](mut components []int, k int, edges []&Edge[T], edge &Edge[T]) bool {
-	index1 := components[gr.node_to_index[edges[k].node1]]
-	index2 := components[gr.node_to_index[edges[k].node2]]
+fn (gr Graph[T]) is_acyclic_kruskal[T](node_to_index map[voidptr]int, mut components []int, k int, edges []&Edge[T], edge &Edge[T]) bool {
+	index1 := components[node_to_index[edges[k].node1]]
+	index2 := components[node_to_index[edges[k].node2]]
 
 	if index1 == index2 {
 		return false
@@ -183,14 +164,19 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 		return gr
 	}
 
+	mut edge_to_index := map[voidptr]int{}
+	for i, edge in gr.edges {
+		edge_to_index[edge] = i
+	}
+
 	mut seen := map[voidptr]bool{}
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
 	seen[gr.nodes[0]] = true
 
 	// store index and weight from an edge
 	mut minhp := datatypes.MinHeap[IndexWeight]{}
-	for i in gr.adjacency[0].values() {
-		minhp.insert(IndexWeight{i, gr.edges[i].weight})
+	for edge in unsafe { gr.adjacency[gr.nodes[0]] }.values() {
+		minhp.insert(IndexWeight{edge_to_index[edge], edge.weight})
 	}
 
 	for edges.len < gr.nodes.len - 1 {
@@ -205,9 +191,8 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 
 		node := if seen[edge.node1] { edge.node2 } else { edge.node1 }
 		seen[node] = true
-		node_index := gr.node_to_index[node]
-		for edge_index in gr.adjacency[node_index].values() {
-			minhp.insert(IndexWeight{edge_index, gr.edges[edge_index].weight})
+		for new_edge in (gr.adjacency[node] or { continue }).values() {
+			minhp.insert(IndexWeight{edge_to_index[new_edge], new_edge.weight})
 		}
 	}
 
