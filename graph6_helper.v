@@ -4,7 +4,7 @@ import arrays
 import rand
 import strings
 
-// Returns a random graph6 string for a graph on $$n$$ nodes,
+// Returns a random graph6 string for a graph on n nodes,
 // with a given edge probability.
 pub fn random_graph6(n i64, edge_prob f64) string {
 	mut out := strings.new_builder(1024)

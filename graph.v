@@ -32,21 +32,31 @@ pub fn (gr Graph[T]) get_edge[T](node1 &Node[T], node2 &Node[T]) !&Edge[T] {
 
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
 // It must be constructed through `Graph.create`.
+// The attributes `nodes` and `edges` must be accessed through `.nodes()` and `.edges()` respectively.
+// This is to ensure the user does not change the nodes or edges list without fixing the adjacency mapping.
 @[noinit]
 pub struct Graph[T] {
+mut:
 	adjacency map[voidptr]map[voidptr]&Edge[T]
-pub:
-	nodes []&Node[T]
-	edges []&Edge[T]
+	nodes     []&Node[T]
+	edges     []&Edge[T]
+}
+
+pub fn (gr Graph[T]) nodes[T]() []&Node[T] {
+	return gr.nodes
+}
+
+pub fn (gr Graph[T]) edges[T]() []&Edge[T] {
+	return gr.edges
 }
 
 // Factory function to create an Graph from a list of nodes
 // and a list of edges containing these nodes.
 // Example:
 // ```v
-// nodes := []&Node[int]{len: 6, init: &Node[index]}
+// nodes := []&Node[int]{len: 6, init: &Node{index}}
 // // Be sure that the edges contain nodes that are available from the nodes list!
-// edges := [&Edge{nodes[0], nodes[1], 1}, &Edge{nodes[1], nodes[2], 1}, &Edge{nodes[2], nodes[5], 1}]
+// edges := [&Edge[int]{nodes[0], nodes[1], 1}, &Edge[int]{nodes[1], nodes[2], 1}, &Edge[int]{nodes[2], nodes[5], 1}]
 // Graph.create[int](nodes, edges)
 // ```
 pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
