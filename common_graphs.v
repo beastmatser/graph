@@ -6,18 +6,28 @@ pub fn cycle_graph(n int) Graph[int] {
 	nodes := []&Node[int]{len: n, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: n}
 
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
+
 	for i in 0 .. n - 1 {
-		edges << &Edge[int]{
+		edge := &Edge[int]{
 			node1: nodes[i]
 			node2: nodes[i + 1]
 		}
+		adjacency[edge.node1][edge.node2] = edge
+		adjacency[edge.node2][edge.node1] = edge
+
+		edges << edge
 	}
-	edges << &Edge[int]{
+	edge := &Edge[int]{
 		node1: nodes[n - 1]
 		node2: nodes[0]
 	}
 
-	return Graph.create[int](nodes, edges)
+	adjacency[edge.node1][edge.node2] = edge
+	adjacency[edge.node2][edge.node1] = edge
+	edges << edge
+
+	return Graph[int]{adjacency, nodes, edges}
 }
 
 // Generates a path graph on n nodes.
@@ -26,14 +36,20 @@ pub fn path_graph(n int) Graph[int] {
 	nodes := []&Node[int]{len: n, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: n - 1}
 
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
+
 	for i in 0 .. n - 1 {
-		edges << &Edge[int]{
+		edge := &Edge[int]{
 			node1: nodes[i]
 			node2: nodes[i + 1]
 		}
+		adjacency[edge.node1][edge.node2] = edge
+		adjacency[edge.node2][edge.node1] = edge
+
+		edges << edge
 	}
 
-	return Graph.create[int](nodes, edges)
+	return Graph[int]{adjacency, nodes, edges}
 }
 
 // Generates a complete graph on n nodes.
@@ -42,18 +58,24 @@ pub fn complete_graph(n int) Graph[int] {
 	nodes := []&Node[int]{len: n, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: n * (n - 1) / 2}
 
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
+
 	for i in 0 .. n {
 		for j in 0 .. n {
 			if i < j {
-				edges << &Edge[int]{
+				edge := &Edge[int]{
 					node1: nodes[i]
 					node2: nodes[j]
 				}
+				adjacency[edge.node1][edge.node2] = edge
+				adjacency[edge.node2][edge.node1] = edge
+
+				edges << edge
 			}
 		}
 	}
 
-	return Graph.create[int](nodes, edges)
+	return Graph[int]{adjacency, nodes, edges}
 }
 
 // Generates a complete bipartite graph on n \times m nodes,
@@ -63,16 +85,22 @@ pub fn complete_bipartite_graph(n int, m int) Graph[int] {
 	nodes := []&Node[int]{len: n + m, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: m * n}
 
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
+
 	for i in 0 .. n {
 		for j in n .. n + m {
-			edges << &Edge[int]{
+			edge := &Edge[int]{
 				node1: nodes[i]
 				node2: nodes[j]
 			}
+			adjacency[edge.node1][edge.node2] = edge
+			adjacency[edge.node2][edge.node1] = edge
+
+			edges << edge
 		}
 	}
 
-	return Graph.create[int](nodes, edges)
+	return Graph[int]{adjacency, nodes, edges}
 }
 
 // Generates a star graph on n nodes.
@@ -89,24 +117,44 @@ pub fn wheel_graph(n int) Graph[int] {
 	nodes := []&Node[int]{len: n, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: 2 * n - 2}
 
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
+
 	for i in 1 .. n - 1 {
-		edges << &Edge[int]{
+		edge1 := &Edge[int]{
 			node1: nodes[i]
 			node2: nodes[i + 1]
 		}
-		edges << &Edge[int]{
+		adjacency[edge1.node1][edge1.node2] = edge1
+		adjacency[edge1.node2][edge1.node1] = edge1
+
+		edges << edge1
+
+		edge2 := &Edge[int]{
 			node1: nodes[0]
 			node2: nodes[i]
 		}
+		adjacency[edge2.node1][edge2.node2] = edge2
+		adjacency[edge2.node2][edge2.node1] = edge2
+
+		edges << edge2
 	}
-	edges << &Edge[int]{
+	edge1 := &Edge[int]{
 		node1: nodes[n - 1]
 		node2: nodes[1]
 	}
-	edges << &Edge[int]{
+	adjacency[edge1.node1][edge1.node2] = edge1
+	adjacency[edge1.node2][edge1.node1] = edge1
+
+	edges << edge1
+
+	edge2 := &Edge[int]{
 		node1: nodes[0]
 		node2: nodes[n - 1]
 	}
+	adjacency[edge2.node1][edge2.node2] = edge2
+	adjacency[edge2.node2][edge2.node1] = edge2
 
-	return Graph.create[int](nodes, edges)
+	edges << edge2
+
+	return Graph[int]{adjacency, nodes, edges}
 }
