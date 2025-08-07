@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 9fef7ca</span>
+								<span>0.0.0 2cdacb8</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -83,7 +83,7 @@
 			<div class="title"><h2>fn complete_bipartite_graph <a href="#complete_bipartite_graph">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">complete_bipartite_graph</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">,</span> m <span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a complete bipartite graph on n x m nodes, with respectively n and m nodes in the two partitions of the graph. The nodes of the graph are integers, from 0 to n x (m - 1).</p>
+<p>Generates a complete bipartite graph on $$n \times m$$ nodes, with respectively $$n$$ and $$m$$ nodes in the two partitions of the graph. The nodes of the graph are integers, from 0 to $$n \times (m - 1)$$.</p>
 
 </section>
 
@@ -91,7 +91,7 @@
 			<div class="title"><h2>fn complete_graph <a href="#complete_graph">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">complete_graph</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a complete graph on n nodes. The nodes of the graph are integers, from 0 to n-1.</p>
+<p>Generates a complete graph on $$n$$ nodes. The nodes of the graph are integers, from 0 to $$n-1$$.</p>
 
 </section>
 
@@ -99,7 +99,7 @@
 			<div class="title"><h2>fn cycle_graph <a href="#cycle_graph">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">cycle_graph</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a cycle graph on n nodes. The graph's nodes are integer values from 0 to n-1.</p>
+<p>Generates a cycle graph on $$n$$ nodes. The graph's nodes are integer values from 0 to $$n-1$$.</p>
 
 </section>
 
@@ -107,7 +107,7 @@
 			<div class="title"><h2>fn path_graph <a href="#path_graph">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">path_graph</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a path graph on n nodes. The nodes of the graph are integers, from 0 to n-1.</p>
+<p>Generates a path graph on $$n$$ nodes. The nodes of the graph are integers, from 0 to $$n-1$$.</p>
 
 </section>
 
@@ -115,7 +115,7 @@
 			<div class="title"><h2>fn random_graph6 <a href="#random_graph6">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">random_graph6</span><span class="token punctuation">(</span>n <span class="token builtin">i64</span><span class="token punctuation">,</span> edge_prob <span class="token builtin">f64</span><span class="token punctuation">)</span> <span class="token builtin">string</span></code></pre>
-<p>Returns a random graph6 string for a graph on <code>n</code> nodes, with a given edge probability.</p>
+<p>Returns a random graph6 string for a graph on $$n$$ nodes, with a given edge probability.</p>
 
 </section>
 
@@ -123,7 +123,7 @@
 			<div class="title"><h2>fn star_graph <a href="#star_graph">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">star_graph</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a star graph on n nodes. In this case a star graph on n nodes has n-1 leaves and a center. The nodes of the graph are integers, from 0 to n-1.</p>
+<p>Generates a star graph on $$n$$ nodes. In this case a star graph on $$n$$ nodes has $$n-1$$ leaves and a center. The nodes of the graph are integers, from 0 to $$n-1$$.</p>
 
 </section>
 
@@ -131,7 +131,7 @@
 			<div class="title"><h2>fn wheel_graph <a href="#wheel_graph">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token function">wheel_graph</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a wheel graph on n nodes. In this case a wheel graph on n nodes has n-1 nodes with degree three and one node with degree n-1. The nodes of the graph are integers, from 0 to n-1.</p>
+<p>Generates a wheel graph on $$n$$ nodes. In this case a wheel graph on $$n$$ nodes has $$n-1$$ nodes with degree three and one node with degree $$n-1$$. The nodes of the graph are integers, from 0 to $$n-1$$.</p>
 
 </section>
 
@@ -141,23 +141,46 @@
 <code><span class="token keyword">fn</span> Graph<span class="token punctuation">.</span>create<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">,</span> edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
 <p>Factory function to create an Graph from a list of nodes and a list of edges containing these nodes.</p>
 
+<section class="doc-node examples"><h4>Example</h4>
+<pre>
+<code class="language-v">nodes <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">{</span>len<span class="token punctuation">:</span> <span class="token number">6</span><span class="token punctuation">,</span> init<span class="token punctuation">:</span> <span class="token operator">&</span>Node<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token comment">// Be sure that the edges contain nodes that are available from the nodes list!</span>
+edges <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token operator">&</span><span class="token symbol">Edge</span><span class="token punctuation">{</span>nodes<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> nodes<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token operator">&</span><span class="token symbol">Edge</span><span class="token punctuation">{</span>nodes<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> nodes<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token operator">&</span><span class="token symbol">Edge</span><span class="token punctuation">{</span>nodes<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> nodes<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+Graph<span class="token punctuation">.</span>create<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes<span class="token punctuation">,</span> edges<span class="token punctuation">)</span></code></pre>
+</section>
 </section>
 
 		<section id="Graph.from_adjacency" class="doc-node">
 			<div class="title"><h2>fn Graph.from_adjacency <a href="#Graph.from_adjacency">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> Graph<span class="token punctuation">.</span>from_adjacency<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>adj <span class="token builtin">map</span><span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">T</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Generates a graph from a mapping with the following signature: <code>map[T][]T</code>, with <code>T</code> any type. The keys of the map become the nodes of the graph. The values of the map represent the neighbours of their corresponding key.</p>
-<p>Note: if a node is present as a neighbour of another node but not the other way around, then some edges can be missing. For example, the map <code>{0: [], 1: [0]}</code> will result in a graph with two nodes but no edges. This is because any node that was already seen in the key values will be skipped if they appear in the list of neighbours of another node, in an effort to avoid adding duplicate edges.</p>
+<p>Generates a graph from a mapping with the following signature: <code>map[T][]T</code>, with <code>T</code> any type. The keys of the map become the nodes of the graph. The values of the map represent the neighbours of their corresponding key, values not present in the keys of the map will be ignored.</p>
 
+<section class="doc-node examples"><h4>Example</h4>
+<pre>
+<code class="language-v">Graph<span class="token punctuation">.</span><span class="token function">from_adjacency</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+Graph<span class="token punctuation">.</span><span class="token function">from_adjacency</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'a'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'missing'</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">// 'missing will be ignored'</span></code></pre>
+</section>
 </section>
 
 		<section id="Graph.from_adjacency_matrix" class="doc-node">
 			<div class="title"><h2>fn Graph.from_adjacency_matrix <a href="#Graph.from_adjacency_matrix">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> Graph<span class="token punctuation">.</span><span class="token function">from_adjacency_matrix</span><span class="token punctuation">(</span>adj <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span></code></pre>
-<p>Generate a graph from an integer matrix, returns a graph with integer values for the nodes. Note that only the upper triangle is checked, since any adjacency matrix of an undirected graph should be symmetric. So, it is not required to fill in the whole matrix, only the upper triangle is needed to create the graph.</p>
+<p>Generate a graph from an integer matrix, returns a graph with integer values for the nodes. The entries of the matrix are used for the weights of an edge.</p>
 
+<section class="doc-node examples"><h4>Example</h4>
+<pre>
+<code class="language-v">m1 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+Graph<span class="token punctuation">.</span><span class="token function">from_adjacency_matrix</span><span class="token punctuation">(</span>m1<span class="token punctuation">)</span>
+
+m2 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+Graph<span class="token punctuation">.</span><span class="token function">from_adjacency_matrix</span><span class="token punctuation">(</span>m2<span class="token punctuation">)</span></code></pre>
+</section>
 </section>
 
 		<section id="Graph.from_graph6" class="doc-node">
@@ -172,7 +195,7 @@
 			<div class="title"><h2>fn (Graph[T]) bfs <a href="#Graph[T].bfs">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> bfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Runs a breadth-first search (bfs) on a given node of the graph. It returns a spanning forrest of the graph.</p>
+<p>Runs a breadth-first search (bfs) on the graph. It returns a spanning forrest of the graph. The original nodes are reused, meaning a change in the nodes of the graph will also occur in this forrest. Use <code>.clone</code> to avoid this behaviour.</p>
 
 </section>
 
@@ -180,8 +203,18 @@
 			<div class="title"><h2>fn (Graph[T]) cartesian_product <a href="#Graph[T].cartesian_product">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr1 Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> cartesian_product<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">,</span> <span class="token builtin">U</span><span class="token punctuation">,</span> <span class="token builtin">V</span><span class="token punctuation">]</span><span class="token punctuation">(</span>gr2 Graph<span class="token punctuation">[</span><span class="token builtin">U</span><span class="token punctuation">]</span><span class="token punctuation">,</span> handle <span class="token keyword">fn</span> <span class="token punctuation">(</span>x <span class="token builtin">T</span><span class="token punctuation">,</span> y <span class="token builtin">U</span><span class="token punctuation">)</span> <span class="token builtin">V</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">V</span><span class="token punctuation">]</span></code></pre>
+<p>Returns the cartesian product of two graphs. The two graphs need not be of the same type, therefore you must pass a function that handles the combination of these types!</p>
 
+<section class="doc-node examples"><h4>Example</h4>
+<pre>
+<code class="language-v">handle <span class="token operator">:=</span> <span class="token keyword">fn</span> <span class="token punctuation">(</span>x <span class="token builtin">int</span><span class="token punctuation">,</span> y <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token punctuation">[</span>x<span class="token punctuation">,</span> y<span class="token punctuation">]</span>
+	<span class="token punctuation">}</span>
+g1 <span class="token operator">:=</span> <span class="token function">path_graph</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment">// Graph[int]</span>
+g2 <span class="token operator">:=</span> <span class="token function">cycle_graph</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment">// Graph[int]</span>
 
+g1<span class="token punctuation">.</span><span class="token function">cartesian_product</span><span class="token punctuation">(</span>g2<span class="token punctuation">,</span> handle<span class="token punctuation">)</span> <span class="token comment">// Graph[[]int]</span></code></pre>
+</section>
 </section>
 
 		<section id="Graph[T].clone" class="doc-node">
@@ -204,7 +237,7 @@
 			<div class="title"><h2>fn (Graph[T]) degeneracy <a href="#Graph[T].degeneracy">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token function">degeneracy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the degeneracy the gr. It implements the algorithm described by Matula and Beck, described <a href="https://doi.org/10.1145/2402.322385">here</a></p>
+<p>Returns the <a href="https://en.wikipedia.org/wiki/Degeneracy_(graph_theory)">degeneracy</a> the graph. It implements the algorithm described by Matula and Beck, described <a href="https://doi.org/10.1145/2402.322385">here</a>.</p>
 
 </section>
 
@@ -228,7 +261,7 @@
 			<div class="title"><h2>fn (Graph[T]) dfs <a href="#Graph[T].dfs">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> dfs<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Runs a depth-first search (dfs) on a given node of the graph. It returns a spanning forrest of the graph.</p>
+<p>Runs a depth-first search (dfs) on the graph. It returns a spanning forrest of the graph. The original nodes are reused, meaning a change in the nodes of the graph will also occur in this forrest. Use <code>.clone</code> to avoid this behaviour.</p>
 
 </section>
 
@@ -356,7 +389,7 @@
 			<div class="title"><h2>fn (Graph[T]) mst <a href="#Graph[T].mst">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> mst<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>method MSTAlgorithm<span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Finds the minimum spanning tree of a graph. The possible algorithms are listed in <code>enum MSTAlgorithm</code>.</p>
+<p>Finds the minimum spanning forrest of a graph. The possible algorithms are listed in <code>enum MSTAlgorithm</code>.</p>
 
 </section>
 
@@ -388,7 +421,7 @@
 			<div class="title"><h2>fn (Graph[T]) num_spanning_trees <a href="#Graph[T].num_spanning_trees">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_spanning_trees<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">f64</span></code></pre>
-<p>Returns the number of spanning trees of the graph.</p>
+<p>Returns the number of spanning trees of the (connected!) graph.</p>
 
 </section>
 
@@ -396,7 +429,7 @@
 			<div class="title"><h2>fn (Graph[T]) num_triangles <a href="#Graph[T].num_triangles">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> num_triangles<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span></code></pre>
-<p>Returns the number of triangles of the gr.</p>
+<p>Returns the number of triangles of the graph.</p>
 
 </section>
 
@@ -412,7 +445,7 @@
 			<div class="title"><h2>fn (Graph[T]) to_adjacency_matrix <a href="#Graph[T].to_adjacency_matrix">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> to_adjacency_matrix<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span></code></pre>
-<p>Gives the (symmetric) adjacency matrix of the graph. The order of the rows and columns is exactly the same as the order of the nodes list in the graph object.</p>
+<p>Gives the (symmetric) adjacency matrix of the graph.</p>
 
 </section>
 
@@ -420,7 +453,7 @@
 			<div class="title"><h2>fn (Graph[T]) to_graph6 <a href="#Graph[T].to_graph6">#</a></h2></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> to_graph6<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">string</span></code></pre>
-<p>Returns the graph6 format of the given graph.</p>
+<p>Returns the graph6 format of the graph.</p>
 
 </section>
 
@@ -439,7 +472,7 @@
 	kruskal
 	prim
 <span class="token punctuation">}</span></code></pre>
-
+<p>Implemented algorithms to find a minimum spanning forrest of a graph.</p>
 
 </section>
 
@@ -454,7 +487,7 @@
 <span class="token keyword">pub</span> <span class="token keyword">mut</span><span class="token punctuation">:</span>
 	weight <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span>
 <span class="token punctuation">}</span></code></pre>
-<p>An edge contains two references to nodes of type <code>T</code> and an integer weight.</p>
+<p>An edge contains two references to nodes of type <code>T</code> and an integer weight. The weights default to length one to emulate unweighted graphs. Edges are, just as nodes, stored on the heap to ensure stable references to them.</p>
 
 </section>
 
@@ -468,7 +501,7 @@
 	nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
 	edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
-<p>A graph is a list of references to nodes and a list of references to edges made up of these nodes. In addition, it holds an adjacency mapping, the keys are the nodes. The values are maps where its keys are nodes adjacent to the original node with value the index of the edge between these adjacent nodes in the edges list of the graph. The field degrees maps the index of a node in the nodes list to the degree of that node.</p>
+<p>A graph is a list of references to nodes and a list of references to edges made up of these nodes. It must be constructed through <code>Graph.create</code>.</p>
 
 </section>
 
@@ -480,12 +513,12 @@
 <span class="token keyword">pub</span> <span class="token keyword">mut</span><span class="token punctuation">:</span>
 	val <span class="token builtin">T</span>
 <span class="token punctuation">}</span></code></pre>
-<p>A node that contains a value of type <code>T</code> in the mutable field<code>val</code>. Nodes are stored on the heap to ensure stable references to them.</p>
+<p>A node that contains a value of type <code>T</code> in the mutable field <code>val</code>. Nodes are stored on the heap to ensure stable references to them.</p>
 
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 6 Aug 2025 21:12:43</div>
+						<div class="footer">Powered by vdoc. Generated on: 7 Aug 2025 07:47:35</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_graph">README</a></li>
 <li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
