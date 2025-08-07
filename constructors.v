@@ -1,5 +1,23 @@
 module graph
 
+fn fill_adjacency[T](mut adjacency map[voidptr]map[voidptr]&Edge[T], node1 &Node[T], node2 &Node[T]) ?&Edge[T] {
+	if node1 in adjacency && node2 in adjacency[node1] or {
+		map[voidptr]&Edge[T]{}
+	} {
+		return none
+	}
+
+	edge := &Edge[int]{
+		node1: node1
+		node2: node2
+	}
+
+	adjacency[node1][node2] = edge
+	adjacency[node2][node1] = edge
+
+	return edge
+}
+
 // Generates a graph from a mapping with the following signature: `map[T][]T`,
 // with `T` any type.
 // The keys of the map become the nodes of the graph.
@@ -19,22 +37,20 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 		node_to_index[x] = i
 	}
 
-	mut seen := []T{cap: adj.len}
+	mut adjacency := map[voidptr]map[voidptr]&Edge[T]{}
 	for x, neighbours in adj {
-		seen << x
 		for y in neighbours {
-			if y in seen {
+			if y !in adj {
 				continue
 			}
 
-			edges << &Edge[T]{
-				node1: nodes[node_to_index[x]]
-				node2: nodes[node_to_index[y]]
+			edges << fill_adjacency[T](mut adjacency, nodes[node_to_index[x]], nodes[node_to_index[y]]) or {
+				continue
 			}
 		}
 	}
 
-	return Graph.create[T](nodes, edges)
+	return Graph[T]{adjacency, nodes, edges}
 }
 
 // Generate a graph from an integer matrix, returns a graph with integer values for the nodes.
@@ -45,21 +61,18 @@ pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len - 1) / 2}
 
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
 	for i, row in adj {
 		for j, col in row {
-			if i <= j { // Only check upper triangle of adjacency matrix
+			if col == 0 {
 				continue
-			} else if col != 0 {
-				edges << &Edge[int]{
-					node1:  nodes[i]
-					node2:  nodes[j]
-					weight: col
-				}
 			}
+
+			edges << fill_adjacency(mut adjacency, nodes[i], nodes[j]) or { continue }
 		}
 	}
 
-	return Graph.create[int](nodes, edges)
+	return Graph[int]{adjacency, nodes, edges}
 }
 
 // Generates a graph from a graph6 string, any invalid string will panic.
@@ -102,9 +115,7 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 		}
 	}
 
-	mut adj_matrix := [][]int{len: int(n), init: []int{len: int(n)}}
-
-	mut flat_bits := []bool{cap: adj_matrix.len * adj_matrix.len}
+	mut flat_bits := []bool{cap: int(n * n)}
 	for i in start .. runes.len {
 		bits := to_bit_vector(u64(ascii[i] - 63), 6)
 		for b in bits {
@@ -112,17 +123,23 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 		}
 	}
 
+	nodes := []&Node[int]{len: int(n), init: &Node{index}}
+	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len - 1) / 2}
+
+	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
 	mut bit_index := 0
-	for i := 1; i < n; i++ {
-		for j := 0; j < i; j++ {
+	for i in 0 .. n {
+		for j in 0 .. i {
 			if bit_index >= flat_bits.len {
 				break
 			}
 			bit := flat_bits[bit_index]
-			adj_matrix[i][j] = if bit { 1 } else { 0 } // only fill upper triangle
+			if bit {
+				edges << fill_adjacency(mut adjacency, nodes[i], nodes[j]) or { continue }
+			}
 			bit_index++
 		}
 	}
 
-	return Graph.from_adjacency_matrix(adj_matrix)
+	return Graph[int]{adjacency, nodes, edges}
 }
