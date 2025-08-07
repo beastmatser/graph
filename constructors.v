@@ -1,6 +1,6 @@
 module graph
 
-fn fill_adjacency[T](mut adjacency map[voidptr]map[voidptr]&Edge[T], node1 &Node[T], node2 &Node[T]) ?&Edge[T] {
+fn fill_adjacency[T](mut adjacency map[voidptr]map[voidptr]&Edge[T], node1 &Node[T], node2 &Node[T], weight int) ?&Edge[T] {
 	if node1 in adjacency && node2 in adjacency[node1] or {
 		map[voidptr]&Edge[T]{}
 	} {
@@ -8,8 +8,9 @@ fn fill_adjacency[T](mut adjacency map[voidptr]map[voidptr]&Edge[T], node1 &Node
 	}
 
 	edge := &Edge[int]{
-		node1: node1
-		node2: node2
+		node1:  node1
+		node2:  node2
+		weight: weight
 	}
 
 	adjacency[node1][node2] = edge
@@ -21,12 +22,13 @@ fn fill_adjacency[T](mut adjacency map[voidptr]map[voidptr]&Edge[T], node1 &Node
 // Generates a graph from a mapping with the following signature: `map[T][]T`,
 // with `T` any type.
 // The keys of the map become the nodes of the graph.
-// The values of the map represent the neighbours of their corresponding key.
-// Note: if a node is present as a neighbour of another node but not the other way around,
-// then some edges can be missing.
-// For example, the map `{0: [], 1: [0]}` will result in a graph with two nodes but no edges.
-// This is because any node that was already seen in the key values will be skipped if they appear
-// in the list of neighbours of another node, in an effort to avoid adding duplicate edges.
+// The values of the map represent the neighbours of their corresponding key,
+// values not present in the keys of the map will be ignored.
+// Example:
+// ```v
+// Graph.from_adjacency({0: [1, 2], 1: [0], 2: [0]})
+// Graph.from_adjacency({'a': ['b', 'c'], 'b': ['a'], 'c': ['a', 'missing']}) // 'missing will be ignored'
+// ```
 pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 	mut nodes := []&Node[T]{cap: adj.len}
 	mut edges := []&Edge[T]{cap: adj.len * (adj.len - 1) / 2}
@@ -44,9 +46,8 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 				continue
 			}
 
-			edges << fill_adjacency[T](mut adjacency, nodes[node_to_index[x]], nodes[node_to_index[y]]) or {
-				continue
-			}
+			edges << fill_adjacency[T](mut adjacency, nodes[node_to_index[x]], nodes[node_to_index[y]],
+				1) or { continue }
 		}
 	}
 
@@ -54,9 +55,19 @@ pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 }
 
 // Generate a graph from an integer matrix, returns a graph with integer values for the nodes.
-// Note that only the upper triangle is checked, since any adjacency matrix of an
-// undirected graph should be symmetric. So, it is not required to fill in the whole matrix,
-// only the upper triangle is needed to create the graph.
+// The entries of the matrix are used for the weights of an edge.
+// Example:
+// ```v
+// m1 := [[0, 1, 0],
+// [1, 0, 1],
+// [0, 1, 0]]
+// Graph.from_adjacency_matrix(m1)
+//
+// m2 := [[0, 20, 0],
+// [20, 0, 10],
+// [0, 10, 0]]
+// Graph.from_adjacency_matrix(m2)
+// ```
 pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 	nodes := []&Node[int]{len: adj.len, init: &Node{index}}
 	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len - 1) / 2}
@@ -68,7 +79,7 @@ pub fn Graph.from_adjacency_matrix(adj [][]int) Graph[int] {
 				continue
 			}
 
-			edges << fill_adjacency(mut adjacency, nodes[i], nodes[j]) or { continue }
+			edges << fill_adjacency(mut adjacency, nodes[i], nodes[j], col) or { continue }
 		}
 	}
 
@@ -135,7 +146,7 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 			}
 			bit := flat_bits[bit_index]
 			if bit {
-				edges << fill_adjacency(mut adjacency, nodes[i], nodes[j]) or { continue }
+				edges << fill_adjacency(mut adjacency, nodes[i], nodes[j], 1) or { continue }
 			}
 			bit_index++
 		}

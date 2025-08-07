@@ -64,6 +64,19 @@ fn update[T](mut edges []&Edge[T], mut adjacency map[voidptr]map[voidptr]&Edge[T
 	adjacency[new_node2][new_node1] = edge
 }
 
+// Returns the cartesian product of two graphs.
+// The two graphs need not be of the same type,
+// therefore you must pass a function that handles the combination of these types!
+// Example:
+// ```v
+// handle := fn (x int, y int) []int {
+// 		return [x, y]
+// 	}
+// g1 := path_graph(2) // Graph[int]
+// g2 := cycle_graph(2) // Graph[int]
+//
+// g1.cartesian_product(g2, handle) // Graph[[]int]
+// ```
 pub fn (gr1 Graph[T]) cartesian_product[T, U, V](gr2 Graph[U], handle fn (x T, y U) V) Graph[V] {
 	mut nodes := []&Node[V]{cap: gr1.nodes.len * gr2.nodes.len}
 	mut edges := []&Edge[V]{cap: gr1.nodes.len * gr2.nodes.len * (gr1.nodes.len * gr2.nodes.len - 1) / 2}

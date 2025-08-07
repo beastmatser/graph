@@ -3,8 +3,10 @@ module graph
 import datatypes
 import math
 
-// Runs a breadth-first search (bfs) on a given node of the graph.
+// Runs a breadth-first search (bfs) on the graph.
 // It returns a spanning forrest of the graph.
+// The original nodes are reused, meaning a change in the nodes of the graph
+// will also occur in this forrest. Use `.clone` to avoid this behaviour.
 pub fn (gr Graph[T]) bfs[T]() Graph[T] {
 	mut visited := map[voidptr]bool{}
 
@@ -54,8 +56,10 @@ fn (gr Graph[T]) rec_dfs[T](current_index int, node &Node[T], mut labels map[voi
 	return next_index
 }
 
-// Runs a depth-first search (dfs) on a given node of the graph.
+// Runs a depth-first search (dfs) on the graph.
 // It returns a spanning forrest of the graph.
+// The original nodes are reused, meaning a change in the nodes of the graph
+// will also occur in this forrest. Use `.clone` to avoid this behaviour.
 pub fn (gr Graph[T]) dfs[T]() Graph[T] {
 	mut labels := map[voidptr]int{}
 
@@ -77,12 +81,13 @@ pub fn (gr Graph[T]) dfs[T]() Graph[T] {
 	return Graph.create[T](gr.nodes, edges)
 }
 
+// Implemented algorithms to find a minimum spanning forrest of a graph.
 pub enum MSTAlgorithm {
 	kruskal
 	prim
 }
 
-// Finds the minimum spanning tree of a graph.
+// Finds the minimum spanning forrest of a graph.
 // The possible algorithms are listed in `enum MSTAlgorithm`.
 pub fn (gr Graph[T]) mst[T](method MSTAlgorithm) Graph[T] {
 	return match method {
@@ -91,7 +96,7 @@ pub fn (gr Graph[T]) mst[T](method MSTAlgorithm) Graph[T] {
 	}
 }
 
-// Finds a minimum spanning tree of a graph using Kruskal's algorithm.
+// Finds a minimum spanning forrest of a graph using Kruskal's algorithm.
 fn (gr Graph[T]) kruskal[T]() Graph[T] {
 	if gr.edges.len == 0 {
 		return gr
@@ -157,7 +162,7 @@ fn (i1 IndexWeight) < (i2 IndexWeight) bool {
 	return i1.weight < i2.weight
 }
 
-// Finds a minimum spanning tree of a graph using Prim's algorithm.
+// Finds a minimum spanning forrest of a graph using Prim's algorithm.
 // It is implemented using V's builtin `MinHeap`.
 fn (gr Graph[T]) prim[T]() Graph[T] {
 	if gr.nodes.len == 0 {

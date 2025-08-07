@@ -275,7 +275,7 @@ pub fn (gr Graph[T]) girth[T]() int {
 	return min_cycle
 }
 
-// Returns the number of spanning trees of the graph.
+// Returns the number of spanning trees of the (connected!) graph.
 pub fn (gr Graph[T]) num_spanning_trees[T]() f64 {
 	mut laplacian := [][]f64{len: gr.nodes.len, init: []f64{len: gr.nodes.len}}
 
@@ -301,7 +301,7 @@ pub fn (gr Graph[T]) num_spanning_trees[T]() f64 {
 	return math.abs(math.round(det(laplacian[1..]) or { 0 }))
 }
 
-// Returns the number of triangles of the gr.
+// Returns the number of triangles of the graph.
 pub fn (gr Graph[T]) num_triangles[T]() int {
 	m := gr.to_adjacency_matrix()
 	mut sum := 0
@@ -311,8 +311,8 @@ pub fn (gr Graph[T]) num_triangles[T]() int {
 	return sum / 6
 }
 
-// Returns the degeneracy the gr.
-// It implements the algorithm described by Matula and Beck, described [here](https://doi.org/10.1145/2402.322385)
+// Returns the [degeneracy](https://en.wikipedia.org/wiki/Degeneracy_(graph_theory)) the graph.
+// It implements the algorithm described by Matula and Beck, described [here](https://doi.org/10.1145/2402.322385).
 pub fn (gr Graph[T]) degeneracy() int {
 	n := gr.nodes.len
 	mut visited := map[voidptr]bool{}

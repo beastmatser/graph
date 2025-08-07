@@ -1,6 +1,6 @@
 module graph
 
-// A node that contains a value of type `T` in the mutable field`val`.
+// A node that contains a value of type `T` in the mutable field `val`.
 // Nodes are stored on the heap to ensure stable references to them.
 @[heap]
 pub struct Node[T] {
@@ -9,6 +9,8 @@ pub mut:
 }
 
 // An edge contains two references to nodes of type `T` and an integer weight.
+// The weights default to length one to emulate unweighted graphs.
+// Edges are, just as nodes, stored on the heap to ensure stable references to them.
 @[heap]
 pub struct Edge[T] {
 pub:
@@ -29,10 +31,7 @@ pub fn (gr Graph[T]) get_edge[T](node1 &Node[T], node2 &Node[T]) !&Edge[T] {
 }
 
 // A graph is a list of references to nodes and a list of references to edges made up of these nodes.
-// In addition, it holds an adjacency mapping, the keys are the nodes.
-// The values are maps where its keys are nodes adjacent to the original node with value
-// the index of the edge between these adjacent nodes in the edges list of the graph.
-// The field degrees maps the index of a node in the nodes list to the degree of that node.
+// It must be constructed through `Graph.create`.
 @[noinit]
 pub struct Graph[T] {
 	adjacency map[voidptr]map[voidptr]&Edge[T]
@@ -43,6 +42,13 @@ pub:
 
 // Factory function to create an Graph from a list of nodes
 // and a list of edges containing these nodes.
+// Example:
+// ```v
+// nodes := []&Node[int]{len: 6, init: &Node[index]}
+// // Be sure that the edges contain nodes that are available from the nodes list!
+// edges := [&Edge{nodes[0], nodes[1], 1}, &Edge{nodes[1], nodes[2], 1}, &Edge{nodes[2], nodes[5], 1}]
+// Graph.create[int](nodes, edges)
+// ```
 pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
 	mut adj := map[voidptr]map[voidptr]&Edge[T]{}
 
