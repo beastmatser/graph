@@ -36,7 +36,7 @@
 						<div class="info">
 							<div class="module">graph</div>
 							<div class="toggle-version-container">
-								<span>0.0.0 3b561d5</span>
+								<span>0.0.0 3a6b651</span>
 								<div
 									id="dark-mode-toggle"
 									role="switch"
@@ -194,32 +194,32 @@ Graph<span class="token punctuation">.</span><span class="token function">from_a
 		<section id="Graph[T].add_edge" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) add_edge <a href="#Graph[T].add_edge">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edge <span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Adds an edge to the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edge <span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Adds an edge to the graph. It will fail if you try to add an edge that connects at least one node not in the graph or when you try to add an edge between nodes that are already connected.</p>
 
 </section>
 
 		<section id="Graph[T].add_edges" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) add_edges <a href="#Graph[T].add_edges">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_edges<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Adds a list of edges to the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_edges<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Adds a list of edges to the graph. If one edge in the list contains a node not in the graph, no edges will be added to the graph, and this process will fail. It will also fail when the given list contains a single edge that is already contained in the graph.</p>
 
 </section>
 
 		<section id="Graph[T].add_node" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) add_node <a href="#Graph[T].add_node">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Adds a node to the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Adds a node to the graph. It will fail when you try to add a node that is already present in the graph.</p>
 
 </section>
 
 		<section id="Graph[T].add_nodes" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) add_nodes <a href="#Graph[T].add_nodes">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_nodes<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Add a list of nodes to the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> add_nodes<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Add a list of nodes to the graph. It will fail when there is a single node in the given list that is already present in the graph, in that case no nodes will be added to the graph.</p>
 
 </section>
 
@@ -492,32 +492,32 @@ g1<span class="token punctuation">.</span><span class="token function">cartesian
 		<section id="Graph[T].remove_edge" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) remove_edge <a href="#Graph[T].remove_edge">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edge <span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Removes an edge from the graph, the time complexity is given by O(m), with m the number of edges in the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edge <span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Removes an edge from the graph, the time complexity is given by O(m), with m the number of edges in the graph. This will fail when you try to remove an edge that is not an element of the edges list of the graph.</p>
 
 </section>
 
 		<section id="Graph[T].remove_edges" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) remove_edges <a href="#Graph[T].remove_edges">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_edges<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Removes a list of edges, internally <code>.remove_edge</code> is used.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_edges<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Removes a list of edges, internally <code>.remove_edge</code> is used. If a singular edge does not exist in the graph then this will fail and no edges will be removed.</p>
 
 </section>
 
 		<section id="Graph[T].remove_node" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) remove_node <a href="#Graph[T].remove_node">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Removes a node from the graph. The time complexity for removing a node is O(d*m), where d is the degree of the node and m the number of edges of the graph.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>node <span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Removes a node from the graph, if the node is not present in the graph then this removal will fail. The time complexity for removing a node is O(d*m), where d is the degree of the node and m the number of edges of the graph.</p>
 
 </section>
 
 		<section id="Graph[T].remove_nodes" class="doc-node">
 			<div class="title"><h2>fn (Graph[T]) remove_nodes <a href="#Graph[T].remove_nodes">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_nodes<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>Removes a list of nodes from the graph, internally <code>.remove_node</code> is used.</p>
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span><span class="token keyword">mut</span> gr Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> remove_nodes<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span></code></pre>
+<p>Removes a list of nodes from the graph, internally <code>.remove_node</code> is used. If this list contains a single node not present in the graph, this will fail. Then none of the nodes will be added.</p>
 
 </section>
 
@@ -598,7 +598,7 @@ g1<span class="token punctuation">.</span><span class="token function">cartesian
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 7 Aug 2025 11:18:19</div>
+						<div class="footer">Powered by vdoc. Generated on: 7 Aug 2025 15:14:02</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_graph">README</a></li>
 <li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
