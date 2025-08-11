@@ -28,7 +28,7 @@ pub fn (gr Graph[T]) bfs[T]() Graph[T] {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in (gr.adjacency[w] or { continue }).keys() {
+			for x, _ in gr.adjacency[w] or { continue } {
 				if visited[x] {
 					continue
 				}
@@ -53,15 +53,16 @@ fn (gr Graph[T]) rec_dfs[T](current_index int, node &Node[T], mut labels map[voi
 	mut next_index := current_index + 1
 	labels[node] = next_index
 
-	for neighbour in unsafe { gr.adjacency[node] }.keys() {
+	for neighbour, _ in unsafe { gr.adjacency[node] } {
 		if labels[neighbour] == 0 {
-			edge:= gr.get_edge(node, neighbour) or { continue }
+			edge := gr.get_edge(node, neighbour) or { continue }
 
 			edges << edge
 			adj[node][neighbour] = edge
 			adj[neighbour][node] = edge
 
-			next_index = gr.rec_dfs[T](next_index, neighbour, mut labels, mut edges, mut adj)
+			next_index = gr.rec_dfs[T](next_index, neighbour, mut labels, mut edges, mut
+				adj)
 		}
 	}
 	return next_index
@@ -221,7 +222,7 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 
 		node := if seen[edge.node1] { edge.node2 } else { edge.node1 }
 		seen[node] = true
-		for new_edge in (gr.adjacency[node] or { continue }).values() {
+		for _, new_edge in (gr.adjacency[node] or { continue }) {
 			minhp.insert(IndexWeight{edge_to_index[new_edge], new_edge.weight})
 		}
 	}

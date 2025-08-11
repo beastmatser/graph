@@ -124,7 +124,7 @@ pub fn (gr Graph[T]) is_bipartite[T]() bool {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in (gr.adjacency[w] or { continue }).keys() {
+			for x, _ in (gr.adjacency[w] or { continue }) {
 				if colours[x][0] {
 					if colours[x][1] == colours[w][1] {
 						return false
@@ -158,7 +158,7 @@ pub fn (gr Graph[T]) is_acyclic[T]() bool {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in (gr.adjacency[w] or { continue }).keys() {
+			for x, _ in (gr.adjacency[w] or { continue }) {
 				if visited[x] {
 					if parents[w] or { continue } != x {
 						return false
@@ -251,7 +251,7 @@ pub fn (gr Graph[T]) girth[T]() int {
 		for !queue.is_empty() {
 			w := queue.pop() or { continue }
 
-			for x in (gr.adjacency[w] or { continue }).keys() {
+			for x, _ in (gr.adjacency[w] or { continue }) {
 				if w in parent && unsafe { x == parent[w] } {
 					continue
 				} else if !visited[x] {
@@ -360,7 +360,7 @@ pub fn (gr Graph[T]) degeneracy() int {
 			max_deg = current_deg
 		}
 
-		for u in (gr.adjacency[v] or { continue }).keys() {
+		for u, _ in (gr.adjacency[v] or { continue }) {
 			if !visited[u] {
 				old_deg := degree[u]
 				degree[u]--

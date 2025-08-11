@@ -27,16 +27,18 @@ fn fill_adjacency[T](mut adjacency map[voidptr]map[voidptr]&Edge[T], node1 &Node
 // Example:
 // ```v
 // Graph.from_adjacency({0: [1, 2], 1: [0], 2: [0]})
-// Graph.from_adjacency({'a': ['b', 'c'], 'b': ['a'], 'c': ['a', 'missing']}) // 'missing will be ignored'
+// Graph.from_adjacency({'a': ['b', 'c'], 'b': ['a'], 'c': ['a', 'missing']}) // 'missing' will be ignored
 // ```
 pub fn Graph.from_adjacency[T](adj map[T][]T) Graph[T] {
 	mut nodes := []&Node[T]{cap: adj.len}
 	mut edges := []&Edge[T]{cap: adj.len * (adj.len - 1) / 2}
 
 	mut node_to_index := map[T]int{}
-	for i, x in adj.keys() {
+	mut i := 0
+	for x in adj {
 		nodes << &Node[T]{x}
 		node_to_index[x] = i
+		i++
 	}
 
 	mut adjacency := map[voidptr]map[voidptr]&Edge[T]{}
@@ -95,16 +97,15 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 	if ascii.len == 0 {
 		return error('Empty string not allowed')
 	} else if ascii.len == 1 {
-		assert ascii[0] < 126
+		return error('Single string string should have int value lower than 126')
 	} else {
-		assert ascii[0] <= 126
-		assert ascii[1] <= 126
+		return error('The first two ascii chars should have int value lower than or equal to 126')
 	}
 
 	if ascii.len > 2 {
 		for a in ascii[2..] {
 			if a > 126 {
-				return error('Ascii chars should have int value lower or equal to 126')
+				return error('All ascii chars, except the first two chars, should have int value lower than 126')
 			}
 		}
 	}
@@ -126,29 +127,32 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 		}
 	}
 
-	mut flat_bits := []bool{cap: int(n * n)}
-	for i in start .. runes.len {
-		bits := to_bit_vector(u64(ascii[i] - 63), 6)
-		for b in bits {
-			flat_bits << b
+	mut bit_buffer := u64(0)
+	mut bits_left := 0
+	mut ascii_index := start
+
+	next_bit := fn [mut bits_left, mut ascii_index, mut bit_buffer, ascii] () bool {
+		if bits_left == 0 {
+			if ascii_index >= ascii.len {
+				return false
+			}
+			bit_buffer = u64(ascii[ascii_index] - 63)
+			bits_left = 6
+			ascii_index++
 		}
+		bits_left--
+		return ((bit_buffer >> bits_left) & 1) == 1
 	}
 
 	nodes := []&Node[int]{len: int(n), init: &Node{index}}
 	mut edges := []&Edge[int]{cap: nodes.len * (nodes.len - 1) / 2}
-
 	mut adjacency := map[voidptr]map[voidptr]&Edge[int]{}
-	mut bit_index := 0
+
 	for i in 0 .. n {
 		for j in 0 .. i {
-			if bit_index >= flat_bits.len {
-				break
-			}
-			bit := flat_bits[bit_index]
-			if bit {
+			if next_bit() {
 				edges << fill_adjacency(mut adjacency, nodes[i], nodes[j], 1) or { continue }
 			}
-			bit_index++
 		}
 	}
 

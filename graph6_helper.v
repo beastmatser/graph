@@ -25,26 +25,29 @@ pub fn random_graph6(n i64, edge_prob f64) string {
 		}
 	}
 
-	// Generate random upper triangle bits
-	mut bits := []bool{}
-	for i in 0 .. n {
-		for _ in i + 1 .. n {
-			bits << (rand.f64() < edge_prob)
+	mut bit_accumulator := u8(0)
+	mut bits_filled := 0
+	edge_count := n * (n - 1) / 2
+
+	for _ in 0 .. edge_count {
+		bit_accumulator <<= 1
+		if rand.f64() < edge_prob {
+			bit_accumulator |= 1
+		}
+		bits_filled++
+
+		if bits_filled == 6 {
+			// 6 bits ready, write one byte
+			out.write_byte(bit_accumulator + 63)
+			bits_filled = 0
+			bit_accumulator = 0
 		}
 	}
 
-	// Encode 6 bits at a time
-	mut i := 0
-	for i < bits.len {
-		mut b := 0
-		for j in 0 .. 6 {
-			idx := i + j
-			if idx < bits.len && bits[idx] {
-				b |= 1 << (5 - j)
-			}
-		}
-		out.write_byte(u8(b + 63))
-		i += 6
+	// Write remaining bits padded with zeros if any
+	if bits_filled > 0 {
+		bit_accumulator = u8(bit_accumulator << (6 - bits_filled))
+		out.write_byte(bit_accumulator + 63)
 	}
 
 	return out.str()
