@@ -138,8 +138,8 @@
 		<section id="Graph.create" class="doc-node">
 			<div class="title"><h2>fn Graph.create <a href="#Graph.create">#</a></h2></div>
 <pre class="signature">
-<code><span class="token keyword">fn</span> Graph<span class="token punctuation">.</span>create<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">,</span> edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
-<p>Factory function to create an Graph from a list of nodes and a list of edges containing these nodes.</p>
+<code><span class="token keyword">fn</span> Graph<span class="token punctuation">.</span>create<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">(</span>nodes <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Node<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">,</span> edges <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&</span>Edge<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!</span>Graph<span class="token punctuation">[</span><span class="token builtin">T</span><span class="token punctuation">]</span></code></pre>
+<p>Factory function to create an Graph from a list of nodes and a list of edges containing these nodes. It will fail when there exists an edge which has a node not in the given nodes list.</p>
 
 <section class="doc-node examples"><h4>Example</h4>
 <pre>
@@ -598,7 +598,7 @@ g1<span class="token punctuation">.</span><span class="token function">cartesian
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 11 Aug 2025 14:28:29</div>
+						<div class="footer">Powered by vdoc. Generated on: 11 Aug 2025 20:42:39</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_graph">README</a></li>
 <li class="open"><a href="#complete_bipartite_graph">fn complete_bipartite_graph</a>        <ul>
