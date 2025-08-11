@@ -16,6 +16,8 @@ pub fn (gr Graph[T]) bfs[T]() Graph[T] {
 	}
 
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
+	mut adjacency := map[voidptr]map[voidptr]&Edge[T]{}
+
 	mut queue := datatypes.Queue[voidptr]{}
 	for node in gr.nodes {
 		if visited[node] {
@@ -32,25 +34,34 @@ pub fn (gr Graph[T]) bfs[T]() Graph[T] {
 				}
 
 				visited[x] = true
-				edges << gr.get_edge(gr.nodes[node_to_index[w]], gr.nodes[node_to_index[x]]) or {
+				edge := gr.get_edge(gr.nodes[node_to_index[w]], gr.nodes[node_to_index[x]]) or {
 					continue
 				}
+				edges << edge
+				adjacency[x][w] = edge
+				adjacency[w][x] = edge
+
 				queue.push(x)
 			}
 		}
 	}
 
-	return Graph.create[T](gr.nodes, edges)
+	return Graph[T]{adjacency, gr.nodes, edges}
 }
 
-fn (gr Graph[T]) rec_dfs[T](current_index int, node &Node[T], mut labels map[voidptr]int, mut edges []&Edge[T]) int {
+fn (gr Graph[T]) rec_dfs[T](current_index int, node &Node[T], mut labels map[voidptr]int, mut edges []&Edge[T], mut adj map[voidptr]map[voidptr]&Edge[T]) int {
 	mut next_index := current_index + 1
 	labels[node] = next_index
 
 	for neighbour in unsafe { gr.adjacency[node] }.keys() {
 		if labels[neighbour] == 0 {
-			edges << gr.get_edge(node, neighbour) or { continue }
-			next_index = gr.rec_dfs[T](next_index, neighbour, mut labels, mut edges)
+			edge:= gr.get_edge(node, neighbour) or { continue }
+
+			edges << edge
+			adj[node][neighbour] = edge
+			adj[neighbour][node] = edge
+
+			next_index = gr.rec_dfs[T](next_index, neighbour, mut labels, mut edges, mut adj)
 		}
 	}
 	return next_index
@@ -69,16 +80,18 @@ pub fn (gr Graph[T]) dfs[T]() Graph[T] {
 	}
 
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
+	mut adjacency := map[voidptr]map[voidptr]&Edge[T]{}
+
 	mut traversal_index := 0
 
 	for start_node in gr.nodes {
 		if labels[start_node] == 0 {
 			traversal_index = gr.rec_dfs[T](traversal_index, start_node, mut labels, mut
-				edges)
+				edges, mut adjacency)
 		}
 	}
 
-	return Graph.create[T](gr.nodes, edges)
+	return Graph[T]{adjacency, gr.nodes, edges}
 }
 
 // Implemented algorithms to find a minimum spanning forrest of a graph.
@@ -111,22 +124,30 @@ fn (gr Graph[T]) kruskal[T]() Graph[T] {
 		components << i
 	}
 
-	index1 := components[node_to_index[sorted_edges[0].node1]]
-	index2 := components[node_to_index[sorted_edges[0].node2]]
+	smallest_edge := sorted_edges[0]
+	index1 := components[node_to_index[smallest_edge.node1]]
+	index2 := components[node_to_index[smallest_edge.node2]]
 	min_comp := math.min(index1, index2)
 	components[index1] = min_comp
 	components[index2] = min_comp
 
 	mut k := 0
-	mut edges := [sorted_edges[0]]
+	mut edges := [smallest_edge]
+	mut adjacency := map[voidptr]map[voidptr]&Edge[T]{}
+	adjacency[smallest_edge.node2][smallest_edge.node1] = smallest_edge
+	adjacency[smallest_edge.node1][smallest_edge.node2] = smallest_edge
+
 	for edges.len < gr.nodes.len - 1 {
 		k += 1
 		if gr.is_acyclic_kruskal[T](node_to_index, mut components, k, sorted_edges, sorted_edges[k]) {
-			edges << sorted_edges[k]
+			edge := sorted_edges[k]
+			edges << edge
+			adjacency[edge.node1][edge.node2] = edge
+			adjacency[edge.node2][edge.node1] = edge
 		}
 	}
 
-	return Graph.create[T](gr.nodes, edges)
+	return Graph[T]{adjacency, gr.nodes, edges}
 }
 
 fn (gr Graph[T]) is_acyclic_kruskal[T](node_to_index map[voidptr]int, mut components []int, k int, edges []&Edge[T], edge &Edge[T]) bool {
@@ -176,6 +197,8 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 
 	mut seen := map[voidptr]bool{}
 	mut edges := []&Edge[T]{cap: gr.nodes.len - 1}
+	mut adjacency := map[voidptr]map[voidptr]&Edge[T]{}
+
 	seen[gr.nodes[0]] = true
 
 	// store index and weight from an edge
@@ -193,6 +216,8 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 		}
 
 		edges << edge
+		adjacency[edge.node2][edge.node1] = edge
+		adjacency[edge.node1][edge.node2] = edge
 
 		node := if seen[edge.node1] { edge.node2 } else { edge.node1 }
 		seen[node] = true
@@ -201,5 +226,5 @@ fn (gr Graph[T]) prim[T]() Graph[T] {
 		}
 	}
 
-	return Graph.create[T](gr.nodes, edges)
+	return Graph[T]{adjacency, gr.nodes, edges}
 }

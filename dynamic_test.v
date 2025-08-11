@@ -1,7 +1,7 @@
 module graph
 
 fn test_dynamic() {
-	mut g := Graph.create[int]([], [])
+	mut g := Graph[int]{}
 	g.add_node(&Node{0}) or {}
 	g.add_node(&Node{1}) or {}
 	g.add_node(&Node{2}) or {}
@@ -26,7 +26,7 @@ fn test_dynamic() {
 	// Add edge with a node not in the graph
 	g.add_edge(&Edge[int]{ node1: &Node{0}, node2: g.nodes[2] }) or { num_fails++ }
 
-	g.add_edges([g.edges[0], &Edge[int]{node1: g.nodes[2], node2: g.nodes[3]}]) or { num_fails++ }
+	g.add_edges([g.edges[0], &Edge[int]{ node1: g.nodes[2], node2: g.nodes[3] }]) or { num_fails++ }
 	assert g.edges.len == 2
 
 	assert num_fails == 6
