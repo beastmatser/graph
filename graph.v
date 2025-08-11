@@ -52,6 +52,7 @@ pub fn (gr Graph[T]) edges[T]() []&Edge[T] {
 
 // Factory function to create an Graph from a list of nodes
 // and a list of edges containing these nodes.
+// It will fail when there exists an edge which has a node not in the given nodes list.
 // Example:
 // ```v
 // nodes := []&Node[int]{len: 6, init: &Node{index}}
@@ -59,10 +60,18 @@ pub fn (gr Graph[T]) edges[T]() []&Edge[T] {
 // edges := [&Edge[int]{nodes[0], nodes[1], 1}, &Edge[int]{nodes[1], nodes[2], 1}, &Edge[int]{nodes[2], nodes[5], 1}]
 // Graph.create[int](nodes, edges)
 // ```
-pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) Graph[T] {
+pub fn Graph.create[T](nodes []&Node[T], edges []&Edge[T]) !Graph[T] {
 	mut adj := map[voidptr]map[voidptr]&Edge[T]{}
 
+	for node in nodes {
+		adj[node] = map[voidptr]&Edge[T]{}
+	}
+
 	for edge in edges {
+		if edge.node1 !in adj || edge.node2 !in adj {
+			return error('Tried creating a graph with edges not available to the graph')
+		}
+
 		adj[edge.node1][edge.node2] = edge
 		adj[edge.node2][edge.node1] = edge
 	}
