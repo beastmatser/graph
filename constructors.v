@@ -98,7 +98,7 @@ pub fn Graph.from_graph6(g6 string) !Graph[int] {
 		return error('Empty string not allowed')
 	} else if ascii.len == 1 {
 		return error('Single string string should have int value lower than 126')
-	} else {
+	} else if ascii[0] > 126 && ascii[1] > 126 {
 		return error('The first two ascii chars should have int value lower than or equal to 126')
 	}
 
